@@ -3,6 +3,7 @@
 ;;; .#* とかのバックアップファイルを作らない
 (setq auto-save-default nil)
 
+
 ;; パスの設定
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
@@ -20,6 +21,7 @@
 ;; EmacsではC-g C-/ でredoができる
 ;; (define-key global-map (kbd "C-.") 'redo)
 
+
 ;; 画面の設定
 (add-to-list 'default-frame-alist '(foreground-color . "brack"))
 (require 'color-theme)
@@ -28,16 +30,19 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (setq molokai-theme-kit t)
 
+;; 行番号を常に表示する
+(global-linum-mode t)
+
+
 ;; 文字コードの指定
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 
-;; 行番号を常に表示する
-(global-linum-mode t)
 
 ;; ファイルが #! から始まる場合、+xを付けて保存する
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
+
 
 ;; auto-completeの設定
 (when (require 'auto-complete-config nil t)
@@ -52,11 +57,12 @@
 (define-key ac-menu-map "\C-p" 'ac-previous)
 
 
-;; Auto Installの設定
-(when (require 'auto-install nil t)
+;; auto-installの設定
+;; ちょっと重いので、普段は外しておく
+;; (when (require 'auto-install nil t)	
   ;; インストールディレクトリを設定する
   ;; 初期値は ~/.emacs.d/auto-install/
-  (setq auto-install-directory "~/.emacs.d/elisp")
+  ;; (setq auto-install-directory "~/.emacs.d/elisp")
   
   ;; EmacsWiki に登録されている elisp の名前を取得する
   ;; (auto-install-update-emacswiki-package-name t)
@@ -65,4 +71,11 @@
   ;; (setq url-proxy-services '(("http" . "localhost:8080")))
 
   ;; install-elisp の関数を利用可能にする
-  (auto-install-compatibility-setup))
+  ;; (auto-install-compatibility-setup))
+
+
+;; anythingの設定
+;; ちょっと重いので外す
+;; (when (require 'anything-startup nil t)
+;;   (global-set-key (kbd "C-x b") 'anything))
+
