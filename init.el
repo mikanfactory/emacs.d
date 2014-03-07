@@ -14,7 +14,7 @@
 (define-key global-map (kbd "C-c a") 'beginning-of-buffer)
 (define-key global-map (kbd "C-c e") 'end-of-buffer)
 (define-key global-map (kbd "C-;") 'comment-dwim)
-(define-key global-map (kbd "\C-t") 'other-window)
+(define-key global-map (kbd "C-t") 'other-window)
 (define-key global-map (kbd "C-/") 'undo)
 
 ;; EmacsではC-g C-/ でredoができる
@@ -52,3 +52,17 @@
 (define-key ac-menu-map "\C-p" 'ac-previous)
 
 
+;; Auto Installの設定
+(when (require 'auto-install nil t)
+  ;; インストールディレクトリを設定する
+  ;; 初期値は ~/.emacs.d/auto-install/
+  (setq auto-install-directory "~/.emacs.d/elisp")
+  
+  ;; EmacsWiki に登録されている elisp の名前を取得する
+  ;; (auto-install-update-emacswiki-package-name t)
+
+  ;; 必要であればプロキシの設定を行う
+  ;; (setq url-proxy-services '(("http" . "localhost:8080")))
+
+  ;; install-elisp の関数を利用可能にする
+  (auto-install-compatibility-setup))
