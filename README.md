@@ -1,2 +1,3 @@
-# Manual
-`M-x load-theme RET molokai`
+# A reasonable Emacs config
+This is my emacs configuration
+
