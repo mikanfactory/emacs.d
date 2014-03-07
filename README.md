@@ -1,2 +1,2 @@
 # Manual
-M-x load-theme RET molokai
+'M-x load-theme RET molokai'
