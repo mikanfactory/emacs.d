@@ -16,7 +16,7 @@
 (color-theme-initialize)
 (setq custom-theme-load-path nil)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(setq molokai-theme-kit t)
+(load-theme 'monokai t)
 
 (global-linum-mode t)                   ;; 行番号を常に表示する
 (setq-default tab-width 2)              ;; インデントの深さを2にする
@@ -74,11 +74,11 @@
 (define-key ac-menu-map "\C-p" 'ac-previous)
 
 
-;; ------------------------------------------------------------------------
-;; @ auto-install.el
+;; ;; ------------------------------------------------------------------------
+;; ;; @ auto-install.el
 
-;; auto-installの設定
-;; ちょっと重いので、普段は外しておく
+;; ;; auto-installの設定
+;; ;; ちょっと重いので、普段は外しておく
 ;; (when (require 'auto-install nil t)
 ;;   ;; インストールディレクトリを設定する
 ;;   ;; 初期値は ~/.emacs.d/auto-install/
@@ -93,11 +93,11 @@
 ;;   ;; install-elisp の関数を利用可能にする
 ;;   (auto-install-compatibility-setup))
 
-;; ------------------------------------------------------------------------
-;; @ package.el
+;; ;; ------------------------------------------------------------------------
+;; ;; @ package.el
 
-;; MELPA、Marmaladeの設定
-;; package.elはEmacs24に標準で入っている
+;; ;; MELPA、Marmaladeの設定
+;; ;; package.elはEmacs24に標準で入っている
 ;; (require 'package)
 ;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 ;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
@@ -110,7 +110,6 @@
 ;; @ anything.el
 
 ;; anythingの設定
-;; ちょっと重いので外す
 (when (require 'anything-startup nil t)
   (global-set-key (kbd "C-x b") 'anything))
 
@@ -123,8 +122,8 @@
 (require 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"
-  "~/.emacs.d/elisp/yasnippet/snippets"
-  ))
+        "~/.emacs.d/elisp/yasnippet/snippets"
+        ))
 (yas-global-mode 1)
 
 ;; 単語展開キーバインド
@@ -153,11 +152,11 @@
 (add-hook 'ruby-mode-hook
           '(lambda () (inf-ruby-keys)))
 
-;; ------------------------------------------------------------------------
-;; @ ruby-electric.el
+;; ;; ------------------------------------------------------------------------
+;; ;; @ ruby-electric.el
 
-(require 'ruby-electric)
-(add-hook 'ruby-mode-hook '(lambda () (ruby-electric-mode t)))
+;; (require 'ruby-electric)
+;; (add-hook 'ruby-mode-hook '(lambda () (ruby-electric-mode t)))
 
 ;; ------------------------------------------------------------------------
 ;; @ haml-mode.el
@@ -167,23 +166,23 @@
 
 ;; ;; ------------------------------------------------------------------------
 ;; ;; @ emacs-rails.el
-(defun try-complete-abbrev (old)
-    (if (expand-abbrev) t nil))
-(setq hippie-expand-try-functions-list
-            '(try-complete-abbrev
-                      try-complete-file-name
-                              try-expand-dabbrev))
-(setq rails-use-mongrel t)
-(require 'cl)
-(require 'rails)
+;; (defun try-complete-abbrev (old)
+;;     (if (expand-abbrev) t nil))
+;; (setq hippie-expand-try-functions-list
+;;             '(try-complete-abbrev
+;;                       try-complete-file-name
+;;                               try-expand-dabbrev))
+;; (setq rails-use-mongrel t)
+;; (require 'cl)
+;; (require 'rails)
 
 ;; ;; ------------------------------------------------------------------------
 ;; ;; @ ruby-block.el
 
-(require 'ruby-block)
-(ruby-block-mode t)
-;; ミニバッファに表示し, かつ, オーバレイする.
-(setq ruby-block-highlight-toggle t)
+;; (require 'ruby-block)
+;; (ruby-block-mode t)
+;; ;; ミニバッファに表示し, かつ, オーバレイする.
+;; (setq ruby-block-highlight-toggle t)
 
 ;; ;; ------------------------------------------------------------------------
 ;; ;; @ inf-ruby.el
