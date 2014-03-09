@@ -79,32 +79,32 @@
 
 ;; auto-installの設定
 ;; ちょっと重いので、普段は外しておく
-(when (require 'auto-install nil t)
-  ;; インストールディレクトリを設定する
-  ;; 初期値は ~/.emacs.d/auto-install/
-  (setq auto-install-directory "~/.emacs.d/elisp")
+;; (when (require 'auto-install nil t)
+;;   ;; インストールディレクトリを設定する
+;;   ;; 初期値は ~/.emacs.d/auto-install/
+;;   (setq auto-install-directory "~/.emacs.d/elisp")
 
-  ;; EmacsWiki に登録されている elisp の名前を取得する
-  (auto-install-update-emacswiki-package-name t)
+;;   ;; EmacsWiki に登録されている elisp の名前を取得する
+;;   (auto-install-update-emacswiki-package-name t)
 
-  ;; 必要であればプロキシの設定を行う
-  ;; (setq url-proxy-services '(("http" . "localhost:8080")))
+;;   ;; 必要であればプロキシの設定を行う
+;;   ;; (setq url-proxy-services '(("http" . "localhost:8080")))
 
-  ;; install-elisp の関数を利用可能にする
-  (auto-install-compatibility-setup))
+;;   ;; install-elisp の関数を利用可能にする
+;;   (auto-install-compatibility-setup))
 
 ;; ------------------------------------------------------------------------
 ;; @ package.el
 
 ;; MELPA、Marmaladeの設定
 ;; package.elはEmacs24に標準で入っている
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
+;; (require 'package)
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (package-initialize)
 
-;; パッケージ情報の更新
-(package-refresh-contents)
+;; ;; パッケージ情報の更新
+;; (package-refresh-contents)
 
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
