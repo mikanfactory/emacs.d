@@ -73,6 +73,16 @@
   ;; install-elisp の関数を利用可能にする
   ;; (auto-install-compatibility-setup))
 
+;; MELPA、Marmaladeの設定
+;; package.elはEmacs24に標準で入っている
+;; (require 'package)
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (package-initialize)
+
+;; パッケージ情報の更新
+;; (package-refresh-contents)
+
 
 ;; anythingの設定
 ;; ちょっと重いので外す
@@ -98,3 +108,6 @@
 ;; 既存スニペットを閲覧・編集する
 (define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
 
+
+;; Haml-mode
+(require 'haml-mode)
