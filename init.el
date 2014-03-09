@@ -17,6 +17,7 @@
 (setq custom-theme-load-path nil)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'monokai t)
+(add-to-list 'default-frame-alist '(alpha . (1.0 1.0)))
 
 (global-linum-mode t)                   ;; 行番号を常に表示する
 (setq-default tab-width 2)              ;; インデントの深さを2にする
@@ -127,7 +128,13 @@
 (yas-global-mode 1)
 
 ;; 単語展開キーバインド
-(custom-set-variables '(yas-trigger-key "TAB"))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes (quote ("73fe242ddbaf2b985689e6ec12e29fab2ecd59f765453ad0e93bc502e6e478d6" default)))
+ '(yas-trigger-key "TAB"))
 
 ;; 既存スニペットを挿入する
 (define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
@@ -200,3 +207,9 @@
 ;; ;; Rinari
 ;; (add-to-list 'load-path "~/path/to/your/elisp/rinari")
 ;; (require 'rinari)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
