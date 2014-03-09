@@ -1,16 +1,11 @@
 ;; ------------------------------------------------------------------------
 ;; @ general
 
-;;; *.~ とかのバックアップファイルを作らない
-(setq make-backup-files nil)
-;;; .#* とかのバックアップファイルを作らない
-(setq auto-save-default nil)
-
-
 ;; パスの設定
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
 ;; 画面の設定
+(setq inhibit-startup-message t)        ;; 起動画面を表示しない
 (require 'color-theme)
 (color-theme-initialize)
 (setq custom-theme-load-path nil)
@@ -21,9 +16,16 @@
 (setq-default tab-width 2)              ;; インデントの深さを2にする
 (setq-default indent-tabs-mode nil)     ;; タブをスペースで扱う
 
+
 ;; 文字コードの指定
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
+
+
+;;; *.~ とかのバックアップファイルを作らない
+(setq make-backup-files nil)
+;;; .#* とかのバックアップファイルを作らない
+(setq auto-save-default nil)
 
 
 ;; yes or noをy or n
@@ -47,6 +49,7 @@
 (define-key global-map (kbd "C-x ?") 'help-command)
 (define-key global-map (kbd "C-c a") 'beginning-of-buffer)
 (define-key global-map (kbd "C-c e") 'end-of-buffer)
+(define-key global-map (kbd "C-c l") 'toggle-truncate-lines)
 (define-key global-map (kbd "C-;") 'comment-dwim)
 (define-key global-map (kbd "C-t") 'other-window)
 (define-key global-map (kbd "C-/") 'undo)
@@ -183,6 +186,28 @@
 ;; ;; @ ruby-block.el
 
 ;; (require 'ruby-block)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ;; (ruby-block-mode t)
 ;; ;; ミニバッファに表示し, かつ, オーバレイする.
 ;; (setq ruby-block-highlight-toggle t)
@@ -194,6 +219,12 @@
 ;; (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
 
 
+;; ------------------------------------------------------------------------
+;; @ rcodetools.el
+
+(require 'rcodetools)
+(define-key ruby-mode-map (kbd "C-c C-d") 'xmp)
+
 ;; ;; ------------------------------------------------------------------------
 ;; ;; @ rinari.el
 
@@ -203,9 +234,9 @@
 ;; ;; Rinari
 ;; (add-to-list 'load-path "~/path/to/your/elisp/rinari")
 ;; (require 'rinari)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; (custom-set-faces
+;; custom-set-faces was added by Custom.
+;; If you edit it by hand, you could mess it up, so be careful.
+;; Your init file should contain only one such instance.
+;; If there is more than one, they won't work right.
+;; )
