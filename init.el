@@ -73,11 +73,11 @@
 (define-key ac-menu-map "\C-p" 'ac-previous)
 
 
-;; ------------------------------------------------------------------------
-;; @ auto-install.el
+;; ;; ------------------------------------------------------------------------
+;; ;; @ auto-install.el
 
-;; auto-installの設定
-;; ちょっと重いので、普段は外しておく
+;; ;; auto-installの設定
+;; ;; ちょっと重いので、普段は外しておく
 ;; (when (require 'auto-install nil t)
 ;;   ;; インストールディレクトリを設定する
 ;;   ;; 初期値は ~/.emacs.d/auto-install/
@@ -92,18 +92,18 @@
 ;;   ;; install-elisp の関数を利用可能にする
 ;;   (auto-install-compatibility-setup))
 
-;; ------------------------------------------------------------------------
-;; @ package.el
+;; ;; ------------------------------------------------------------------------
+;; ;; @ package.el
 
-;; MELPA、Marmaladeの設定
-;; package.elはEmacs24に標準で入っている
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
+;; ;; MELPA、Marmaladeの設定
+;; ;; package.elはEmacs24に標準で入っている
+;; (require 'package)
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (package-initialize)
 
 ;; パッケージ情報の更新
-(package-refresh-contents)
+;; (package-refresh-contents)
 
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
@@ -119,12 +119,18 @@
 (require 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"
-  "~/.emacs.d/elisp/yasnippet/snippets"
-  ))
+        "~/.emacs.d/elisp/yasnippet/snippets"
+        ))
 (yas-global-mode 1)
 
 ;; 単語展開キーバインド
-(custom-set-variables '(yas-trigger-key "TAB"))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes (quote ("73fe242ddbaf2b985689e6ec12e29fab2ecd59f765453ad0e93bc502e6e478d6" default)))
+ '(yas-trigger-key "TAB"))
 
 ;; 既存スニペットを挿入する
 (define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
@@ -149,11 +155,11 @@
 (add-hook 'ruby-mode-hook
           '(lambda () (inf-ruby-keys)))
 
-;; ------------------------------------------------------------------------
-;; @ ruby-electric.el
+;; ;; ------------------------------------------------------------------------
+;; ;; @ ruby-electric.el
 
-(require 'ruby-electric)
-(add-hook 'ruby-mode-hook '(lambda () (ruby-electric-mode t)))
+;; (require 'ruby-electric)
+;; (add-hook 'ruby-mode-hook '(lambda () (ruby-electric-mode t)))
 
 ;; ------------------------------------------------------------------------
 ;; @ haml-mode.el
@@ -163,23 +169,23 @@
 
 ;; ;; ------------------------------------------------------------------------
 ;; ;; @ emacs-rails.el
-(defun try-complete-abbrev (old)
-    (if (expand-abbrev) t nil))
-(setq hippie-expand-try-functions-list
-            '(try-complete-abbrev
-                      try-complete-file-name
-                              try-expand-dabbrev))
-(setq rails-use-mongrel t)
-(require 'cl)
-(require 'rails)
+;; (defun try-complete-abbrev (old)
+;;     (if (expand-abbrev) t nil))
+;; (setq hippie-expand-try-functions-list
+;;             '(try-complete-abbrev
+;;                       try-complete-file-name
+;;                               try-expand-dabbrev))
+;; (setq rails-use-mongrel t)
+;; (require 'cl)
+;; (require 'rails)
 
 ;; ;; ------------------------------------------------------------------------
 ;; ;; @ ruby-block.el
 
-(require 'ruby-block)
-(ruby-block-mode t)
-;; ミニバッファに表示し, かつ, オーバレイする.
-(setq ruby-block-highlight-toggle t)
+;; (require 'ruby-block)
+;; (ruby-block-mode t)
+;; ;; ミニバッファに表示し, かつ, オーバレイする.
+;; (setq ruby-block-highlight-toggle t)
 
 ;; ;; ------------------------------------------------------------------------
 ;; ;; @ inf-ruby.el
@@ -197,3 +203,9 @@
 ;; ;; Rinari
 ;; (add-to-list 'load-path "~/path/to/your/elisp/rinari")
 ;; (require 'rinari)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
