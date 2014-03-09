@@ -11,12 +11,11 @@
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
 ;; 画面の設定
-(add-to-list 'default-frame-alist '(foreground-color . "brack"))
 (require 'color-theme)
 (color-theme-initialize)
 (setq custom-theme-load-path nil)
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(setq molokai-theme-kit t)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
+(load-theme 'monokai t)
 
 (global-linum-mode t)                   ;; 行番号を常に表示する
 (setq-default tab-width 2)              ;; インデントの深さを2にする
@@ -98,19 +97,17 @@
 
 ;; MELPA、Marmaladeの設定
 ;; package.elはEmacs24に標準で入っている
-;; (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (package-initialize)
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
 
-;; ;; パッケージ情報の更新
-;; (package-refresh-contents)
+;; パッケージ情報の更新
+(package-refresh-contents)
 
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
 
-;; anythingの設定
-;; ちょっと重いので外す
 (when (require 'anything-startup nil t)
   (global-set-key (kbd "C-x b") 'anything))
 
@@ -118,7 +115,6 @@
 ;; ------------------------------------------------------------------------
 ;; @ yasnippet.el
 
-;; snippet
 (add-to-list 'load-path "~/.emacs.d/elisp/yasnippet")
 (require 'yasnippet)
 (setq yas-snippet-dirs
