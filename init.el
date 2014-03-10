@@ -16,25 +16,70 @@
 (setq-default tab-width 2)              ;; インデントの深さを2にする
 (setq-default indent-tabs-mode nil)     ;; タブをスペースで扱う
 
-
 ;; 文字コードの指定
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
-
 
 ;;; *.~ とかのバックアップファイルを作らない
 (setq make-backup-files nil)
 ;;; .#* とかのバックアップファイルを作らない
 (setq auto-save-default nil)
 
-
 ;; yes or noをy or n
 (fset 'yes-or-no-p 'y-or-n-p)
-
 
 ;; ファイルが #! から始まる場合、+xを付けて保存する
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
+
+;; file名の補完で大文字小文字を区別しない
+(setq completion-ignore-case t)
+
+;; バッファの自動読み込み
+(global-auto-revert-mode 1)
+
+;; 同名ファイルのバッファ名の識別文字列を変更する
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+
+;; 現在行のハイライト
+(defface hlline-face
+  '((((class color)
+      (background dark))
+     (:background "dark slate gray"))
+    (((class color)
+      (background light))
+     (:background  "#98FB98"))
+    (t
+     ()))
+  "Face used by hl-line.")
+(setq hl-line-face 'hlline-face)
+(global-hl-line-mode)
+
+
+;; ------------------------------------------------------------------------
+;; @ mode
+;; ------------------------------------------------------------------------
+;; @ ruby-mode
+
+(autoload 'ruby-mode "ruby-mode"
+  "Mode for editing ruby source files" t)
+(setq auto-mode-alist
+      (append '(("\\.rb$" . ruby-mode)) auto-mode-alist))
+(setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
+                                     interpreter-mode-alist))
+(autoload 'run-ruby "inf-ruby"
+  "Run an inferior Ruby process")
+(autoload 'inf-ruby-keys "inf-ruby"
+  "Set local key defs for inf-ruby in ruby-mode")
+(add-hook 'ruby-mode-hook
+          '(lambda () (inf-ruby-keys)))
+
+;; ------------------------------------------------------------------------
+;; @ gosh-mode
+
+(setq scheme-program-name "gosh")
+
 
 ;; ------------------------------------------------------------------------
 ;; @ modeline
@@ -42,7 +87,6 @@
 
 ;; ------------------------------------------------------------------------
 ;; @ key bind
-
 
 (global-set-key (kbd "C-m") 'newline-and-indent)
 (keyboard-translate ?\C-h ?\C-?)
@@ -53,13 +97,11 @@
 (define-key global-map (kbd "C-;") 'comment-dwim)
 (define-key global-map (kbd "C-t") 'other-window)
 (define-key global-map (kbd "C-/") 'undo)
+(define-key global-map (kbd "C-x C-_") 'redo)
 
-;; EmacsではC-g C-/ でredoができる
-;; (define-key global-map (kbd "C-.") 'redo)
 
 ;; ------------------------------------------------------------------------
-;; @ elip
-
+;; @ elisp
 ;; ------------------------------------------------------------------------
 ;; @ auto-complete.el
 
@@ -105,7 +147,7 @@
 ;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
 ;; (package-initialize)
 
-;; パッケージ情報の更新
+;; ;; パッケージ情報の更新
 ;; (package-refresh-contents)
 
 ;; ------------------------------------------------------------------------
@@ -128,10 +170,6 @@
 
 ;; 単語展開キーバインド
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(custom-safe-themes (quote ("73fe242ddbaf2b985689e6ec12e29fab2ecd59f765453ad0e93bc502e6e478d6" default)))
  '(yas-trigger-key "TAB"))
 
@@ -142,21 +180,6 @@
 ;; 既存スニペットを閲覧・編集する
 (define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
 
-;; ------------------------------------------------------------------------
-;; @ ruby-mode.el
-
-(autoload 'ruby-mode "ruby-mode"
-  "Mode for editing ruby source files" t)
-(setq auto-mode-alist
-      (append '(("\\.rb$" . ruby-mode)) auto-mode-alist))
-(setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
-                                     interpreter-mode-alist))
-(autoload 'run-ruby "inf-ruby"
-  "Run an inferior Ruby process")
-(autoload 'inf-ruby-keys "inf-ruby"
-  "Set local key defs for inf-ruby in ruby-mode")
-(add-hook 'ruby-mode-hook
-          '(lambda () (inf-ruby-keys)))
 
 ;; ;; ------------------------------------------------------------------------
 ;; ;; @ ruby-electric.el
@@ -186,28 +209,6 @@
 ;; ;; @ ruby-block.el
 
 ;; (require 'ruby-block)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ;; (ruby-block-mode t)
 ;; ;; ミニバッファに表示し, かつ, オーバレイする.
 ;; (setq ruby-block-highlight-toggle t)
@@ -240,3 +241,36 @@
 ;; Your init file should contain only one such instance.
 ;; If there is more than one, they won't work right.
 ;; )
+
+;; ------------------------------------------------------------------------
+;; @ recentf.el
+
+(when (require 'recentf nil t)
+  (setq recentf-max-saved-items 2000)
+  (setq recentf-exclude '(".recentf"))
+  (setq recentf-auto-cleanup 10)
+  (setq recentf-auto-save-timer
+        (run-with-idle-timer 30 t 'recentf-save-list))
+  (recentf-mode 1)
+  (require 'recentf-ext))
+
+;; ------------------------------------------------------------------------
+;; @ undo-hist.el
+
+(when (require 'undohist nil t)
+    (undohist-initialize))
+
+;; ------------------------------------------------------------------------
+;; @ undotree.el
+;; C-x u で起動
+
+(when (require 'undo-tree nil t)
+    (global-undo-tree-mode))
+
+;; ------------------------------------------------------------------------
+;; @ redo+.el
+
+(require 'redo+)
+(setq undo-no-redo t)
+(setq undo-limit 60000)
+(setq undo-strong-limit 600000)
