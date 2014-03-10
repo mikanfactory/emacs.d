@@ -288,3 +288,24 @@
                (local-set-key (kbd "M") (smartchr '("M" "my ")))
                )))
 
+;; ------------------------------------------------------------------------
+;; @ wgrep.el
+
+(require 'wgrep nil t)
+
+;; ------------------------------------------------------------------------
+;; @ wdired.el
+
+(require 'wdired nil t)
+
+;; ------------------------------------------------------------------------
+;; @ popwin.el
+
+(require 'popwin)
+(setq display-buffer-function 'popwin:display-buffer)
+(setq popwin:popup-window-position 'right)
+(push '("*Kill Ring*" :width 0.5) popwin:special-display-config)
+(push '("*anything*" :width 0.5) popwin:special-display-config)
+(push '("*Backtrace*" :width 0.5) popwin:special-display-config)
+(push '("*undo-tree*" :width 0.5) popwin:special-display-config)
+(push '("*Completions*" :width 0.5) popwin:special-display-config)
