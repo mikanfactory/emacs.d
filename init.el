@@ -98,7 +98,7 @@
 (define-key global-map (kbd "C-t") 'other-window)
 (define-key global-map (kbd "C-/") 'undo)
 (define-key global-map (kbd "C-x C-_") 'redo)
-
+(define-key global-map (kbd "M-r") 'query-replace)
 
 ;; ------------------------------------------------------------------------
 ;; @ elisp
@@ -274,3 +274,17 @@
 (setq undo-no-redo t)
 (setq undo-limit 60000)
 (setq undo-strong-limit 600000)
+
+;; ------------------------------------------------------------------------
+;; @ smartchr.el
+
+(require 'smartchr)
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (progn
+               (local-set-key (kbd "F") (smartchr '("F" "$")))
+               (local-set-key (kbd "H") (smartchr '("H" " => ")))
+               (local-set-key (kbd "J") (smartchr '("J" "->")))
+               (local-set-key (kbd "M") (smartchr '("M" "my ")))
+               )))
+
