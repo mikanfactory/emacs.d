@@ -105,7 +105,6 @@
 (define-key global-map (kbd "C-t") 'other-window)
 (define-key global-map (kbd "C-/") 'undo)
 (define-key global-map (kbd "C-x C-_") 'redo)
-(define-key global-map (kbd "M-r") 'query-replace)
 
 ;; ------------------------------------------------------------------------
 ;; @ elisp
@@ -124,43 +123,49 @@
 (define-key ac-menu-map "\C-n" 'ac-next)
 (define-key ac-menu-map "\C-p" 'ac-previous)
 
-;; ------------------------------------------------------------------------
-;; @ auto-install.el
+;; ;; ------------------------------------------------------------------------
+;; ;; @ auto-install.el
 
-;; auto-installの設定
-;; ちょっと重いので、普段は外しておく
-(when (require 'auto-install nil t)
-  ;; インストールディレクトリを設定する
-  ;; 初期値は ~/.emacs.d/auto-install/
-  (setq auto-install-directory "~/.emacs.d/elisp")
+;; ;; auto-installの設定
+;; ;; ちょっと重いので、普段は外しておく
+;; (when (require 'auto-install nil t)
+;;   ;; インストールディレクトリを設定する
+;;   ;; 初期値は ~/.emacs.d/auto-install/
+;;   (setq auto-install-directory "~/.emacs.d/elisp")
 
-  ;; EmacsWiki に登録されている elisp の名前を取得する
-  (auto-install-update-emacswiki-package-name t)
+;;   ;; EmacsWiki に登録されている elisp の名前を取得する
+;;   (auto-install-update-emacswiki-package-name t)
 
-  ;; 必要であればプロキシの設定を行う
-  ;; (setq url-proxy-services '(("http" . "localhost:8080")))
+;;   ;; 必要であればプロキシの設定を行う
+;;   ;; (setq url-proxy-services '(("http" . "localhost:8080")))
 
-  ;; install-elisp の関数を利用可能にする
-  (auto-install-compatibility-setup))
+;;   ;; install-elisp の関数を利用可能にする
+;;   (auto-install-compatibility-setup))
 
-;; ------------------------------------------------------------------------
-;; @ package.el
+;; ;; ------------------------------------------------------------------------
+;; ;; @ package.el
 
-;; MELPA、Marmaladeの設定
-;; package.elはEmacs24に標準で入っている
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
+;; ;; MELPA、Marmaladeの設定
+;; ;; package.elはEmacs24に標準で入っている
+;; (require 'package)
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (package-initialize)
 
-;; パッケージ情報の更新
-(package-refresh-contents)
+;; ;; パッケージ情報の更新
+;; (package-refresh-contents)
 
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
 
 (when (require 'anything-startup nil t)
   (global-set-key (kbd "C-x b") 'anything))
+
+;;kill-ring 
+(setq kill-ring-max 20)
+(setq anything-kill-ring-threshold 5)
+(global-set-key "\M-y" 'anything-show-kill-ring)
+
 
 ;; ------------------------------------------------------------------------
 ;; @ yasnippet.el
@@ -311,14 +316,41 @@
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
 (push '("*Compile log*" :height 0.4) popwin:special-display-config)
+(push '("*Compile-Log*" :width 0.4) popwin:special-display-config)
 (push '("*Kill Ring*" :height 0.4) popwin:special-display-config)
 (push '("*anything*" :height 0.4) popwin:special-display-config)
 (push '("*Backtrace*" :height 0.4) popwin:special-display-config)
 (push '("*Warnigs*" :height 0.4) popwin:special-display-config)
 (push '("*Completions*" :width 0.4) popwin:special-display-config)
+(push '("*Message*" :width 0.4) popwin:special-display-config)
 ;; (push '("*anything auto install*" :width 0.5) popwin:special-display-config)
 ;; (push '(dired-mode :position top) popwin:special-display-config)
 ;; (push '("*undo-tree*" :width 0.5) popwin:special-display-config)
-;; ------------------------------------------------------------------------
-;; @ el-get.el
 
+;; ------------------------------------------------------------------------
+;; @ auto-heghlight-symbol.el
+
+(require 'auto-highlight-symbol)
+(global-auto-highlight-symbol-mode t)
+
+;; ------------------------------------------------------------------------
+;; @ highlight-symbol.el
+
+(require 'highlight-symbol)
+(setq highlight-symbol-colors '("DarkOrange" "DodgerBlue1" "DeepPink1")) 
+(global-set-key (kbd "C-o" ) 'highlight-symbol-at-point)
+(global-set-key (kbd "M-o") 'highlight-symbol-remove-all)
+
+
+;; ------------------------------------------------------------------------
+;; @ anzu.el
+
+(require 'anzu)
+
+(global-anzu-mode +1)
+(setq anzu-use-migemo t)
+(setq anzu-search-threshold 1000)
+(setq anzu-minimum-input-length 3)
+
+(global-set-key (kbd "M-r") 'anzu-query-replace)
+(global-set-key (kbd "M-R") 'anzu-query-replace-regexp)
