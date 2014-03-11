@@ -92,6 +92,29 @@
 ;; ------------------------------------------------------------------------
 ;; @ modeline
 
+;; モードラインに行番号表示
+(line-number-mode t)
+;; モードラインに列番号表示
+(column-number-mode t)
+
+;; モードラインの割合表示を総行数表示
+(defvar my-lines-page-mode t)
+(defvar my-mode-line-format)
+
+(when my-lines-page-mode
+  (setq my-mode-line-format "%d")
+  (if size-indication-mode
+      (setq my-mode-line-format (concat my-mode-line-format " of %%I")))
+  (cond ((and (eq line-number-mode t) (eq column-number-mode t))
+         (setq my-mode-line-format (concat my-mode-line-format " (%%l,%%c)")))
+        ((eq line-number-mode t)
+         (setq my-mode-line-format (concat my-mode-line-format " L%%l")))
+        ((eq column-number-mode t)
+         (setq my-mode-line-format (concat my-mode-line-format " C%%c"))))
+  (setq mode-line-position
+        '(:eval (format my-mode-line-format
+                        (count-lines (point-max) (point-min))))))
+
 ;; ------------------------------------------------------------------------
 ;; @ key bind
 
@@ -142,18 +165,18 @@
 ;;   ;; install-elisp の関数を利用可能にする
 ;;   (auto-install-compatibility-setup))
 
-;; ;; ------------------------------------------------------------------------
-;; ;; @ package.el
+;; ------------------------------------------------------------------------
+;; @ package.el
 
-;; ;; MELPA、Marmaladeの設定
-;; ;; package.elはEmacs24に標準で入っている
-;; (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (package-initialize)
+;; MELPA、Marmaladeの設定
+;; package.elはEmacs24に標準で入っている
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
 
-;; ;; パッケージ情報の更新
-;; (package-refresh-contents)
+;; パッケージ情報の更新
+(package-refresh-contents)
 
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
@@ -319,13 +342,13 @@
 (push '("*Compile-Log*" :width 0.4) popwin:special-display-config)
 (push '("*Kill Ring*" :height 0.4) popwin:special-display-config)
 (push '("*anything*" :height 0.4) popwin:special-display-config)
+(push '("*anything auto install*" :width 0.5) popwin:special-display-config)
 (push '("*Backtrace*" :height 0.4) popwin:special-display-config)
 (push '("*Warnigs*" :height 0.4) popwin:special-display-config)
 (push '("*Completions*" :width 0.4) popwin:special-display-config)
 (push '("*Message*" :width 0.4) popwin:special-display-config)
-;; (push '("*anything auto install*" :width 0.5) popwin:special-display-config)
+(push '("*undo-tree*" :width 0.5) popwin:special-display-config)
 ;; (push '(dired-mode :position top) popwin:special-display-config)
-;; (push '("*undo-tree*" :width 0.5) popwin:special-display-config)
 
 ;; ------------------------------------------------------------------------
 ;; @ auto-heghlight-symbol.el
@@ -337,7 +360,9 @@
 ;; @ highlight-symbol.el
 
 (require 'highlight-symbol)
-(setq highlight-symbol-colors '("DarkOrange" "DodgerBlue1" "DeepPink1")) 
+(setq highlight-symbol-colors '("DarkOrange" "DodgerBlue1" "DeepPink1")) ;; 使いたい色を設定、repeatしてくれる
+
+;; 適宜keybindの設定
 (global-set-key (kbd "C-o" ) 'highlight-symbol-at-point)
 (global-set-key (kbd "M-o") 'highlight-symbol-remove-all)
 
@@ -348,9 +373,30 @@
 (require 'anzu)
 
 (global-anzu-mode +1)
-(setq anzu-use-migemo t)
 (setq anzu-search-threshold 1000)
 (setq anzu-minimum-input-length 3)
 
 (global-set-key (kbd "M-r") 'anzu-query-replace)
 (global-set-key (kbd "M-R") 'anzu-query-replace-regexp)
+
+
+;; ------------------------------------------------------------------------
+;; @ smartrep.el
+
+(require 'smartrep)
+
+;; ------------------------------------------------------------------------
+;; @ expand-region.el
+
+(add-to-list 'load-path "~/.emacs.d/elisp/expand-region/")
+(require 'expand-region)
+(global-set-key (kbd "C-@") 'er/expand-region)
+(global-set-key (kbd "M-@") 'er/contract-region) 
+(transient-mark-mode t)
+
+;; ------------------------------------------------------------------------
+;; @ multiple-cursors.el
+
+(add-to-list 'load-path "~/.emacs.d/elisp/multiple-cursors/")
+(require 'multiple-cursors)
+
