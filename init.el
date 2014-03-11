@@ -56,7 +56,6 @@
 (setq hl-line-face 'hlline-face)
 (global-hl-line-mode)
 
-
 ;; ------------------------------------------------------------------------
 ;; @ mode
 ;; ------------------------------------------------------------------------
@@ -75,15 +74,23 @@
 (add-hook 'ruby-mode-hook
           '(lambda () (inf-ruby-keys)))
 
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (setq ruby-deep-indent-paren-style nil)
+             (electric-pair-mode t)
+             (electric-indent-mode t)
+             (electric-layout-mode t)
+             (setq electric-pair-pairs '(
+                                         (?\| . ?\|)
+                                         ))
+                          ))
 ;; ------------------------------------------------------------------------
 ;; @ gosh-mode
 
 (setq scheme-program-name "gosh")
 
-
 ;; ------------------------------------------------------------------------
 ;; @ modeline
-
 
 ;; ------------------------------------------------------------------------
 ;; @ key bind
@@ -117,45 +124,43 @@
 (define-key ac-menu-map "\C-n" 'ac-next)
 (define-key ac-menu-map "\C-p" 'ac-previous)
 
+;; ------------------------------------------------------------------------
+;; @ auto-install.el
 
-;; ;; ------------------------------------------------------------------------
-;; ;; @ auto-install.el
+;; auto-installの設定
+;; ちょっと重いので、普段は外しておく
+(when (require 'auto-install nil t)
+  ;; インストールディレクトリを設定する
+  ;; 初期値は ~/.emacs.d/auto-install/
+  (setq auto-install-directory "~/.emacs.d/elisp")
 
-;; ;; auto-installの設定
-;; ;; ちょっと重いので、普段は外しておく
-;; (when (require 'auto-install nil t)
-;;   ;; インストールディレクトリを設定する
-;;   ;; 初期値は ~/.emacs.d/auto-install/
-;;   (setq auto-install-directory "~/.emacs.d/elisp")
+  ;; EmacsWiki に登録されている elisp の名前を取得する
+  (auto-install-update-emacswiki-package-name t)
 
-;;   ;; EmacsWiki に登録されている elisp の名前を取得する
-;;   (auto-install-update-emacswiki-package-name t)
+  ;; 必要であればプロキシの設定を行う
+  ;; (setq url-proxy-services '(("http" . "localhost:8080")))
 
-;;   ;; 必要であればプロキシの設定を行う
-;;   ;; (setq url-proxy-services '(("http" . "localhost:8080")))
+  ;; install-elisp の関数を利用可能にする
+  (auto-install-compatibility-setup))
 
-;;   ;; install-elisp の関数を利用可能にする
-;;   (auto-install-compatibility-setup))
+;; ------------------------------------------------------------------------
+;; @ package.el
 
-;; ;; ------------------------------------------------------------------------
-;; ;; @ package.el
+;; MELPA、Marmaladeの設定
+;; package.elはEmacs24に標準で入っている
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
 
-;; ;; MELPA、Marmaladeの設定
-;; ;; package.elはEmacs24に標準で入っている
-;; (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (package-initialize)
-
-;; ;; パッケージ情報の更新
-;; (package-refresh-contents)
+;; パッケージ情報の更新
+(package-refresh-contents)
 
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
 
 (when (require 'anything-startup nil t)
   (global-set-key (kbd "C-x b") 'anything))
-
 
 ;; ------------------------------------------------------------------------
 ;; @ yasnippet.el
@@ -180,13 +185,6 @@
 ;; 既存スニペットを閲覧・編集する
 (define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
 
-
-;; ;; ------------------------------------------------------------------------
-;; ;; @ ruby-electric.el
-
-;; (require 'ruby-electric)
-;; (add-hook 'ruby-mode-hook '(lambda () (ruby-electric-mode t)))
-
 ;; ------------------------------------------------------------------------
 ;; @ haml-mode.el
 
@@ -208,17 +206,26 @@
 ;; ;; ------------------------------------------------------------------------
 ;; ;; @ ruby-block.el
 
-;; (require 'ruby-block)
-;; (ruby-block-mode t)
-;; ;; ミニバッファに表示し, かつ, オーバレイする.
-;; (setq ruby-block-highlight-toggle t)
+(require 'ruby-block)
+(ruby-block-mode t)
+;; ミニバッファに表示し, かつ, オーバレイする.
+(setq ruby-block-highlight-toggle t)
 
-;; ;; ------------------------------------------------------------------------
-;; ;; @ inf-ruby.el
+;; ------------------------------------------------------------------------
+;; @ inf-ruby.el
 
-;; (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
-;; (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
+(autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
+(add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
 
+;; ------------------------------------------------------------------------
+;; @ ruby-end.el
+(require 'ruby-end)
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (abbrev-mode 1)
+             (electric-pair-mode t)
+             (electric-indent-mode t)
+             (electric-layout-mode t)))
 
 ;; ------------------------------------------------------------------------
 ;; @ rcodetools.el
@@ -282,10 +289,9 @@
 (add-hook 'ruby-mode-hook
           '(lambda ()
              (progn
-               (local-set-key (kbd "F") (smartchr '("F" "$")))
                (local-set-key (kbd "H") (smartchr '("H" " => ")))
-               (local-set-key (kbd "J") (smartchr '("J" "->")))
-               (local-set-key (kbd "M") (smartchr '("M" "my ")))
+               (local-set-key (kbd "I") (smartchr '("I" " ||" "|")))
+               (local-set-key (kbd "E") (smartchr '("E" "=" "==" " == ")))
                )))
 
 ;; ------------------------------------------------------------------------
@@ -303,9 +309,16 @@
 
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
-(setq popwin:popup-window-position 'right)
-(push '("*Kill Ring*" :width 0.5) popwin:special-display-config)
-(push '("*anything*" :width 0.5) popwin:special-display-config)
-(push '("*Backtrace*" :width 0.5) popwin:special-display-config)
-(push '("*undo-tree*" :width 0.5) popwin:special-display-config)
-(push '("*Completions*" :width 0.5) popwin:special-display-config)
+(setq popwin:popup-window-position 'bottom)
+(push '("*Compile log*" :height 0.4) popwin:special-display-config)
+(push '("*Kill Ring*" :height 0.4) popwin:special-display-config)
+(push '("*anything*" :height 0.4) popwin:special-display-config)
+(push '("*Backtrace*" :height 0.4) popwin:special-display-config)
+(push '("*Warnigs*" :height 0.4) popwin:special-display-config)
+(push '("*Completions*" :width 0.4) popwin:special-display-config)
+;; (push '("*anything auto install*" :width 0.5) popwin:special-display-config)
+;; (push '(dired-mode :position top) popwin:special-display-config)
+;; (push '("*undo-tree*" :width 0.5) popwin:special-display-config)
+;; ------------------------------------------------------------------------
+;; @ el-get.el
+
