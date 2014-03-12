@@ -208,7 +208,7 @@
  '(yas-trigger-key "TAB"))
 
 ;; 既存スニペットを挿入する
-(define-key yas-minor-mode-map (kbd "C-x i i") 'yas-inser-snippet)
+(define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
 ;; 新規スニペットを作成するバッファを用意する
 (define-key yas-minor-mode-map (kbd "C-x i n") 'yas-new-snippet)
 ;; 既存スニペットを閲覧・編集する
@@ -257,6 +257,12 @@
                (local-set-key (kbd "H") (smartchr '("H" " => ")))
                (local-set-key (kbd "I") (smartchr '("I" " |`!!'|" "|")))
                (local-set-key (kbd "E") (smartchr '("E" "=" "==" " == ")))
+               )))
+
+(add-hook 'rhtml-mode-hook
+          '(lambda ()
+             (progn
+               (local-set-key (kbd "<") (smartchr '("< " "<%= `!!' %>")))
                )))
 
 ;; ------------------------------------------------------------------------
