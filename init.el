@@ -79,8 +79,8 @@
              (electric-layout-mode t)
              (setq electric-pair-pairs '(
                                          (?\| . ?\|)
-                                         ))
-                          ))
+                                         ))))
+
 ;; ------------------------------------------------------------------------
 ;; @ gosh-mode
 
@@ -191,7 +191,6 @@
 (setq anything-kill-ring-threshold 5)
 (global-set-key "\M-y" 'anything-show-kill-ring)
 
-
 ;; ------------------------------------------------------------------------
 ;; @ yasnippet.el
 
@@ -256,7 +255,7 @@
           '(lambda ()
              (progn
                (local-set-key (kbd "H") (smartchr '("H" " => ")))
-               (local-set-key (kbd "I") (smartchr '("I" " ||" "|")))
+               (local-set-key (kbd "I") (smartchr '("I" " |`!!'|" "|")))
                (local-set-key (kbd "E") (smartchr '("E" "=" "==" " == ")))
                )))
 
@@ -276,15 +275,15 @@
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
-(push '("*Compile log*" :height 0.4) popwin:special-display-config)
-(push '("*Compile-Log*" :height 0.4) popwin:special-display-config)
-(push '("*Kill Ring*" :height 0.4) popwin:special-display-config)
-(push '("*anything*" :height 0.4) popwin:special-display-config)
-(push '("*anything auto install*" :width 0.5) popwin:special-display-config)
-(push '("*Backtrace*" :height 0.4) popwin:special-display-config)
-(push '("*Warnigs*" :height 0.4) popwin:special-display-config)
-(push '("*Completions*" :height 0.4) popwin:special-display-config)
-(push '("*Message*" :height 0.4) popwin:special-display-config)
+(push '("*Compile log*" :height 0.5) popwin:special-display-config)
+(push '("*Compile-Log*" :height 0.5) popwin:special-display-config)
+(push '("*Kill Ring*" :height 0.5) popwin:special-display-config)
+(push '("*anything*" :height 0.5) popwin:special-display-config)
+(push '("*anything auto install*" :height 0.5) popwin:special-display-config)
+(push '("*Backtrace*" :height 0.5) popwin:special-display-config)
+(push '("*Warnigs*" :height 0.5) popwin:special-display-config)
+(push '("*Completions*" :height 0.5) popwin:special-display-config)
+(push '("*Message*" :height 0.5) popwin:special-display-config)
 (push '("*undo-tree*" :height 0.5) popwin:special-display-config)
 ;; (push '(dired-mode :position top) popwin:special-display-config)
 
@@ -380,10 +379,17 @@
 (define-key ruby-mode-map (kbd "C-c C-d") 'xmp)
 
 ;; ------------------------------------------------------------------------
-;; @ rinari.el
+;; @ ido.el rinari.el
 
 (require 'ido)
 (ido-mode t)
+(setq ido-everywhere t)
+(setq ido-enable-flex-matching t)
+(setq ido-create-new-buffer 'always)
+(when (boundp 'confirm-nonexistent-file-or-buffer)
+  (setq confirm-nonexistent-file-or-buffer nil))
+(global-set-key (kbd "C-x f") 'ido-find-file-other-window)
+
 (require 'rinari)
 
 ;; ------------------------------------------------------------------------
