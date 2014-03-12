@@ -1,5 +1,5 @@
-;; ------------------------------------------------------------------------
 ;; @ general
+;; ------------------------------------------------------------------------
 
 ;; パスの設定
 (add-to-list 'load-path "~/.emacs.d/elisp")
@@ -71,13 +71,6 @@
       (append '(("\\.rb$" . ruby-mode)) auto-mode-alist))
 (setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
                                      interpreter-mode-alist))
-(autoload 'run-ruby "inf-ruby"
-  "Run an inferior Ruby process")
-(autoload 'inf-ruby-keys "inf-ruby"
-  "Set local key defs for inf-ruby in ruby-mode")
-(add-hook 'ruby-mode-hook
-          '(lambda () (inf-ruby-keys)))
-
 (add-hook 'ruby-mode-hook
           '(lambda ()
              (setq ruby-deep-indent-paren-style nil)
@@ -126,12 +119,11 @@
 (global-set-key (kbd "C-h") 'delete-backward-char)
 (global-set-key (kbd "C-x ?") 'help-command)
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines)
-(global-set-key (kbd "C-;") 'comment-dwim) ;can't use on terminal
+(global-set-key (kbd "C-;") 'comment-dwim) ;Can't use on terminal
 (global-set-key (kbd "C-t") 'other-window)
 (global-set-key (kbd "C-/") 'undo)
 (global-set-key (kbd "C-x C-_") 'redo)
 (global-set-key (kbd "M-s") 'goto-line)
-
 
 ;; ------------------------------------------------------------------------
 ;; @ elisp
@@ -176,7 +168,7 @@
 ;; package.elはEmacs24に標準で入っている
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
 ;; パッケージ情報の更新
@@ -207,7 +199,7 @@
 (require 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"
-        "~/.emacs.d/elisp/yasnippet/snippets"
+        "~/.emacs.d/elisp/yasnippet/snippets" 
         ))
 (yas-global-mode 1)
 
@@ -217,75 +209,11 @@
  '(yas-trigger-key "TAB"))
 
 ;; 既存スニペットを挿入する
-(define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
+(define-key yas-minor-mode-map (kbd "C-x i i") 'yas-inser-snippet)
 ;; 新規スニペットを作成するバッファを用意する
 (define-key yas-minor-mode-map (kbd "C-x i n") 'yas-new-snippet)
 ;; 既存スニペットを閲覧・編集する
 (define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
-
-;; ------------------------------------------------------------------------
-;; @ haml-mode.el
-
-;; Haml-mode
-(require 'haml-mode)
-
-;; ;; ------------------------------------------------------------------------
-;; ;; @ emacs-rails.el
-;; (defun try-complete-abbrev (old)
-;;     (if (expand-abbrev) t nil))
-;; (setq hippie-expand-try-functions-list
-;;             '(try-complete-abbrev
-;;                       try-complete-file-name
-;;                               try-expand-dabbrev))
-;; (setq rails-use-mongrel t)
-;; (require 'cl)
-;; (require 'rails)
-
-;; ;; ------------------------------------------------------------------------
-;; ;; @ ruby-block.el
-
-(require 'ruby-block)
-(ruby-block-mode t)
-;; ミニバッファに表示し, かつ, オーバレイする.
-(setq ruby-block-highlight-toggle t)
-
-;; ------------------------------------------------------------------------
-;; @ inf-ruby.el
-
-(autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
-(add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
-
-;; ------------------------------------------------------------------------
-;; @ ruby-end.el
-(require 'ruby-end)
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             (abbrev-mode 1)
-             (electric-pair-mode t)
-             (electric-indent-mode t)
-             (electric-layout-mode t)))
-
-;; ------------------------------------------------------------------------
-;; @ rcodetools.el
-
-(require 'rcodetools)
-(define-key ruby-mode-map (kbd "C-c C-d") 'xmp)
-
-;; ;; ------------------------------------------------------------------------
-;; ;; @ rinari.el
-
-;; ;; Interactively Do Things (highly recommended, but not strictly required)
-;; (require 'ido)
-;; (ido-mode t)
-;; ;; Rinari
-;; (add-to-list 'load-path "~/path/to/your/elisp/rinari")
-;; (require 'rinari)
-;; (custom-set-faces
-;; custom-set-faces was added by Custom.
-;; If you edit it by hand, you could mess it up, so be careful.
-;; Your init file should contain only one such instance.
-;; If there is more than one, they won't work right.
-;; )
 
 ;; ------------------------------------------------------------------------
 ;; @ recentf.el
@@ -377,7 +305,6 @@
 (global-set-key (kbd "C-o" ) 'highlight-symbol-at-point)
 (global-set-key (kbd "M-o") 'highlight-symbol-remove-all)
 
-
 ;; ------------------------------------------------------------------------
 ;; @ anzu.el
 
@@ -389,7 +316,6 @@
 
 (global-set-key (kbd "M-r") 'anzu-query-replace)
 (global-set-key (kbd "M-R") 'anzu-query-replace-regexp)
-
 
 ;; ------------------------------------------------------------------------
 ;; @ smartrep.el expand-region.el multiple-cursors.el
@@ -426,3 +352,46 @@
     ("i"        . 'mc/insert-numbers)
     ("o"        . 'mc/sort-regions)
     ("O"        . 'mc/reverse-regions)))
+
+;; ------------------------------------------------------------------------
+;; @ Ruby on Rails
+;; ------------------------------------------------------------------------
+;; @ ruby-block.el
+
+(require 'ruby-block)
+(ruby-block-mode t)
+;; ミニバッファに表示し, かつ, オーバレイする.
+(setq ruby-block-highlight-toggle t)
+
+;; ------------------------------------------------------------------------
+;; @ ruby-end.el
+(require 'ruby-end)
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (abbrev-mode 1)
+             (electric-pair-mode t)
+             (electric-indent-mode t)
+             (electric-layout-mode t)))
+
+;; ------------------------------------------------------------------------
+;; @ rcodetools.el
+
+(require 'rcodetools)
+(define-key ruby-mode-map (kbd "C-c C-d") 'xmp)
+
+;; ------------------------------------------------------------------------
+;; @ rinari.el
+
+(require 'ido)
+(ido-mode t)
+(require 'rinari)
+
+;; ------------------------------------------------------------------------
+;; @ rhtml-mode.el
+
+(require 'rhtml-mode)
+(add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
+(add-hook 'rhtml-mode-hook
+          (lambda () (rinari-launch)))
+
+
