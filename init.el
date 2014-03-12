@@ -56,6 +56,10 @@
 (setq hl-line-face 'hlline-face)
 (global-hl-line-mode)
 
+;; リージョンの色を設定
+(transient-mark-mode t)
+(set-face-background 'region "Blue")
+
 ;; ------------------------------------------------------------------------
 ;; @ mode
 ;; ------------------------------------------------------------------------
@@ -119,15 +123,15 @@
 ;; @ key bind
 
 (global-set-key (kbd "C-m") 'newline-and-indent)
-(keyboard-translate ?\C-h ?\C-?)
-(define-key global-map (kbd "C-x ?") 'help-command)
-(define-key global-map (kbd "C-c a") 'beginning-of-buffer)
-(define-key global-map (kbd "C-c e") 'end-of-buffer)
-(define-key global-map (kbd "C-c l") 'toggle-truncate-lines)
-(define-key global-map (kbd "C-;") 'comment-dwim)
-(define-key global-map (kbd "C-t") 'other-window)
-(define-key global-map (kbd "C-/") 'undo)
-(define-key global-map (kbd "C-x C-_") 'redo)
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "C-x ?") 'help-command)
+(global-set-key (kbd "C-c l") 'toggle-truncate-lines)
+(global-set-key (kbd "C-;") 'comment-dwim) ;can't use on terminal
+(global-set-key (kbd "C-t") 'other-window)
+(global-set-key (kbd "C-/") 'undo)
+(global-set-key (kbd "C-x C-_") 'redo)
+(global-set-key (kbd "M-s") 'goto-line)
+
 
 ;; ------------------------------------------------------------------------
 ;; @ elisp
@@ -178,6 +182,12 @@
 ;; パッケージ情報の更新
 (package-refresh-contents)
 
+;; ------------------------------------------------------------------------
+;; @ sequential-command.el
+
+(require 'sequential-command-config)
+(sequential-command-setup-keys)
+         
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
 
@@ -339,15 +349,15 @@
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
 (push '("*Compile log*" :height 0.4) popwin:special-display-config)
-(push '("*Compile-Log*" :width 0.4) popwin:special-display-config)
+(push '("*Compile-Log*" :height 0.4) popwin:special-display-config)
 (push '("*Kill Ring*" :height 0.4) popwin:special-display-config)
 (push '("*anything*" :height 0.4) popwin:special-display-config)
 (push '("*anything auto install*" :width 0.5) popwin:special-display-config)
 (push '("*Backtrace*" :height 0.4) popwin:special-display-config)
 (push '("*Warnigs*" :height 0.4) popwin:special-display-config)
-(push '("*Completions*" :width 0.4) popwin:special-display-config)
-(push '("*Message*" :width 0.4) popwin:special-display-config)
-(push '("*undo-tree*" :width 0.5) popwin:special-display-config)
+(push '("*Completions*" :height 0.4) popwin:special-display-config)
+(push '("*Message*" :height 0.4) popwin:special-display-config)
+(push '("*undo-tree*" :height 0.5) popwin:special-display-config)
 ;; (push '(dired-mode :position top) popwin:special-display-config)
 
 ;; ------------------------------------------------------------------------
@@ -363,6 +373,7 @@
 (setq highlight-symbol-colors '("DarkOrange" "DodgerBlue1" "DeepPink1")) ;; 使いたい色を設定、repeatしてくれる
 
 ;; 適宜keybindの設定
+(global-unset-key "\C-o")
 (global-set-key (kbd "C-o" ) 'highlight-symbol-at-point)
 (global-set-key (kbd "M-o") 'highlight-symbol-remove-all)
 
@@ -381,22 +392,37 @@
 
 
 ;; ------------------------------------------------------------------------
-;; @ smartrep.el
-
-(require 'smartrep)
-
-;; ------------------------------------------------------------------------
-;; @ expand-region.el
+;; @ smartrep.el expand-region.el multiple-cursors.el
 
 (add-to-list 'load-path "~/.emacs.d/elisp/expand-region/")
-(require 'expand-region)
-(global-set-key (kbd "C-@") 'er/expand-region)
-(global-set-key (kbd "M-@") 'er/contract-region) 
-(transient-mark-mode t)
-
-;; ------------------------------------------------------------------------
-;; @ multiple-cursors.el
-
 (add-to-list 'load-path "~/.emacs.d/elisp/multiple-cursors/")
+
+(require 'smartrep)
+(require 'expand-region)
 (require 'multiple-cursors)
 
+(global-unset-key "\C-]")
+(global-set-key (kbd "C-]") 'er/expand-region)
+(global-set-key (kbd "M-]") 'er/contract-region) 
+
+(declare-function smartrep-define-key "smartrep")
+
+(global-set-key (kbd "C-M-c") 'mc/edit-lines)
+(global-set-key (kbd "C-M-r") 'mc/mark-all-in-region)
+
+(global-unset-key "\C-l")
+
+(smartrep-define-key global-map "C-l"
+  '(("C-l"      . 'mc/mark-next-like-this)
+    ("n"        . 'mc/mark-next-like-this)
+    ("p"        . 'mc/mark-previous-like-this)
+    ("m"        . 'mc/mark-more-like-this-extended)
+    ("u"        . 'mc/unmark-next-like-this)
+    ("U"        . 'mc/unmark-previous-like-this)
+    ("s"        . 'mc/skip-to-next-like-this)
+    ("S"        . 'mc/skip-to-previous-like-this)
+    ("*"        . 'mc/mark-all-like-this)
+    ("d"        . 'mc/mark-all-like-this-dwim)
+    ("i"        . 'mc/insert-numbers)
+    ("o"        . 'mc/sort-regions)
+    ("O"        . 'mc/reverse-regions)))
