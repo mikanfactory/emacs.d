@@ -87,6 +87,18 @@
                                          ))))
 
 ;; ------------------------------------------------------------------------
+;; @ elisp-mode
+
+(add-hook 'emacs-lisp-mode-hook
+          '(lambda ()
+             (electric-layout-mode t)
+             (electric-pair-mode t)
+             (electric-indent-mode t)
+             (setq electric-pair-pairs '(
+                                         (?\| . ?\|)
+                                         ))))
+
+;; ------------------------------------------------------------------------
 ;; @ gosh-mode
 
 (setq scheme-program-name "gosh")
@@ -128,6 +140,7 @@
 (global-set-key (kbd "C-/") 'undo)
 (global-set-key (kbd "C-x C-_") 'redo)
 (global-set-key (kbd "M-s") 'goto-line)
+(global-set-key (kbd "M-:") 'dabbrev-expand) 
 
 ;; ------------------------------------------------------------------------
 ;; @ elisp
