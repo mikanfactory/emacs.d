@@ -120,9 +120,8 @@
 ;; ------------------------------------------------------------------------
 ;; @ key bind
 
+(keyboard-translate ?\C-h ?\C-?)
 (global-set-key (kbd "C-m") 'newline-and-indent)
-(global-set-key (kbd "C-h") 'delete-backward-char)
-(global-set-key (kbd "C-x ?") 'help-command)
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines)
 (global-set-key (kbd "C-;") 'comment-dwim) ;Can't use on terminal
 (global-set-key (kbd "C-t") 'other-window)
@@ -208,8 +207,23 @@
 ;; @ auto-save-buffers.el
 
 (require 'auto-save-buffers)
-;; アイドル15秒で保存
-(run-with-idle-timer 15 t 'auto-save-buffers)
+;; アイドル2秒で保存
+(run-with-idle-timer 2 t 'auto-save-buffers)
+
+;; ------------------------------------------------------------------------
+;; @ bm.el
+
+(setq-default bm-buffer-persistence nil)
+(setq bm-restore-repository-on-load t)
+(require 'bm)
+(add-hook 'find-file-hooks 'bm-buffer-restore)
+(add-hook 'kill-buffer-hooks 'bm-buffer-save)
+(add-hook 'after-save-hook 'bm-buffer-save)
+(add-hook 'after-revert-hook 'bm-buffer-restore)
+(add-hook 'vc-before-checkin-hook 'bm-buffer-save)
+(global-set-key (kbd "M-SPC") 'bm-toggle)
+(global-set-key (kbd "M-[") 'bm-previous)
+(global-set-key (kbd "M-]") 'bm-next)
 
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
