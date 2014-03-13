@@ -63,6 +63,11 @@
 ;; ------------------------------------------------------------------------
 ;; @ mode
 ;; ------------------------------------------------------------------------
+;; @ emmet-mode
+
+(require 'emmet-mode)
+
+;; ------------------------------------------------------------------------
 ;; @ ruby-mode
 
 (autoload 'ruby-mode "ruby-mode"
@@ -179,7 +184,33 @@
 
 (require 'sequential-command-config)
 (sequential-command-setup-keys)
-         
+
+;; ------------------------------------------------------------------------
+;; @ uniquify.el
+
+(require 'uniquify)
+;; filename<dir> 形式のバッファ名にする
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+;; *で囲まれたバッファ名は対象外にする
+(setq uniquify-ignore-buffers-re "*[^*]+*")
+
+;; ------------------------------------------------------------------------
+;; @ tempbuf.el
+
+(require 'tempbuf)
+;; ファイルを開いたら自動的にtempbufを有効にする
+(add-hook 'find-file-hooks 'turn-on-tempbuf-mode)
+;; diredバッファに対してtempbufを有効にする
+(add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
+
+
+;; ------------------------------------------------------------------------
+;; @ auto-save-buffers.el
+
+(require 'auto-save-buffers)
+;; アイドル15秒で保存
+(run-with-idle-timer 15 t 'auto-save-buffers)
+
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
 
@@ -259,12 +290,6 @@
                (local-set-key (kbd "E") (smartchr '("E" "=" "==" " == ")))
                )))
 
-(add-hook 'rhtml-mode-hook
-          '(lambda ()
-             (progn
-               (local-set-key (kbd "<") (smartchr '("< " "<%= `!!' %>")))
-               )))
-
 ;; ------------------------------------------------------------------------
 ;; @ wgrep.el
 
@@ -274,6 +299,8 @@
 ;; @ wdired.el
 
 (require 'wdired nil t)
+;; diredバッファで r を押すとwdiredを起動する
+(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 
 ;; ------------------------------------------------------------------------
 ;; @ popwin.el
@@ -397,7 +424,8 @@
 (global-set-key (kbd "C-x f") 'ido-find-file-other-window)
 
 (require 'rinari)
-
+(add-hook 'rhtml-mode-hook
+              (lambda () (rinari-launch)))
 ;; ------------------------------------------------------------------------
 ;; @ rhtml-mode.el
 
