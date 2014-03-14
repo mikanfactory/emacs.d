@@ -1,4 +1,4 @@
-;; @ general
+;; @ General
 ;; ------------------------------------------------------------------------
 
 ;; パスの設定
@@ -60,6 +60,17 @@
 (transient-mark-mode t)
 (set-face-background 'region "Blue")
 
+;; emacsclientの設定
+;; CUIで使う
+;; (server-start)
+;; (defun iconify-emacs-when-server-is-done ()
+;;   (unless server-clients (iconify-frame)))
+;; ;; 編集が終了したらEmacsをアイコン化する
+;; ;; (add-hook 'server-done-hook 'iconify-emacs-when-server-is-done)
+;; ;; C-x C-c に割り当てる
+;; (global-set-key (kbd "C-x C-c") 'server-edit)
+;; (defalias 'exit 'save-buffer-kill-emacs)
+
 ;; ------------------------------------------------------------------------
 ;; @ mode
 ;; ------------------------------------------------------------------------
@@ -104,6 +115,35 @@
 (setq scheme-program-name "gosh")
 
 ;; ------------------------------------------------------------------------
+;; @ org-mode
+
+(require 'org)
+(defun org-insert-upheading (arg)
+;; 1レベル上の見出しを入力する
+  (interactive "P")
+  (org-insert-heading arg)
+  (cond ((org-on-heading-p) (org-do-promote))
+        ((org-at-item-p) (org-indent-item -1))))
+(defun org-insert-heading-dwim (arg)
+;; 現在と同じレベルの見出しを入力する      
+;; C-uをつけると1レベル上、 C-u C-u をつけると1レベル下の見出しを入力する
+  (interactive "p")
+  (case arg
+    (4  (org-insert-subheading nil))
+    (16 (org-insert-upheading  nil))
+    (t  (org-insert-heading    nil))))
+(define-key org-mode-map (kbd "<C-return>") 'org-insert-heading-dwim)
+
+;; メール
+(add-hook 'mail-mode-hook 'turn-on-orgtbl)
+
+;; ToDo
+(setq org-use-fast-todo-selection t)
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "STARTED(s)" "WAITING(w)" "|" "DONE(x)" "CANCEL(c)")
+        (sequence "APPT(a)" "|" "DONE(x)" "CANCEL(x)")))
+
+;; ------------------------------------------------------------------------
 ;; @ modeline
 
 ;; モードラインに行番号表示
@@ -140,7 +180,9 @@
 (global-set-key (kbd "C-/") 'undo)
 (global-set-key (kbd "C-x C-_") 'redo)
 (global-set-key (kbd "M-s") 'goto-line)
-(global-set-key (kbd "M-:") 'dabbrev-expand) 
+(global-set-key (kbd "M-:") 'dabbrev-expand)
+(global-set-key (kbd "M-i") 'imenu)
+
 
 ;; ------------------------------------------------------------------------
 ;; @ elisp
@@ -237,6 +279,13 @@
 (global-set-key (kbd "M-SPC") 'bm-toggle)
 (global-set-key (kbd "M-[") 'bm-previous)
 (global-set-key (kbd "M-]") 'bm-next)
+
+;; ;; ------------------------------------------------------------------------
+;; ;; @ bufhistory.el
+
+;; GUIなら使える
+;; (require 'bufhistory)
+;; (bufhistory-mode 1)
 
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
@@ -335,16 +384,16 @@
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
-(push '("*Compile log*" :height 0.5) popwin:special-display-config)
-(push '("*Compile-Log*" :height 0.5) popwin:special-display-config)
-(push '("*Kill Ring*" :height 0.5) popwin:special-display-config)
-(push '("*anything*" :height 0.5) popwin:special-display-config)
-(push '("*anything auto install*" :height 0.5) popwin:special-display-config)
-(push '("*Backtrace*" :height 0.5) popwin:special-display-config)
-(push '("*Warnigs*" :height 0.5) popwin:special-display-config)
-(push '("*Completions*" :height 0.5) popwin:special-display-config)
-(push '("*Message*" :height 0.5) popwin:special-display-config)
-(push '("*undo-tree*" :height 0.5) popwin:special-display-config)
+(push '("*Compile log*" :height 0.4) popwin:special-display-config)
+(push '("*Compile-Log*" :height 0.4) popwin:special-display-config)
+(push '("*Kill Ring*" :height 0.4) popwin:special-display-config)
+(push '("*anything*" :height 0.4) popwin:special-display-config)
+(push '("*anything auto install*" :height 0.4) popwin:special-display-config)
+(push '("*Backtrace*" :height 0.4) popwin:special-display-config)
+(push '("*Warnigs*" :height 0.4) popwin:special-display-config)
+(push '("*Completions*" :height 0.4) popwin:special-display-config)
+(push '("*Message*" :height 0.4) popwin:special-display-config)
+(push '("*undo-tree*" :height 0.4) popwin:special-display-config)
 ;; (push '(dired-mode :position top) popwin:special-display-config)
 
 ;; ------------------------------------------------------------------------
@@ -460,5 +509,3 @@
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
 (add-hook 'rhtml-mode-hook
           (lambda () (rinari-launch)))
-
-
