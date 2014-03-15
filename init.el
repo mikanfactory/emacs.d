@@ -115,6 +115,13 @@
 (setq scheme-program-name "gosh")
 
 ;; ------------------------------------------------------------------------
+;; @ arduino-mode
+
+(require 'arduino-mode)
+(setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
+(autoload 'arduino-mode "arduino-mode" "Arduino editing mode.")
+
+;; ------------------------------------------------------------------------
 ;; @ org-mode
 
 (require 'org)
@@ -353,6 +360,12 @@
 (setq undo-no-redo t)
 (setq undo-limit 60000)
 (setq undo-strong-limit 600000)
+
+;; ------------------------------------------------------------------------
+;; @ pbcopy.el
+
+(require 'pbcopy)
+(turn-on-pbcopy)
 
 ;; ------------------------------------------------------------------------
 ;; @ smartchr.el

@@ -3,10 +3,22 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        anything-execute-extended-command
+        anything-exit-minibuffer
+        forward-sentence
+        mc/mark-all-in-region
+        org-force-self-insert
+        org-forward-sentence
+        org-self-insert-command
+        org-seq-end
+        org-seq-home
+        ruby-end-space
+        seq-end
+        seq-home
+        yas-expand
         ))
 
 (setq mc/cmds-to-run-once
       '(
-        seq-end
-        seq-home
+        ido-dired
         ))
