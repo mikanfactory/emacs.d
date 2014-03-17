@@ -149,10 +149,10 @@
 (require 'key-chord)
 (setq key-chord-two-keys-delay 0.04)    ;許容範囲は0.04秒
 (key-chord-mode 1)
-(key-chord-define-global "jk" 'org-remember)
+(key-chord-define-global "io" 'org-remember)
 
-;; org-remember
 (org-remember-insinuate)
+;; org-remember
 (setq org-directory "~/memo/")
 (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
 (setq org-remember-templates
@@ -297,12 +297,12 @@
 (global-set-key (kbd "M-[") 'bm-previous)
 (global-set-key (kbd "M-]") 'bm-next)
 
-;; ;; ------------------------------------------------------------------------
-;; ;; @ bufhistory.el
+;; ------------------------------------------------------------------------
+;; @ open-junk-file.el
 
-;; GUIなら使える
-;; (require 'bufhistory)
-;; (bufhistory-mode 1)
+(require 'open-junk-file)
+(setq open-junk-file-format "~/memo/junk/%Y-%m-%d-%H%M%S.")
+(key-chord-define-global "jk" 'open-junk-file)
 
 ;; ------------------------------------------------------------------------
 ;; @ anything.el
