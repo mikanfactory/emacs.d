@@ -10,7 +10,7 @@
 (color-theme-initialize)
 (setq custom-theme-load-path nil)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
-(load-theme 'monokai t)
+(load-theme 'monokai t)                 
 
 (global-linum-mode t)                   ;; 行番号を常に表示する
 (setq-default tab-width 2)              ;; インデントの深さを2にする
@@ -60,23 +60,25 @@
 (transient-mark-mode t)
 (set-face-background 'region "Blue")
 
-;; emacsclientの設定
-;; CUIで使う
-;; (server-start)
-;; (defun iconify-emacs-when-server-is-done ()
-;;   (unless server-clients (iconify-frame)))
-;; ;; 編集が終了したらEmacsをアイコン化する
-;; ;; (add-hook 'server-done-hook 'iconify-emacs-when-server-is-done)
-;; ;; C-x C-c に割り当てる
-;; (global-set-key (kbd "C-x C-c") 'server-edit)
-;; (defalias 'exit 'save-buffer-kill-emacs)
-
 ;; ------------------------------------------------------------------------
 ;; @ mode
 ;; ------------------------------------------------------------------------
 ;; @ emmet-mode
 
 (require 'emmet-mode)
+;; ------------------------------------------------------------------------
+;; @ scss-mode
+
+(require 'scss-mode)
+(add-to-list 'auto-mode-alist '("\\.scss$" . scss-mode))
+
+(defun scss-custom ()
+  "scss-mode-hook"
+  (and
+   (set (make-local-variable 'css-indent-offset) 2)
+   (set (make-local-variable 'scss-compile-at-save) nil)))
+(add-hook 'scss-mode-hook
+          '(lambda() (scss-custom)))
 
 ;; ------------------------------------------------------------------------
 ;; @ ruby-mode
@@ -122,24 +124,16 @@
 (autoload 'arduino-mode "arduino-mode" "Arduino editing mode.")
 
 ;; ------------------------------------------------------------------------
-;; @ org-mode
+;; @ org-mode, key-chord
 
 (require 'org)
-(defun org-insert-upheading (arg)
-;; 1レベル上の見出しを入力する
-  (interactive "P")
-  (org-insert-heading arg)
-  (cond ((org-on-heading-p) (org-do-promote))
-        ((org-at-item-p) (org-indent-item -1))))
-(defun org-insert-heading-dwim (arg)
-;; 現在と同じレベルの見出しを入力する      
-;; C-uをつけると1レベル上、 C-u C-u をつけると1レベル下の見出しを入力する
-  (interactive "p")
-  (case arg
-    (4  (org-insert-subheading nil))
-    (16 (org-insert-upheading  nil))
-    (t  (org-insert-heading    nil))))
-(define-key org-mode-map (kbd "<C-return>") 'org-insert-heading-dwim)
+(add-hook 'org-mode-hook
+          '(lambda() (org-src-fontify-buffer)))
+
+;; ソースコードから実行できる
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t) (ruby . t)))
 
 ;; メール
 (add-hook 'mail-mode-hook 'turn-on-orgtbl)
@@ -149,6 +143,22 @@
 (setq org-todo-keywords
       '((sequence "TODO(t)" "STARTED(s)" "WAITING(w)" "|" "DONE(x)" "CANCEL(c)")
         (sequence "APPT(a)" "|" "DONE(x)" "CANCEL(x)")))
+
+
+;; key-chord.el
+(require 'key-chord)
+(setq key-chord-two-keys-delay 0.04)    ;許容範囲は0.04秒
+(key-chord-mode 1)
+(key-chord-define-global "jk" 'org-remember)
+
+;; org-remember
+(org-remember-insinuate)
+(setq org-directory "~/memo/")
+(setq org-default-notes-file (expand-file-name "memo.org" org-directory))
+(setq org-remember-templates
+      '(("Note" ?n "** %?\n %i\n %a\n %t" nil "Inbox")
+        ("ToDo" ?t "** TODO %?\n %i\n %a\n %t" nil "Inbox")))
+
 
 ;; ------------------------------------------------------------------------
 ;; @ modeline
@@ -397,11 +407,8 @@
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
-(push '("*Compile log*" :height 0.4) popwin:special-display-config)
-(push '("*Compile-Log*" :height 0.4) popwin:special-display-config)
 (push '("*Kill Ring*" :height 0.4) popwin:special-display-config)
 (push '("*anything*" :height 0.4) popwin:special-display-config)
-(push '("*anything auto install*" :height 0.4) popwin:special-display-config)
 (push '("*Backtrace*" :height 0.4) popwin:special-display-config)
 (push '("*Warnigs*" :height 0.4) popwin:special-display-config)
 (push '("*Completions*" :height 0.4) popwin:special-display-config)
