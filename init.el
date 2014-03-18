@@ -91,7 +91,7 @@
 (global-set-key (kbd "C-x C-_") 'redo)
 (global-set-key (kbd "M-s") 'goto-line)
 (global-set-key (kbd "M-:") 'dabbrev-expand)
-(global-set-key (kbd "M-i") 'imenu)
+(global-set-key (kbd "M-i") 'imenu)     
 
 ;; (defun ask-before-exit ()
 ;;   (if ))
@@ -421,6 +421,7 @@
 (require 'wdired nil t)
 ;; diredバッファで r を押すとwdiredを起動する
 (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
+(define-key dired-mode-map "\C-t" 'other-window)
 
 ;; ----------------------------------------------------------------
 ;; @ popwin.le
@@ -522,9 +523,6 @@
 ;; If you enable global minor mode
 (global-git-gutter-mode t)
 
-;; If you enable git-gutter-mode for some modes
-(add-hook 'ruby-mode-hook 'git-gutter-mode)
-
 (global-set-key (kbd "C-c C-t") 'git-gutter:toggle)
 (global-set-key (kbd "C-c v h") 'git-gutter:popup-hunk)
 
@@ -552,6 +550,8 @@
              (electric-indent-mode t)
              (electric-layout-mode t)))
 
+(defun ruby-mode-set-encoding () ())
+
 ;; ----------------------------------------------------------------
 ;; @ rcodetools.el
 
@@ -559,7 +559,7 @@
 (define-key ruby-mode-map (kbd "C-c C-d") 'xmp)
 
 ;; ----------------------------------------------------------------
-;; @ ido.el rinari.el
+;; @ ido.el 
 
 (require 'ido)
 (ido-mode t)
@@ -569,6 +569,9 @@
 (when (boundp 'confirm-nonexistent-file-or-buffer)
   (setq confirm-nonexistent-file-or-buffer nil))
 (global-set-key (kbd "C-x f") 'ido-find-file-other-window)
+
+;; ----------------------------------------------------------------
+;; @ rinari.el
 
 (require 'rinari)
 (add-hook 'ruby-mode-hook
