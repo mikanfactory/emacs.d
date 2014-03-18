@@ -136,6 +136,7 @@
 ;; @ emmet-mode
 
 (require 'emmet-mode)
+
 ;; ----------------------------------------------------------------
 ;; @ scss-mode
 
@@ -508,6 +509,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/elisp/magit")
 (require 'magit)
+(set-variable 'magit-emacsclient-executable "/usr/local/Cellar/emacs/24.3/bin/emacsclient")
 
 ;; ----------------------------------------------------------------
 ;; @ bufhistory.el
