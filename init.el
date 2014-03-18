@@ -515,6 +515,24 @@
 (bufhistory-mode 1)
 
 ;; ----------------------------------------------------------------
+;; @ git-gutter-fringe
+
+(require 'git-gutter-fringe)
+
+;; If you enable global minor mode
+(global-git-gutter-mode t)
+
+;; If you enable git-gutter-mode for some modes
+(add-hook 'ruby-mode-hook 'git-gutter-mode)
+
+(global-set-key (kbd "C-c C-t") 'git-gutter:toggle)
+(global-set-key (kbd "C-c v h") 'git-gutter:popup-hunk)
+
+;; Jump to next/previous hunk
+(global-set-key (kbd "C-c p") 'git-gutter:previous-hunk)
+(global-set-key (kbd "C-c n") 'git-gutter:next-hunk)
+
+;; ----------------------------------------------------------------
 ;; @ Ruby on Rails
 ;; ----------------------------------------------------------------
 ;; @ ruby-block.el
