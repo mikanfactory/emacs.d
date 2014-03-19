@@ -79,23 +79,29 @@
 ;; ツールバーを使わない
 (tool-bar-mode 0)
 
+;; ウィンドウの切り替え
+(defun other-window-or-split (val)
+  (interactive)
+  (when (one-window-p)
+    (split-window-vertically) 
+  )
+  (other-window val))
+
+(global-set-key (kbd "<C-tab>") (lambda () (interactive) (other-window-or-split 1)))
+(global-set-key (kbd "<C-S-tab>") (lambda () (interactive) (other-window-or-split -1)))
+
 ;; ----------------------------------------------------------------
 ;; @ key bind
 
 (keyboard-translate ?\C-h ?\C-?)
 (global-set-key (kbd "C-m") 'newline-and-indent)
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines)
-(global-set-key (kbd "C-;") 'comment-dwim) ;Can't use on terminal
-(global-set-key (kbd "C-t") 'other-window)
+(global-set-key (kbd "C-;") 'comment-dwim) 
 (global-set-key (kbd "C-/") 'undo)
 (global-set-key (kbd "C-x C-_") 'redo)
 (global-set-key (kbd "M-s") 'goto-line)
 (global-set-key (kbd "M-:") 'dabbrev-expand)
 (global-set-key (kbd "M-i") 'imenu)     
-
-;; (defun ask-before-exit ()
-;;   (if ))
-;; (global-unset-key (kbd "C-z"))
 
 ;; key-chord.el
 (require 'key-chord)
@@ -366,6 +372,7 @@
 
 (when (require 'recentf nil t)
   (setq recentf-max-saved-items 2000)
+  (setq recentf-exclude '(".recentf"))
   (setq recentf-auto-cleanup 10)
   (setq recentf-auto-save-timer
         (run-with-idle-timer 30 t 'recentf-save-list))
@@ -417,12 +424,26 @@
 (require 'wgrep nil t)
 
 ;; ----------------------------------------------------------------
+;; @ ag.el wgrep_ag.el
+
+(require 'ag)
+(custom-set-variables
+ '(ag-highlight-search t)
+ '(ag-reuse-window 'nil) 
+ '(ag-reuse-buffers 'nil))
+
+(require 'wgrep-ag)
+(autoload 'wgrep-ag-setup "wgrep-ag")
+(add-hook 'ag-mode-hook 'wgrep-ag-setup)
+(define-key ag-mode-map (kbd "r") 'wgrep-change-to-wgrep-mode)
+
+;; ----------------------------------------------------------------
 ;; @ wdired.el
 
 (require 'wdired nil t)
 ;; diredバッファで r を押すとwdiredを起動する
 (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
-(define-key dired-mode-map "\C-t" 'other-window)
+(define-key dired-mode-map (kbd "<C-tab>") 'other-window)
 
 ;; ----------------------------------------------------------------
 ;; @ popwin.le
