@@ -1,30 +1,30 @@
 ;; @ General
 ;; ----------------------------------------------------------------
 
-;; ãƒ‘ã‚¹ã®è¨­å®š
+;; ¥Ñ¥¹¤ÎÀßÄê
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
-;; ç”»é¢ã®è¨­å®š
-(setq inhibit-startup-message t)        ;; èµ·å‹•ç”»é¢ã‚’è¡¨ç¤ºã—ãªã„
+;; ²èÌÌ¤ÎÀßÄê
+(setq inhibit-startup-message t)        ;; µ¯Æ°²èÌÌ¤òÉ½¼¨¤·¤Ê¤¤
 (require 'color-theme)
 (color-theme-initialize)
 (setq custom-theme-load-path nil)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
 (load-theme 'monokai t)                 
 
-(global-linum-mode t)                   ;; è¡Œç•ªå·ã‚’å¸¸ã«è¡¨ç¤ºã™ã‚‹
-(setq-default tab-width 2)              ;; ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆã®æ·±ã•ã‚’2ã«ã™ã‚‹
-(setq-default indent-tabs-mode nil)     ;; ã‚¿ãƒ–ã‚’ã‚¹ãƒšãƒ¼ã‚¹ã§æ‰±ã†
+(global-linum-mode t)                   ;; ¹ÔÈÖ¹æ¤ò¾ï¤ËÉ½¼¨¤¹¤ë
+(setq-default tab-width 2)              ;; ¥¤¥ó¥Ç¥ó¥È¤Î¿¼¤µ¤ò2¤Ë¤¹¤ë
+(setq-default indent-tabs-mode nil)     ;; ¥¿¥Ö¤ò¥¹¥Ú¡¼¥¹¤Ç°·¤¦
 
-;; æ–‡å­—ã‚³ãƒ¼ãƒ‰ã®æŒ‡å®š
+;; Ê¸»ú¥³¡¼¥É¤Î»ØÄê
 (set-language-environment "Japanese")
 (prefer-coding-system 'utf-8)
 
-;; ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã‹ã‚‰ã®æ–‡å­—åŒ–ã‘å¯¾ç­–
+;; ¥¯¥ê¥Ã¥×¥Ü¡¼¥É¤«¤é¤ÎÊ¸»ú²½¤±ÂĞºö
 (set-clipboard-coding-system 'utf-8)
 (setq x-select-enable-clipboard t)
 
-;; ãƒ•ã‚©ãƒ³ãƒˆ
+;; ¥Õ¥©¥ó¥È
 (set-face-attribute 'default nil
                     :family "ricty"
                     :height 165)
@@ -32,29 +32,29 @@
  nil 'japanese-jisx0208
  (font-spec :family "ricty"))
 
-;;; *.~ ã¨ã‹ã®ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œã‚‰ãªã„
+;;; *.~ ¤È¤«¤Î¥Ğ¥Ã¥¯¥¢¥Ã¥×¥Õ¥¡¥¤¥ë¤òºî¤é¤Ê¤¤
 (setq make-backup-files nil)
-;;; .#* ã¨ã‹ã®ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œã‚‰ãªã„
+;;; .#* ¤È¤«¤Î¥Ğ¥Ã¥¯¥¢¥Ã¥×¥Õ¥¡¥¤¥ë¤òºî¤é¤Ê¤¤
 (setq auto-save-default nil)
 
-;; yes or noã‚’y or n
+;; yes or no¤òy or n
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; ãƒ•ã‚¡ã‚¤ãƒ«ãŒ #! ã‹ã‚‰å§‹ã¾ã‚‹å ´åˆã€+xã‚’ä»˜ã‘ã¦ä¿å­˜ã™ã‚‹
+;; ¥Õ¥¡¥¤¥ë¤¬ #! ¤«¤é»Ï¤Ş¤ë¾ì¹ç¡¢+x¤òÉÕ¤±¤ÆÊİÂ¸¤¹¤ë
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
 
-;; fileåã®è£œå®Œã§å¤§æ–‡å­—å°æ–‡å­—ã‚’åŒºåˆ¥ã—ãªã„
+;; fileÌ¾¤ÎÊä´°¤ÇÂçÊ¸»ú¾®Ê¸»ú¤ò¶èÊÌ¤·¤Ê¤¤
 (setq completion-ignore-case t)
 
-;; ãƒãƒƒãƒ•ã‚¡ã®è‡ªå‹•èª­ã¿è¾¼ã¿
+;; ¥Ğ¥Ã¥Õ¥¡¤Î¼«Æ°ÆÉ¤ß¹ş¤ß
 (global-auto-revert-mode 1)
 
-;; åŒåãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒãƒ•ã‚¡åã®è­˜åˆ¥æ–‡å­—åˆ—ã‚’å¤‰æ›´ã™ã‚‹
+;; Æ±Ì¾¥Õ¥¡¥¤¥ë¤Î¥Ğ¥Ã¥Õ¥¡Ì¾¤Î¼±ÊÌÊ¸»úÎó¤òÊÑ¹¹¤¹¤ë
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-;; ç¾åœ¨è¡Œã®ãƒã‚¤ãƒ©ã‚¤ãƒˆ
+;; ¸½ºß¹Ô¤Î¥Ï¥¤¥é¥¤¥È
 (defface hlline-face
   '((((class color)
       (background dark))
@@ -68,18 +68,18 @@
 (setq hl-line-face 'hlline-face)
 (global-hl-line-mode)
 
-;; ãƒªãƒ¼ã‚¸ãƒ§ãƒ³ã®è‰²ã‚’è¨­å®š
+;; ¥ê¡¼¥¸¥ç¥ó¤Î¿§¤òÀßÄê
 (transient-mark-mode t)
 (set-face-background 'region "Blue")
 
-;; ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼ã‚’ä½¿ã‚ãªã„
+;; ¥¹¥¯¥í¡¼¥ë¥Ğ¡¼¤ò»È¤ï¤Ê¤¤
 (toggle-scroll-bar nil)
-;; ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼ã‚’ä½¿ã‚ãªã„
+;; ¥á¥Ë¥å¡¼¥Ğ¡¼¤ò»È¤ï¤Ê¤¤
 (menu-bar-mode 0)
-;; ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚’ä½¿ã‚ãªã„
+;; ¥Ä¡¼¥ë¥Ğ¡¼¤ò»È¤ï¤Ê¤¤
 (tool-bar-mode 0)
 
-;; ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®åˆ‡ã‚Šæ›¿ãˆ
+;; ¥¦¥£¥ó¥É¥¦¤ÎÀÚ¤êÂØ¤¨
 (defun other-window-or-split (val)
   (interactive)
   (when (one-window-p)
@@ -135,19 +135,19 @@
 
 ;; key-chord
 (require 'key-chord)
-(setq key-chord-two-keys-delay 0.04)    ;è¨±å®¹ç¯„å›²ã¯0.04ç§’
+(setq key-chord-two-keys-delay 0.04)    ;µöÍÆÈÏ°Ï¤Ï0.04ÉÃ
 (key-chord-mode 1)
 
 ;; ----------------------------------------------------------------
 ;; @ modeline
 ;; ----------------------------------------------------------------
 
-;; ãƒ¢ãƒ¼ãƒ‰ãƒ©ã‚¤ãƒ³ã«è¡Œç•ªå·è¡¨ç¤º
+;; ¥â¡¼¥É¥é¥¤¥ó¤Ë¹ÔÈÖ¹æÉ½¼¨
 (line-number-mode t)
-;; ãƒ¢ãƒ¼ãƒ‰ãƒ©ã‚¤ãƒ³ã«åˆ—ç•ªå·è¡¨ç¤º
+;; ¥â¡¼¥É¥é¥¤¥ó¤ËÎóÈÖ¹æÉ½¼¨
 (column-number-mode t)
 
-;; ãƒ¢ãƒ¼ãƒ‰ãƒ©ã‚¤ãƒ³ã®å‰²åˆè¡¨ç¤ºã‚’ç·è¡Œæ•°è¡¨ç¤º
+;; ¥â¡¼¥É¥é¥¤¥ó¤Î³ä¹çÉ½¼¨¤òÁí¹Ô¿ôÉ½¼¨
 (defvar my-lines-page-mode t)
 (defvar my-mode-line-format)
 
@@ -172,6 +172,13 @@
 ;; @ emmet-mode
 
 (require 'emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook  'emmet-mode)
+(add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2)))
+(eval-afteroload "emmet-mode"
+  '(progn
+     ;; Preview is disable as default
+     (setq emmet-preview-default nil)))
 
 ;; ----------------------------------------------------------------
 ;; @ scss-mode
@@ -214,7 +221,7 @@
 
 (require 'ruby-block)
 (ruby-block-mode t)
-;; ãƒŸãƒ‹ãƒãƒƒãƒ•ã‚¡ã«è¡¨ç¤ºã—, ã‹ã¤, ã‚ªãƒ¼ãƒãƒ¬ã‚¤ã™ã‚‹.
+;; ¥ß¥Ë¥Ğ¥Ã¥Õ¥¡¤ËÉ½¼¨¤·, ¤«¤Ä, ¥ª¡¼¥Ğ¥ì¥¤¤¹¤ë.
 (setq ruby-block-highlight-toggle t)
 
 ;; ----------------------------------------------------------------
@@ -263,6 +270,7 @@
              (setq electric-pair-pairs '(
                                          (?\| . ?\|)
                                          ))))
+(require 'lispxmp)
 
 ;; ----------------------------------------------------------------
 ;; @ gosh-mode
@@ -285,12 +293,12 @@
 (define-key org-mode-map (kbd "<C-tab>") (lambda () (interactive) (other-window-or-split 1)))
 (define-key org-mode-map (kbd "<C-S-tab>") (lambda () (interactive) (other-window-or-split -1)))
 
-;; ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‹ã‚‰å®Ÿè¡Œã§ãã‚‹
+;; ¥½¡¼¥¹¥³¡¼¥É¤«¤é¼Â¹Ô¤Ç¤­¤ë
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t) (ruby . t)))
 
-;; ãƒ¡ãƒ¼ãƒ«
+;; ¥á¡¼¥ë
 (add-hook 'mail-mode-hook 'turn-on-orgtbl)
 
 ;; ToDo
@@ -320,43 +328,43 @@
          "~/.emacs.d/elisp/ac-dict")
   (ac-config-default))
 
-;; C-n/C-p ã§è£œå®Œå€™è£œã‚’é¸æŠ
+;; C-n/C-p ¤ÇÊä´°¸õÊä¤òÁªÂò
 (setq ac-use-menu-map t)
-;; ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§è¨­å®šæ¸ˆã¿
+;; ¥Ç¥Õ¥©¥ë¥È¤ÇÀßÄêºÑ¤ß
 (define-key ac-menu-map "\C-n" 'ac-next)
 (define-key ac-menu-map "\C-p" 'ac-previous)
 
 ;; ;; ----------------------------------------------------------------
 ;; ;; @ auto-install
 
-;; ;; auto-installã®è¨­å®š
-;; ;; ã¡ã‚‡ã£ã¨é‡ã„ã®ã§ã€æ™®æ®µã¯å¤–ã—ã¦ãŠã
+;; ;; auto-install¤ÎÀßÄê
+;; ;; ¤Á¤ç¤Ã¤È½Å¤¤¤Î¤Ç¡¢ÉáÃÊ¤Ï³°¤·¤Æ¤ª¤¯
 ;; (when (require 'auto-install nil t)
-;;   ;; ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®šã™ã‚‹
-;;   ;; åˆæœŸå€¤ã¯ ~/.emacs.d/auto-install/
+;;   ;; ¥¤¥ó¥¹¥È¡¼¥ë¥Ç¥£¥ì¥¯¥È¥ê¤òÀßÄê¤¹¤ë
+;;   ;; ½é´üÃÍ¤Ï ~/.emacs.d/auto-install/
 ;;   (setq auto-install-directory "~/.emacs.d/elisp")
 
-;;   ;; EmacsWiki ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ elisp ã®åå‰ã‚’å–å¾—ã™ã‚‹
+;;   ;; EmacsWiki ¤ËÅĞÏ¿¤µ¤ì¤Æ¤¤¤ë elisp ¤ÎÌ¾Á°¤ò¼èÆÀ¤¹¤ë
 ;;   (auto-install-update-emacswiki-package-name t)
 
-;;   ;; å¿…è¦ã§ã‚ã‚Œã°ãƒ—ãƒ­ã‚­ã‚·ã®è¨­å®šã‚’è¡Œã†
+;;   ;; É¬Í×¤Ç¤¢¤ì¤Ğ¥×¥í¥­¥·¤ÎÀßÄê¤ò¹Ô¤¦
 ;;   ;; (setq url-proxy-services '(("http" . "localhost:8080")))
 
-;;   ;; install-elisp ã®é–¢æ•°ã‚’åˆ©ç”¨å¯èƒ½ã«ã™ã‚‹
+;;   ;; install-elisp ¤Î´Ø¿ô¤òÍøÍÑ²ÄÇ½¤Ë¤¹¤ë
 ;;   (auto-install-compatibility-setup))
 
 ;; ----------------------------------------------------------------
 ;; @ package
 
-;; MELPAã€Marmaladeã®è¨­å®š
-;; package.elã¯Emacs24ã«æ¨™æº–ã§å…¥ã£ã¦ã„ã‚‹
+;; MELPA¡¢Marmalade¤ÎÀßÄê
+;; package.el¤ÏEmacs24¤ËÉ¸½à¤ÇÆş¤Ã¤Æ¤¤¤ë
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 ;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
 (package-initialize)
 
-;; ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸æƒ…å ±ã®æ›´æ–°
+;; ¥Ñ¥Ã¥±¡¼¥¸¾ğÊó¤Î¹¹¿·
 (package-refresh-contents)
 
 ;; ----------------------------------------------------------------
@@ -369,25 +377,25 @@
 ;; @ uniquify
 
 (require 'uniquify)
-;; filename<dir> å½¢å¼ã®ãƒãƒƒãƒ•ã‚¡åã«ã™ã‚‹
+;; filename<dir> ·Á¼°¤Î¥Ğ¥Ã¥Õ¥¡Ì¾¤Ë¤¹¤ë
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-;; *ã§å›²ã¾ã‚ŒãŸãƒãƒƒãƒ•ã‚¡åã¯å¯¾è±¡å¤–ã«ã™ã‚‹
+;; *¤Ç°Ï¤Ş¤ì¤¿¥Ğ¥Ã¥Õ¥¡Ì¾¤ÏÂĞ¾İ³°¤Ë¤¹¤ë
 (setq uniquify-ignore-buffers-re "*[^*]+*")
 
 ;; ----------------------------------------------------------------
 ;; @ tempbuf
 
 (require 'tempbuf)
-;; ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã„ãŸã‚‰è‡ªå‹•çš„ã«tempbufã‚’æœ‰åŠ¹ã«ã™ã‚‹
+;; ¥Õ¥¡¥¤¥ë¤ò³«¤¤¤¿¤é¼«Æ°Åª¤Ëtempbuf¤òÍ­¸ú¤Ë¤¹¤ë
 (add-hook 'find-file-hooks 'turn-on-tempbuf-mode)
-;; diredãƒãƒƒãƒ•ã‚¡ã«å¯¾ã—ã¦tempbufã‚’æœ‰åŠ¹ã«ã™ã‚‹
+;; dired¥Ğ¥Ã¥Õ¥¡¤ËÂĞ¤·¤Ætempbuf¤òÍ­¸ú¤Ë¤¹¤ë
 (add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
 
 ;; ----------------------------------------------------------------
 ;; @ auto-save-buffers
 
 (require 'auto-save-buffers)
-;; ã‚¢ã‚¤ãƒ‰ãƒ«2ç§’ã§ä¿å­˜
+;; ¥¢¥¤¥É¥ë2ÉÃ¤ÇÊİÂ¸
 (run-with-idle-timer 2 t 'auto-save-buffers)
 
 ;; ----------------------------------------------------------------
@@ -463,16 +471,16 @@
         ))
 (yas-global-mode 1)
 
-;; å˜èªå±•é–‹ã‚­ãƒ¼ãƒã‚¤ãƒ³ãƒ‰
+;; Ã±¸ìÅ¸³«¥­¡¼¥Ğ¥¤¥ó¥É
 (custom-set-variables
  '(custom-safe-themes (quote ("73fe242ddbaf2b985689e6ec12e29fab2ecd59f765453ad0e93bc502e6e478d6" default)))
  '(yas-trigger-key "TAB"))
 
-;; æ—¢å­˜ã‚¹ãƒ‹ãƒšãƒƒãƒˆã‚’æŒ¿å…¥ã™ã‚‹
+;; ´ûÂ¸¥¹¥Ë¥Ú¥Ã¥È¤òÁŞÆş¤¹¤ë
 ;; (define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
-;; æ–°è¦ã‚¹ãƒ‹ãƒšãƒƒãƒˆã‚’ä½œæˆã™ã‚‹ãƒãƒƒãƒ•ã‚¡ã‚’ç”¨æ„ã™ã‚‹
+;; ¿·µ¬¥¹¥Ë¥Ú¥Ã¥È¤òºîÀ®¤¹¤ë¥Ğ¥Ã¥Õ¥¡¤òÍÑ°Õ¤¹¤ë
 (define-key yas-minor-mode-map (kbd "C-c i n") 'yas-new-snippet)
-;; æ—¢å­˜ã‚¹ãƒ‹ãƒšãƒƒãƒˆã‚’é–²è¦§ãƒ»ç·¨é›†ã™ã‚‹
+;; ´ûÂ¸¥¹¥Ë¥Ú¥Ã¥È¤ò±ÜÍ÷¡¦ÊÔ½¸¤¹¤ë
 (define-key yas-minor-mode-map (kbd "C-c i v") 'yas-visit-snippet-file)
 
 ;; ----------------------------------------------------------------
@@ -495,7 +503,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ undotree
-;; C-x u ã§èµ·å‹•
+;; C-x u ¤Çµ¯Æ°
 
 (when (require 'undo-tree nil t)
     (global-undo-tree-mode))
@@ -549,7 +557,7 @@
 ;; @ wdired
 
 (require 'wdired nil t)
-;; diredãƒãƒƒãƒ•ã‚¡ã§ r ã‚’æŠ¼ã™ã¨wdiredã‚’èµ·å‹•ã™ã‚‹
+;; dired¥Ğ¥Ã¥Õ¥¡¤Ç r ¤ò²¡¤¹¤Èwdired¤òµ¯Æ°¤¹¤ë
 (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 (define-key dired-mode-map (kbd "<C-tab>") 'other-window)
 
@@ -560,12 +568,13 @@
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
 (push '("*Kill Ring*" :height 0.4) popwin:special-display-config)
-(push '("*helm*" :height 0.4) popwin:special-display-config)
-(push '("*helm M-x*" :height 0.4) popwin:special-display-config)
-(push '("*helm lsgit*" :height 0.4) popwin:special-display-config)
-(push '("*helm complete*" :height 0.4) popwin:special-display-config)
-(push '("*helm for files*" :height 0.4) popwin:special-display-config)
-(push '("*helm kill ring*" :height 0.4) popwin:special-display-config)
+(push '("^\*helm .+\*$" :regexp t) popwin:special-display-config)
+;; (push '("*helm*" :height 0.4) popwin:special-display-config)
+;; (push '("*helm M-x*" :height 0.4) popwin:special-display-config)
+;; (push '("*helm lsgit*" :height 0.4) popwin:special-display-config)
+;; (push '("*helm complete*" :height 0.4) popwin:special-display-config)
+;; (push '("*helm for files*" :height 0.4) popwin:special-display-config)
+;; (push '("*helm kill ring*" :height 0.4) popwin:special-display-config)
 (push '("*Backtrace*" :height 0.4) popwin:special-display-config)
 (push '("*Buffer List*" :height 0.4) popwin:special-display-config)
 (push '("*Warnigs*" :height 0.4) popwin:special-display-config)
@@ -585,9 +594,9 @@
 ;; @ highlight-symbol
 
 (require 'highlight-symbol)
-(setq highlight-symbol-colors '("DarkOrange" "DodgerBlue1" "DeepPink1")) ;; ä½¿ã„ãŸã„è‰²ã‚’è¨­å®šã€repeatã—ã¦ãã‚Œã‚‹
+(setq highlight-symbol-colors '("DarkOrange" "DodgerBlue1" "DeepPink1")) ;; »È¤¤¤¿¤¤¿§¤òÀßÄê¡¢repeat¤·¤Æ¤¯¤ì¤ë
 
-;; é©å®œkeybindã®è¨­å®š
+;; Å¬µ¹keybind¤ÎÀßÄê
 (global-unset-key "\C-o")
 (global-set-key (kbd "C-o" ) 'highlight-symbol-at-point)
 (global-set-key (kbd "M-o") 'highlight-symbol-remove-all)
