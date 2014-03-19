@@ -83,12 +83,36 @@
 (defun other-window-or-split (val)
   (interactive)
   (when (one-window-p)
-    (split-window-vertically) 
+    (split-window-horizontally) 
   )
   (other-window val))
 
 (global-set-key (kbd "<C-tab>") (lambda () (interactive) (other-window-or-split 1)))
 (global-set-key (kbd "<C-S-tab>") (lambda () (interactive) (other-window-or-split -1)))
+
+;; Re-open read-only files as root automagically
+(defun th-rename-tramp-buffer ()
+  (when (file-remote-p (buffer-file-name))
+    (rename-buffer
+     (format "%s:%s"
+             (file-remote-p (buffer-file-name) 'method)
+             (buffer-name)))))
+
+(add-hook 'find-file-hook
+          'th-rename-tramp-buffer)
+
+(defadvice find-file (around th-find-file activate)
+  "Open FILENAME using tramp's sudo method if it's read-only."
+  (if (and (not (file-writable-p (ad-get-arg 0)))
+           (y-or-n-p (concat "File "
+                             (ad-get-arg 0)
+                             " is read-only.  Open it as root? ")))
+      (th-find-file-sudo (ad-get-arg 0))
+    ad-do-it))
+
+(defun th-find-file-sudo (file)
+  "Opens FILE with root privileges."
+  (set-buffer (find-file (concat "/sudo::" file))))
 
 ;; ----------------------------------------------------------------
 ;; @ key bind
@@ -101,7 +125,7 @@
 (global-set-key (kbd "C-x C-_") 'redo)
 (global-set-key (kbd "M-s") 'goto-line)
 (global-set-key (kbd "M-:") 'dabbrev-expand)
-(global-set-key (kbd "M-i") 'imenu)     
+(global-set-key (kbd "M-i") 'imenu)
 
 ;; key-chord.el
 (require 'key-chord)
@@ -160,6 +184,7 @@
 ;; ----------------------------------------------------------------
 ;; @ ruby-mode
 
+(add-to-list 'load-path "~/.emacs.d/elisp/ruby")
 (autoload 'ruby-mode "ruby-mode"
   "Mode for editing ruby source files" t)
 (setq auto-mode-alist
@@ -175,6 +200,51 @@
              (setq electric-pair-pairs '(
                                          (?\| . ?\|)
                                          ))))
+
+(defun ruby-mode-set-encoding () ())
+
+;; ----------------------------------------------------------------
+;; @ ruby-block.el
+
+(require 'ruby-block)
+(ruby-block-mode t)
+;; ミニバッファに表示し, かつ, オーバレイする.
+(setq ruby-block-highlight-toggle t)
+
+;; ----------------------------------------------------------------
+;; @ ruby-end.el
+
+(require 'ruby-end)
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (abbrev-mode 1)
+             (electric-pair-mode t)
+             (electric-indent-mode t)
+             (electric-layout-mode t)))
+
+;; ----------------------------------------------------------------
+;; @ rcodetools.el
+
+(require 'rcodetools)
+(define-key ruby-mode-map (kbd "C-c C-d") 'xmp)
+
+;; ----------------------------------------------------------------
+;; @ Ruby on Rails
+;; ----------------------------------------------------------------
+;; @ rinari.el
+
+(require 'rinari)
+(add-hook 'ruby-mode-hook
+          (lambda () (rinari-launch)))
+
+;; ----------------------------------------------------------------
+;; @ rhtml-mode.el
+
+(add-to-list 'load-path "~/.emacs.d/elisp/ruby/rhtml-mode")
+(require 'rhtml-mode)
+(add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
+(add-hook 'rhtml-mode-hook
+          (lambda () (rinari-launch)))
 
 ;; ----------------------------------------------------------------
 ;; @ elisp-mode
@@ -336,6 +406,7 @@
 ;; ----------------------------------------------------------------
 ;; @ anything.el
 
+(add-to-list 'load-path "~/.emacs.d/elisp/anything")
 (when (require 'anything-startup nil t)
   (global-set-key (kbd "C-x b") 'anything))
 
@@ -347,11 +418,9 @@
 ;; ----------------------------------------------------------------
 ;; @ yasnippet.el
 
-(add-to-list 'load-path "~/.emacs.d/elisp/yasnippet")
 (require 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"
-        "~/.emacs.d/elisp/yasnippet/snippets" 
         ))
 (yas-global-mode 1)
 
@@ -508,10 +577,10 @@
 (global-set-key (kbd "C-M-c") 'mc/edit-lines)
 (global-set-key (kbd "C-M-r") 'mc/mark-all-in-region)
 
-(global-unset-key "\C-l")
+(global-unset-key "\C-t")
 
-(smartrep-define-key global-map "C-l"
-  '(("C-l"      . 'mc/mark-next-like-this)
+(smartrep-define-key global-map "C-t"
+  '(("C-t"      . 'mc/mark-next-like-this)
     ("n"        . 'mc/mark-next-like-this)
     ("p"        . 'mc/mark-previous-like-this)
     ("m"        . 'mc/mark-more-like-this-extended)
@@ -554,34 +623,6 @@
 (global-set-key (kbd "C-c n") 'git-gutter:next-hunk)
 
 ;; ----------------------------------------------------------------
-;; @ Ruby on Rails
-;; ----------------------------------------------------------------
-;; @ ruby-block.el
-
-(require 'ruby-block)
-(ruby-block-mode t)
-;; ミニバッファに表示し, かつ, オーバレイする.
-(setq ruby-block-highlight-toggle t)
-
-;; ----------------------------------------------------------------
-;; @ ruby-end.el
-(require 'ruby-end)
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             (abbrev-mode 1)
-             (electric-pair-mode t)
-             (electric-indent-mode t)
-             (electric-layout-mode t)))
-
-(defun ruby-mode-set-encoding () ())
-
-;; ----------------------------------------------------------------
-;; @ rcodetools.el
-
-(require 'rcodetools)
-(define-key ruby-mode-map (kbd "C-c C-d") 'xmp)
-
-;; ----------------------------------------------------------------
 ;; @ ido.el 
 
 (require 'ido)
@@ -591,22 +632,7 @@
 (setq ido-create-new-buffer 'always)
 (when (boundp 'confirm-nonexistent-file-or-buffer)
   (setq confirm-nonexistent-file-or-buffer nil))
-(global-set-key (kbd "C-x f") 'ido-find-file-other-window)
 
-;; ----------------------------------------------------------------
-;; @ rinari.el
-
-(require 'rinari)
-(add-hook 'ruby-mode-hook
-          (lambda () (rinari-launch)))
-
-;; ----------------------------------------------------------------
-;; @ rhtml-mode.el
-
-(require 'rhtml-mode)
-(add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
-(add-hook 'rhtml-mode-hook
-          (lambda () (rinari-launch)))
 
 ;; ----------------------------------------------------------------
 ;; @ flycheck.el, flycheck-color-mode-line
@@ -620,30 +646,4 @@
 (smartrep-define-key
     global-map "M-g" '(("M-n" . 'flymake-goto-next-error)
                        ("M-p" . 'flymake-goto-prev-error)))
-
-;; ----------------------------------------------------------------
-;; @ Re-open read-only files as root automagically
-
-(defun th-rename-tramp-buffer ()
-  (when (file-remote-p (buffer-file-name))
-    (rename-buffer
-     (format "%s:%s"
-             (file-remote-p (buffer-file-name) 'method)
-             (buffer-name)))))
-
-(add-hook 'find-file-hook
-          'th-rename-tramp-buffer)
-
-(defadvice find-file (around th-find-file activate)
-  "Open FILENAME using tramp's sudo method if it's read-only."
-  (if (and (not (file-writable-p (ad-get-arg 0)))
-           (y-or-n-p (concat "File "
-                             (ad-get-arg 0)
-                             " is read-only.  Open it as root? ")))
-      (th-find-file-sudo (ad-get-arg 0))
-    ad-do-it))
-
-(defun th-find-file-sudo (file)
-  "Opens FILE with root privileges."
-  (set-buffer (find-file (concat "/sudo::" file))))
 
