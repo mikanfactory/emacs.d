@@ -4,7 +4,7 @@
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-remember-last-stored"
  (filename . "~/memo/memo.org")
- (front-context-string . "** TODO coding:u")
- (rear-context-string . " <2014-03-18 火>\n")
- (position . 1820))
+ (front-context-string . "** TODO bm\n   色\n")
+ (rear-context-string . "2014-03-19 Wed>\n")
+ (position . 1889))
 )

@@ -1,3 +1,4 @@
+;; ----------------------------------------------------------------
 ;; @ General
 ;; ----------------------------------------------------------------
 
@@ -122,14 +123,15 @@
 
 ;; ----------------------------------------------------------------
 ;; @ key bind
+;; ----------------------------------------------------------------
 
 (keyboard-translate ?\C-h ?\C-?)
 (global-set-key (kbd "C-m") 'newline-and-indent)
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines)
 (global-set-key (kbd "C-;") 'comment-dwim) 
 (global-set-key (kbd "C-/") 'undo)
-(global-set-key (kbd "C-x C-_") 'redo)
-(global-set-key (kbd "M-s") 'goto-line)
+(global-set-key (kbd "C-x C-/") 'redo)
+(global-set-key (kbd "C-c C-a") 'align-regexp)
 (global-set-key (kbd "M-:") 'dabbrev-expand)
 (global-set-key (kbd "M-i") 'imenu)
 
@@ -169,19 +171,22 @@
 ;; ----------------------------------------------------------------
 ;; @ mode
 ;; ----------------------------------------------------------------
+;; ----------------------------------------------------------------
 ;; @ emmet-mode
+;; ----------------------------------------------------------------
 
 (require 'emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook  'emmet-mode)
 (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2)))
-(eval-afteroload "emmet-mode"
+(eval-after-load "emmet-mode"
   '(progn
      ;; Preview is disable as default
      (setq emmet-preview-default nil)))
 
 ;; ----------------------------------------------------------------
 ;; @ scss-mode
+;; ----------------------------------------------------------------
 
 (require 'scss-mode)
 (add-to-list 'auto-mode-alist '("\\.scss$" . scss-mode))
@@ -196,13 +201,14 @@
 
 ;; ----------------------------------------------------------------
 ;; @ ruby-mode
-
+;; ----------------------------------------------------------------
 (add-to-list 'load-path "~/.emacs.d/elisp/ruby")
 (autoload 'ruby-mode "ruby-mode"
   "Mode for editing ruby source files" t)
 (setq auto-mode-alist
       (append '(("\\.rb$" . ruby-mode)) auto-mode-alist))
 (setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
+                                     ;; ----------------------------------------------------------------
                                      interpreter-mode-alist))
 (add-hook 'ruby-mode-hook
           '(lambda ()
@@ -213,11 +219,15 @@
              (setq electric-pair-pairs '(
                                          (?\| . ?\|)
                                          ))))
-
-(defun ruby-mode-set-encoding () ())
+;; (defun ruby-mode-set-encoding () ())
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (defadvice ruby-mode-set-encoding
+              (around ruby-mode-set-encoding-disable activate) nil)))
 
 ;; ----------------------------------------------------------------
 ;; @ ruby-block
+;; ----------------------------------------------------------------
 
 (require 'ruby-block)
 (ruby-block-mode t)
@@ -226,6 +236,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ ruby-end
+;; ----------------------------------------------------------------
 
 (require 'ruby-end)
 (add-hook 'ruby-mode-hook
@@ -237,6 +248,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ rcodetools
+;; ----------------------------------------------------------------
 
 (require 'rcodetools)
 (define-key ruby-mode-map (kbd "C-c C-d") 'xmp)
@@ -245,6 +257,7 @@
 ;; @ Ruby on Rails
 ;; ----------------------------------------------------------------
 ;; @ rinari
+;; ----------------------------------------------------------------
 
 (require 'rinari)
 (add-hook 'ruby-mode-hook
@@ -252,6 +265,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ rhtml-mode
+;; ----------------------------------------------------------------
 
 (add-to-list 'load-path "~/.emacs.d/elisp/ruby/rhtml-mode")
 (require 'rhtml-mode)
@@ -261,6 +275,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ elisp-mode
+;; ----------------------------------------------------------------
 
 (add-hook 'emacs-lisp-mode-hook
           '(lambda ()
@@ -274,11 +289,14 @@
 
 ;; ----------------------------------------------------------------
 ;; @ gosh-mode
+;; ----------------------------------------------------------------
 
 (setq scheme-program-name "gosh")
 
+
 ;; ----------------------------------------------------------------
 ;; @ arduino-mode
+;; ----------------------------------------------------------------
 
 (require 'arduino-mode)
 (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
@@ -286,6 +304,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ org-mode
+;; ----------------------------------------------------------------
 
 (require 'org)
 (add-hook 'org-mode-hook
@@ -309,7 +328,7 @@
 
 
 ;; org-remember
-(key-chord-define-global "io" 'org-remember)
+(key-chord-define-global "l;" 'org-remember)
 (org-remember-insinuate)
 (setq org-directory "~/memo/")
 (setq org-default-notes-file (expand-file-name "memo.org" org-directory))
@@ -320,7 +339,9 @@
 ;; ----------------------------------------------------------------
 ;; @ elisp
 ;; ----------------------------------------------------------------
+;; ----------------------------------------------------------------
 ;; @ auto-complete
+;; ----------------------------------------------------------------
 
 ;; auto-complete
 (when (require 'auto-complete-config nil t)
@@ -336,6 +357,7 @@
 
 ;; ;; ----------------------------------------------------------------
 ;; ;; @ auto-install
+;; ;; ----------------------------------------------------------------
 
 ;; ;; auto-installの設定
 ;; ;; ちょっと重いので、普段は外しておく
@@ -355,6 +377,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ package
+;; ----------------------------------------------------------------
 
 ;; MELPA、Marmaladeの設定
 ;; package.elはEmacs24に標準で入っている
@@ -369,12 +392,14 @@
 
 ;; ----------------------------------------------------------------
 ;; @ sequential-command
+;; ----------------------------------------------------------------
 
 (require 'sequential-command-config)
 (sequential-command-setup-keys)
 
 ;; ----------------------------------------------------------------
 ;; @ uniquify
+;; ----------------------------------------------------------------
 
 (require 'uniquify)
 ;; filename<dir> 形式のバッファ名にする
@@ -384,15 +409,20 @@
 
 ;; ----------------------------------------------------------------
 ;; @ tempbuf
+;; ----------------------------------------------------------------
 
 (require 'tempbuf)
 ;; ファイルを開いたら自動的にtempbufを有効にする
 (add-hook 'find-file-hooks 'turn-on-tempbuf-mode)
 ;; diredバッファに対してtempbufを有効にする
 (add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
+;; magitバッファに対してtempbufを有効にする
+(add-hook 'magit-status-mode-hook 'turn-on-tempbuf-mode)
+(add-hook 'magit-process-mode-hook 'turn-on-tempbuf-mode)
 
 ;; ----------------------------------------------------------------
 ;; @ auto-save-buffers
+;; ----------------------------------------------------------------
 
 (require 'auto-save-buffers)
 ;; アイドル2秒で保存
@@ -400,6 +430,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ bm
+;; ----------------------------------------------------------------
 
 (setq-default bm-buffer-persistence nil)
 (setq bm-restore-repository-on-load t)
@@ -415,25 +446,15 @@
 
 ;; ----------------------------------------------------------------
 ;; @ open-junk-file
+;; ----------------------------------------------------------------
 
 (require 'open-junk-file)
 (setq open-junk-file-format "~/memo/junk/%Y-%m-%d-%H%M%S.")
 (key-chord-define-global "jk" 'open-junk-file)
 
 ;; ----------------------------------------------------------------
-;; @ anything
-
-;; (add-to-list 'load-path "~/.emacs.d/elisp/anything")
-;; (when (require 'anything-startup nil t)
-;;   (global-set-key (kbd "C-x b") 'anything))
-
-;; ;;kill-ring 
-;; (setq kill-ring-max 20)
-;; (setq anything-kill-ring-threshold 5)
-;; (global-set-key "\M-y" 'anything-show-kill-ring)
-
-;; ----------------------------------------------------------------
 ;; @ helm, helm-ag, helm-c-yasnippet, helm-flycheck
+;; ----------------------------------------------------------------
 
 (add-to-list 'load-path "~/.emacs.d/elip/helm")
 (add-to-list 'load-path "~/.emacs.d/elip/helm/helm-ag")
@@ -447,12 +468,15 @@
 (require 'helm-c-yasnippet)
 (helm-descbinds-mode)
 
-(define-key global-map (kbd "M-x")   'helm-M-x)
-(define-key global-map (kbd "M-i")   'helm-imenu)
-(define-key global-map (kbd "C-x b") 'helm-for-files)
-(define-key global-map (kbd "M-y")   'helm-show-kill-ring)
+;; (define-key global-map (kbd "C-x C-f") 'helm-find-files)
+(define-key global-map (kbd "M-x")     'helm-M-x)
+(define-key global-map (kbd "M-i")     'helm-imenu)
+(define-key global-map (kbd "C-x b")   'helm-for-files)
+(define-key global-map (kbd "M-y")     'helm-show-kill-ring)
 (define-key global-map (kbd "C-x C-b") 'helm-ls-git-ls)
 (define-key global-map (kbd "C-c i i") 'helm-c-yas-complete)
+(define-key global-map (kbd "M-s")     'helm-ag)
+(define-key global-map (kbd "C-c f")   'helm-flycheck)
 
 ;; Emulate `kill-line' in helm minibuffer
 (setq helm-delete-minibuffer-contents-from-point t)
@@ -460,10 +484,36 @@
   "Emulate `kill-line' in helm minibuffer"
   (kill-new (buffer-substring (point) (field-end))))
 
+(defadvice helm-ff-kill-or-find-buffer-fname (around execute-only-if-exist activate)
+  "Execute command only if CANDIDATE exists"
+  (when (file-exists-p candidate)
+    ad-do-it))
+;; For find-file etc.
+(define-key helm-read-file-map (kbd "TAB")
+  'helm-execute-persistent-action)
+;; For helm-find-files etc.
+(define-key helm-find-files-map (kbd "TAB")
+  'helm-execute-persistent-action)
+
 (setq helm-buffer-max-length 50)
 
 ;; ----------------------------------------------------------------
+;; @ ido 
+;; ----------------------------------------------------------------
+
+;; find-file,kill-buffer,dired用に使う
+(require 'ido)
+(ido-mode t)
+(global-set-key (kbd "C-x C-f") 'ido-find-file)
+;; (setq ido-everywhere t)
+;; (setq ido-enable-flex-matching t)
+;; (setq ido-create-new-buffer 'always)
+;; (when (boundp 'confirm-nonexistent-file-or-buffer)
+;;   (setq confirm-nonexistent-file-or-buffer nil))
+
+;; ----------------------------------------------------------------
 ;; @ yasnippet
+;; ----------------------------------------------------------------
 
 (require 'yasnippet)
 (setq yas-snippet-dirs
@@ -485,6 +535,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ recentf
+;; ----------------------------------------------------------------
 
 (when (require 'recentf nil t)
   (setq recentf-max-saved-items 2000)
@@ -497,12 +548,14 @@
 
 ;; ----------------------------------------------------------------
 ;; @ undo-hist
+;; ----------------------------------------------------------------
 
 (when (require 'undohist nil t)
     (undohist-initialize))
 
 ;; ----------------------------------------------------------------
 ;; @ undotree
+;; ----------------------------------------------------------------
 ;; C-x u で起動
 
 (when (require 'undo-tree nil t)
@@ -510,6 +563,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ redo+
+;; ----------------------------------------------------------------
 
 (require 'redo+)
 (setq undo-no-redo t)
@@ -518,12 +572,15 @@
 
 ;; ----------------------------------------------------------------
 ;; @ pbcopy
+;; ----------------------------------------------------------------
 
-(require 'pbcopy)
-(turn-on-pbcopy)
+;; CUIでemacsを起動させるときに使う
+;; (require 'pbcopy)
+;; (turn-on-pbcopy)
 
 ;; ----------------------------------------------------------------
 ;; @ smartchr
+;; ----------------------------------------------------------------
 
 (require 'smartchr)
 (add-hook 'ruby-mode-hook
@@ -536,11 +593,13 @@
 
 ;; ----------------------------------------------------------------
 ;; @ wgrep
+;; ----------------------------------------------------------------
 
 (require 'wgrep nil t)
 
 ;; ----------------------------------------------------------------
 ;; @ ag, wgrep_ag
+;; ----------------------------------------------------------------
 
 (require 'ag)
 (custom-set-variables
@@ -555,6 +614,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ wdired
+;; ----------------------------------------------------------------
 
 (require 'wdired nil t)
 ;; diredバッファで r を押すとwdiredを起動する
@@ -563,35 +623,35 @@
 
 ;; ----------------------------------------------------------------
 ;; @ popwin.le
+;; ----------------------------------------------------------------
 
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
-(push '("*Kill Ring*" :height 0.4) popwin:special-display-config)
-(push '("^\*helm .+\*$" :regexp t) popwin:special-display-config)
-;; (push '("*helm*" :height 0.4) popwin:special-display-config)
-;; (push '("*helm M-x*" :height 0.4) popwin:special-display-config)
-;; (push '("*helm lsgit*" :height 0.4) popwin:special-display-config)
-;; (push '("*helm complete*" :height 0.4) popwin:special-display-config)
-;; (push '("*helm for files*" :height 0.4) popwin:special-display-config)
-;; (push '("*helm kill ring*" :height 0.4) popwin:special-display-config)
-(push '("*Backtrace*" :height 0.4) popwin:special-display-config)
+(push '("*Kill Ring*"   :height 0.4) popwin:special-display-config)
+(push '("*anything*"    :height 0.4) popwin:special-display-config)
+(push '("^\*helm .+\*$" :regexp t)   popwin:special-display-config)
+(push '("*helm-ag*"     :height 0.4) popwin:special-display-config)
+(push '("*Backtrace*"   :height 0.4) popwin:special-display-config)
 (push '("*Buffer List*" :height 0.4) popwin:special-display-config)
-(push '("*Warnigs*" :height 0.4) popwin:special-display-config)
+(push '("*Warnigs*"     :height 0.4) popwin:special-display-config)
 (push '("*Completions*" :height 0.4) popwin:special-display-config)
-(push '("*Message*" :height 0.4) popwin:special-display-config)
-(push '("*undo-tree*" :height 0.4) popwin:special-display-config)
+(push '("*Message*"     :height 0.4) popwin:special-display-config)
+(push '("*undo-tree*"   :height 0.4) popwin:special-display-config)
 
 (setq max-specpdl-size 6000)
+(setq max-lisp-eval-depth 1000)
 
 ;; ----------------------------------------------------------------
 ;; @ auto-heghlight-symbol
+;; ----------------------------------------------------------------
 
 (require 'auto-highlight-symbol)
 (global-auto-highlight-symbol-mode t)
 
 ;; ----------------------------------------------------------------
 ;; @ highlight-symbol
+;; ----------------------------------------------------------------
 
 (require 'highlight-symbol)
 (setq highlight-symbol-colors '("DarkOrange" "DodgerBlue1" "DeepPink1")) ;; 使いたい色を設定、repeatしてくれる
@@ -603,6 +663,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ anzu
+;; ----------------------------------------------------------------
 
 (require 'anzu)
 
@@ -615,6 +676,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ smartrep, expand-region, multiple-cursors
+;; ----------------------------------------------------------------
 
 (add-to-list 'load-path "~/.emacs.d/elisp/expand-region/")
 (add-to-list 'load-path "~/.emacs.d/elisp/multiple-cursors/")
@@ -632,10 +694,10 @@
 (global-set-key (kbd "C-M-c") 'mc/edit-lines)
 (global-set-key (kbd "C-M-r") 'mc/mark-all-in-region)
 
-(global-unset-key "\C-t")
+(global-unset-key "\C-l")
 
-(smartrep-define-key global-map "C-t"
-  '(("C-t"      . 'mc/mark-next-like-this)
+(smartrep-define-key global-map "C-l"
+  '(("C-l"      . 'mc/mark-next-like-this)
     ("n"        . 'mc/mark-next-like-this)
     ("p"        . 'mc/mark-previous-like-this)
     ("m"        . 'mc/mark-more-like-this-extended)
@@ -651,6 +713,7 @@
 
 ;; ----------------------------------------------------------------
 ;; @ magit
+;; ----------------------------------------------------------------
 
 (add-to-list 'load-path "~/.emacs.d/elisp/magit")
 (require 'magit)
@@ -659,12 +722,14 @@
 
 ;; ----------------------------------------------------------------
 ;; @ bufhistory
+;; ----------------------------------------------------------------
 
 ;; (require 'bufhistory)
 ;; (bufhistory-mode 1)
 
 ;; ----------------------------------------------------------------
 ;; @ git-gutter-fringe
+;; ----------------------------------------------------------------
 
 (require 'git-gutter-fringe)
 
@@ -679,18 +744,8 @@
 (global-set-key (kbd "C-c n") 'git-gutter:next-hunk)
 
 ;; ----------------------------------------------------------------
-;; @ ido 
-
-;; (require 'ido)
-;; (ido-mode t)
-;; (setq ido-everywhere t)
-;; (setq ido-enable-flex-matching t)
-;; (setq ido-create-new-buffer 'always)
-;; (when (boundp 'confirm-nonexistent-file-or-buffer)
-;;   (setq confirm-nonexistent-file-or-buffer nil))
-
-;; ----------------------------------------------------------------
 ;; @ flycheck, flycheck-color-mode-line
+;; ----------------------------------------------------------------
 
 (add-hook 'ruby-mode-hook 'flycheck-mode)
 

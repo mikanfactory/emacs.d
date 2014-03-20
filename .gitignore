@@ -10,4 +10,6 @@ undohist
 auto-save-list
 url
 el-get
+elpa
 .mc-lists.el
+ctags
