@@ -12,4 +12,6 @@ url
 el-get
 elpa
 .mc-lists.el
-ctags
+cags
+tramp
+bookmarks
