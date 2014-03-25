@@ -7,13 +7,16 @@
 
 ;; 画面の設定
 (setq inhibit-startup-message t)        ;; 起動画面を表示しない
-(require 'color-theme)
-(color-theme-initialize)
 (setq custom-theme-load-path nil)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
-(load-theme 'monokai t)                 
+(load-theme 'monokai t)
 
 (global-linum-mode t)                   ;; 行番号を常に表示する
+(setq linum-delay t)
+(setq linum-format "%3d ")
+(defadvice linum-schedule (around my-linum-schedule () activate)
+  (run-with-idle-timer 0.2 nil #'linum-update-current))
+
 (setq-default tab-width 2)              ;; インデントの深さを2にする
 (setq-default indent-tabs-mode nil)     ;; タブをスペースで扱う
 
@@ -84,8 +87,7 @@
 (defun other-window-or-split (val)
   (interactive)
   (when (one-window-p)
-    (split-window-horizontally) 
-  )
+    (split-window-horizontally))
   (other-window val))
 
 (global-set-key (kbd "<C-tab>") (lambda () (interactive) (other-window-or-split 1)))
@@ -115,20 +117,27 @@
   "Opens FILE with root privileges."
   (set-buffer (find-file (concat "/sudo::" file))))
 
-;;kill-ring 
+;;kill-ring
 (setq kill-ring-max 20)
 
 ;; wordwrap
 (setq-default word-wrap t)
+
+;; 最後に改行を入れる
+(setq require-final-newline t)
+
+;; 行末の空白を削除
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; ----------------------------------------------------------------
 ;; @ key bind
 ;; ----------------------------------------------------------------
 
 (keyboard-translate ?\C-h ?\C-?)
+(global-set-key (kbd "M-h") 'backward-kill-word)
 (global-set-key (kbd "C-m") 'newline-and-indent)
 (global-set-key (kbd "C-c l") 'toggle-truncate-lines)
-(global-set-key (kbd "C-;") 'comment-dwim) 
+(global-set-key (kbd "C-;") 'comment-dwim)
 (global-set-key (kbd "C-/") 'undo)
 (global-set-key (kbd "C-x C-/") 'redo)
 (global-set-key (kbd "C-c C-a") 'align-regexp)
@@ -207,8 +216,9 @@
   "Mode for editing ruby source files" t)
 (setq auto-mode-alist
       (append '(("\\.rb$" . ruby-mode)) auto-mode-alist))
+(setq auto-mode-alist
+      (append '(("\\.rake$" . ruby-mode)) auto-mode-alist))
 (setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
-                                     ;; ----------------------------------------------------------------
                                      interpreter-mode-alist))
 (add-hook 'ruby-mode-hook
           '(lambda ()
@@ -337,6 +347,14 @@
         ("ToDo" ?t "** TODO %?\n %i\n %a\n %t" nil "Inbox")))
 
 ;; ----------------------------------------------------------------
+;; @evil
+;; ----------------------------------------------------------------
+
+(add-to-list 'load-path "~/.emacs.d/elisp/evil")
+(require 'evil)
+;; (evil-mode 1)
+
+;; ----------------------------------------------------------------
 ;; @ elisp
 ;; ----------------------------------------------------------------
 ;; ----------------------------------------------------------------
@@ -355,9 +373,9 @@
 (define-key ac-menu-map "\C-n" 'ac-next)
 (define-key ac-menu-map "\C-p" 'ac-previous)
 
-;; ;; ----------------------------------------------------------------
-;; ;; @ auto-install
-;; ;; ----------------------------------------------------------------
+;; ----------------------------------------------------------------
+;; @ auto-install
+;; ----------------------------------------------------------------
 
 ;; ;; auto-installの設定
 ;; ;; ちょっと重いので、普段は外しておく
@@ -456,10 +474,10 @@
 ;; @ helm, helm-ag, helm-c-yasnippet, helm-flycheck
 ;; ----------------------------------------------------------------
 
-(add-to-list 'load-path "~/.emacs.d/elip/helm")
-(add-to-list 'load-path "~/.emacs.d/elip/helm/helm-ag")
-(add-to-list 'load-path "~/.emacs.d/elip/helm/helm-flycheck")
-(add-to-list 'load-path "~/.emacs.d/elip/helm/helm-c-yasnippet")
+(add-to-list 'load-path "~/.emacs.d/elisp/helm")
+(add-to-list 'load-path "~/.emacs.d/elisp/helm/helm-ag")
+(add-to-list 'load-path "~/.emacs.d/elisp/helm/helm-flycheck")
+(add-to-list 'load-path "~/.emacs.d/elisp/helm/helm-c-yasnippet")
 
 (require 'helm-config)
 (require 'helm-ls-git)
@@ -497,8 +515,10 @@
 
 (setq helm-buffer-max-length 50)
 
+(global-set-key (kbd "C-M-z") 'helm-resume)
+
 ;; ----------------------------------------------------------------
-;; @ ido 
+;; @ ido
 ;; ----------------------------------------------------------------
 
 ;; find-file,kill-buffer,dired用に使う
@@ -574,7 +594,7 @@
 ;; @ pbcopy
 ;; ----------------------------------------------------------------
 
-;; CUIでemacsを起動させるときに使う
+;; CUIでEMACSを起動させるときに使う
 ;; (require 'pbcopy)
 ;; (turn-on-pbcopy)
 
@@ -584,6 +604,14 @@
 
 (require 'smartchr)
 (add-hook 'ruby-mode-hook
+          '(lambda ()
+             (progn
+               (local-set-key (kbd "H") (smartchr '("H" "=> ")))
+               (local-set-key (kbd "I") (smartchr '("I" "|`!!'|" "|")))
+               (local-set-key (kbd "E") (smartchr '("E" "=" "==" " == ")))
+               )))
+
+(add-hook 'rhtml-mode-hook
           '(lambda ()
              (progn
                (local-set-key (kbd "H") (smartchr '("H" "=> ")))
@@ -604,7 +632,7 @@
 (require 'ag)
 (custom-set-variables
  '(ag-highlight-search t)
- '(ag-reuse-window 'nil) 
+ '(ag-reuse-window 'nil)
  '(ag-reuse-buffers 'nil))
 
 (require 'wgrep-ag)
@@ -735,7 +763,6 @@
 
 ;; If you enable global minor mode
 (global-git-gutter-mode t)
-
 (global-set-key (kbd "C-c C-t") 'git-gutter:toggle)
 (global-set-key (kbd "C-c v h") 'git-gutter:popup-hunk)
 
@@ -757,3 +784,18 @@
     global-map "M-g" '(("M-n" . 'flymake-goto-next-error)
                        ("M-p" . 'flymake-goto-prev-error)))
 
+;; ----------------------------------------------------------------
+;; @ col-highlight
+;; ----------------------------------------------------------------
+
+(require 'col-highlight)
+(global-set-key (kbd "C-c C-l") 'column-highlight-mode)
+
+;; ----------------------------------------------------------------
+;; @ hideshow
+;; ----------------------------------------------------------------
+
+(require 'hideshow)
+(require 'fold-dwim)
+(add-hook 'ruby-mode 'hs-minor-mode)
+(global-set-key (kbd "C-c C-i") 'fold-dwim-toggle)
