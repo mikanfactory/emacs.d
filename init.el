@@ -215,7 +215,7 @@
 (autoload 'ruby-mode "ruby-mode"
   "Mode for editing ruby source files" t)
 (setq auto-mode-alist
-      (append '(("\\.rb$" . ruby-mode)) auto-mode-alist))
+      (append'(("\\.rb$" . ruby-mode)) auto-mode-alist))
 (setq auto-mode-alist
       (append '(("\\.rake$" . ruby-mode)) auto-mode-alist))
 (setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
@@ -282,6 +282,22 @@
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
 (add-hook 'rhtml-mode-hook
           (lambda () (rinari-launch)))
+
+;; ----------------------------------------------------------------
+;; @ js2-mode
+;; ----------------------------------------------------------------
+
+(autoload 'js2-mode "js2-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+
+;; ----------------------------------------------------------------
+;; @ espresso-mode for jQuery
+;; ----------------------------------------------------------------
+
+(autoload #'espresso-mode "espresso" "Start espresso-mode" t)
+(add-to-list 'auto-mode-alist '("\\.js$" . espresso-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . espresso-mode))
 
 ;; ----------------------------------------------------------------
 ;; @ elisp-mode
