@@ -319,9 +319,18 @@
 
 (require 'org)
 (add-hook 'org-mode-hook
-          '(lambda() (org-src-fontify-buffer)))
+          '(lambda()
+             (org-src-fontify-buffer)
+             (electric-layout-mode t)
+             (electric-pair-mode t)
+             (electric-indent-mode t)
+             (setq electric-pair-pairs '(
+                                         (?\| . ?\|)
+                                         ))))
+
 (define-key org-mode-map (kbd "<C-tab>") (lambda () (interactive) (other-window-or-split 1)))
 (define-key org-mode-map (kbd "<C-S-tab>") (lambda () (interactive) (other-window-or-split -1)))
+(define-key org-mode-map (kbd "M-h") 'backward-kill-word)
 
 ;; ソースコードから実行できる
 (org-babel-do-load-languages
