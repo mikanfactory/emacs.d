@@ -5,6 +5,12 @@
 ;; パスの設定
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
+;; rbenvで入れたrubyを使う
+(setenv "PATH" (concat (getenv "HOME") "/.rbenv/shims:"
+                       (getenv "HOME") "/.rbenv/bin:" (getenv "PATH")))
+(setq exec-path (cons (concat (getenv "HOME") "/.rbenv/shims")
+                      (cons (concat (getenv "HOME") "/.rbenv/bin") exec-path)))
+
 ;; 画面の設定
 (setq inhibit-startup-message t)        ;; 起動画面を表示しない
 (setq custom-theme-load-path nil)
@@ -127,7 +133,7 @@
 (setq require-final-newline t)
 
 ;; 行末の空白を削除
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; ----------------------------------------------------------------
 ;; @ key bind
@@ -181,7 +187,7 @@
 ;; @ mode
 ;; ----------------------------------------------------------------
 ;; ----------------------------------------------------------------
-;; @ emmet-mode
+;; @ emmte-mode
 ;; ----------------------------------------------------------------
 
 (require 'emmet-mode)
@@ -354,6 +360,28 @@
 (setq org-remember-templates
       '(("Note" ?n "** %?\n %i\n %a\n %t" nil "Inbox")
         ("ToDo" ?t "** TODO %?\n %i\n %a\n %t" nil "Inbox")))
+
+;; ----------------------------------------------------------------
+;; @ view-mode
+;; ----------------------------------------------------------------
+
+;; ファイルを開くと同時にview-modeにする
+;; C-x C-r 
+(setq view-read-only t)
+
+;; bv同時押しでview-modeの切り替え
+(require 'key-chord)
+(setq key-chord-two-keys-delay 0.04)
+(key-chord-define-global "vb" 'view-mode)
+
+;; 書き込み不能なファイルでview-modeから抜けないようにする
+(require 'viewer)
+(viewer-stay-in-setup)
+
+;; view-modeのときにmode-lineに色をつける
+(setq viewer-modeline-color-unwritable "tomato")
+(setq viewer-modeline-color-view "orange")
+(viewer-change-modeline-color-setup)
 
 ;; ----------------------------------------------------------------
 ;; @evil
@@ -648,6 +676,14 @@
 (autoload 'wgrep-ag-setup "wgrep-ag")
 (add-hook 'ag-mode-hook 'wgrep-ag-setup)
 (define-key ag-mode-map (kbd "r") 'wgrep-change-to-wgrep-mode)
+
+;; zshのpathを読み込む
+(let* ((zshpath (shell-command-to-string
+         "/usr/bin/env zsh -c 'printenv PATH'"))
+       (pathlst (split-string zshpath ":")))
+  (setq exec-path pathlst)
+  (setq eshell-path-env zshpath)
+  (setenv "PATH" zshpath))
 
 ;; ----------------------------------------------------------------
 ;; @ wdired
