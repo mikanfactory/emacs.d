@@ -149,6 +149,7 @@
 (global-set-key (kbd "C-c C-a") 'align-regexp)
 (global-set-key (kbd "M-:") 'dabbrev-expand)
 (global-set-key (kbd "M-i") 'imenu)
+(global-unset-key (kbd "C-i"))
 
 ;; key-chord
 (require 'key-chord)
@@ -181,7 +182,7 @@
   (setq mode-line-position
         '(:eval (format my-mode-line-format
                         (count-lines (point-max) (point-min))))))
-  (interactive "F")
+(interactive "F")
 
 ;; ----------------------------------------------------------------
 ;; @ mode
@@ -226,6 +227,8 @@
       (append'(("\\.rb$" . ruby-mode)) auto-mode-alist))
 (setq auto-mode-alist
       (append '(("\\.rake$" . ruby-mode)) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
 (setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
                                      interpreter-mode-alist))
 (add-hook 'ruby-mode-hook
@@ -242,6 +245,20 @@
           (lambda ()
             (defadvice ruby-mode-set-encoding
               (around ruby-mode-set-encoding-disable activate) nil)))
+
+
+;; ----------------------------------------------------------------
+;; @ Rsense
+;; ----------------------------------------------------------------
+
+(setq rsense-home "/usr/local/Cellar/rsense/0.3/libexec/")
+(add-to-list 'load-path (concat rsense-home "/etc"))
+(require 'rsense)
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (add-to-list 'ac-sources 'ac-source-rsense-method)
+            (add-to-list 'ac-sources 'ac-source-rsense-constant)
+            (define-key ruby-mode-map (kbd "C-i") 'ac-complete-rsense)))
 
 ;; ----------------------------------------------------------------
 ;; @ ruby-block
@@ -263,6 +280,13 @@
              (electric-pair-mode t)
              (electric-indent-mode t)
              (electric-layout-mode t)))
+
+;; ----------------------------------------------------------------
+;; @ rbenv
+;; ----------------------------------------------------------------
+
+;; (require 'rbenv)
+;; (global-rbenv-mode)
 
 ;; ----------------------------------------------------------------
 ;; @ rcodetools
@@ -441,10 +465,10 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 ;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
-(package-initialize)
+;; (package-initialize)
 
 ;; パッケージ情報の更新
-(package-refresh-contents)
+;; (package-refresh-contents)
 
 ;; ----------------------------------------------------------------
 ;; @ sequential-command
@@ -522,7 +546,7 @@
 (require 'helm-ag)
 (require 'helm-flycheck)
 (require 'helm-c-yasnippet)
-(helm-descbinds-mode)
+;; (helm-descbinds-mode)                   
 
 ;; (define-key global-map (kbd "C-x C-f") 'helm-find-files)
 (define-key global-map (kbd "M-x")     'helm-M-x)
@@ -646,7 +670,8 @@
              (progn
                (local-set-key (kbd "H") (smartchr '("H" "=> ")))
                (local-set-key (kbd "I") (smartchr '("I" "|`!!'|" "|")))
-               (local-set-key (kbd "E") (smartchr '("E" "=" "==" " == ")))
+               (local-set-key (kbd "E") (smartchr '("E" "== ")))
+               (local-set-key (kbd "S") (smartchr '("S" "<=> ")))
                )))
 
 (add-hook 'rhtml-mode-hook
@@ -654,7 +679,8 @@
              (progn
                (local-set-key (kbd "H") (smartchr '("H" "=> ")))
                (local-set-key (kbd "I") (smartchr '("I" "|`!!'|" "|")))
-               (local-set-key (kbd "E") (smartchr '("E" "=" "==" " == ")))
+               (local-set-key (kbd "E") (smartchr '("E" "== ")))
+               (local-set-key (kbd "S") (smartchr '("S" "<=> ")))
                )))
 
 ;; ----------------------------------------------------------------
