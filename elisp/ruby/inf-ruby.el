@@ -10,7 +10,7 @@
 ;; URL: http://github.com/nonsequitur/inf-ruby
 ;; Created: 8 April 1998
 ;; Keywords: languages ruby
-;; Version: 20140306.1941
+;; Version: 20140428.201
 ;; X-Original-Version: 2.3.2
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -78,6 +78,7 @@ Also see the description of `ielm-prompt-read-only'.")
     #'identity
     '("\\(^%s> *\\)"                      ; Simple
       "\\(^(rdb:1) *\\)"                  ; Debugger
+      "\\(^(byebug) *\\)"                 ; byebug
       "\\(^\\(irb([^)]+)"                 ; IRB default
       "\\([[0-9]+] \\)?[Pp]ry ?([^)]+)"   ; Pry
       "\\(jruby-\\|JRUBY-\\)?[1-9]\\.[0-9]\\.[0-9]+\\(-?p?[0-9]+\\)?" ; RVM

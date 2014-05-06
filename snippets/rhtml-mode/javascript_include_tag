@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: javascript_include_tag
+# key: js
+# --
+<%= javascript_include_tag "${1:example}" %>

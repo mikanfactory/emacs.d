@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: each
+# key: each
+# --
+<% $1.each do |$0| %>
+<% end %>

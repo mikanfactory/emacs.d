@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: content_tag
+# key: content
+# --
+<%= content_tag :${1:p}, "${2:Hellow world}" %>

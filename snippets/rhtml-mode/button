@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: button
+# key: button
+# --
+<%= button_to "${1:新規作成}", action: "${2:new}" %>

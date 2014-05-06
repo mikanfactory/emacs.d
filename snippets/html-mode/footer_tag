@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: footer_tag
-# key: fo
-# binding: C-c M-l
-# --
-<footer>
-  $0
-</footer>

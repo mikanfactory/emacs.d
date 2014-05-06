@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ruby-code
+# key: r
+# --
+<% $0 %>

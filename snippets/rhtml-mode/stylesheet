@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: stylesheet
+# key: css
+# --
+<%= stylesheet_link_tag "${1:style}" %>

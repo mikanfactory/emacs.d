@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: strftime
+# key: strftime
+# --
+<%= ${1:time}.strftime('${2:%Y年%m月%d日 %H:%M:%S}') %>

@@ -1,8 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: inline_style_tag
-# key: style
-# binding: C-c s s
-# --
-<style${1: type="text/css"}>
-  $0
-</style>

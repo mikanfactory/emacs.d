@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: yield
+# key: yield
+# --
+<%= yield %>$0
