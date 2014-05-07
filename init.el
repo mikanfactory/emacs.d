@@ -280,7 +280,7 @@
 ;; @ rdefs
 ;; ----------------------------------------------------------------
 
-(require 'rdefs)
+;; (require 'rdefs)
 ;; (add-hook 'ruby-mode-hook
 ;;           (lambda () (rdefs-mode)))            
 
@@ -290,7 +290,7 @@
 
 (require 'inf-ruby)
 (require 'smart-compile)
-(require 'ac-inf-ruby)
+;; (require 'ac-inf-ruby)                  
 
 (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
 (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
@@ -940,24 +940,3 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-------------------------------------------------------------
-~/.emacs.d(branch:master*) » sh
-sh
-sh-3.2$ zsh
-zsh
-------------------------------------------------------------
-~/.emacs.d(branch:master*) » pry
-pry
-rbenv: pry: command not found
-------------------------------------------------------------
-~/.emacs.d(branch:master*) » exit
-exit
-sh-3.2$ exit
-exit
-exit
-------------------------------------------------------------
-~/.emacs.d(branch:master*) » exit
-exit
-
-Process shell exited abnormally with code 127
-
