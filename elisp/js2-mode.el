@@ -1649,7 +1649,7 @@ the correct number of ARGS must be provided."
          "missing ) in parenthetical")
 
 (js2-msg "msg.reserved.id"
-         "identifier is a reserved word")
+         "'%s' is a reserved identifier")
 
 (js2-msg "msg.no.paren.catch"
          "missing ( before catch-block condition")
@@ -1906,10 +1906,6 @@ the correct number of ARGS must be provided."
 (js2-msg "msg.bad.octal.literal"
          "illegal octal literal digit %s; "
          "interpreting it as a decimal digit")
-
-(js2-msg "msg.reserved.keyword"
-         "illegal usage of future reserved keyword %s; "
-         "interpreting it as ordinary identifier")
 
 (js2-msg "msg.script.is.not.constructor"
          "Script objects are not constructors.")
@@ -3481,7 +3477,10 @@ You can tell the quote type by looking at the first character."
 
 (defun js2-print-array-node (n i)
   (insert (js2-make-pad i) "[")
-  (js2-print-list (js2-array-node-elems n))
+  (let ((elems (js2-array-node-elems n)))
+    (js2-print-list elems)
+    (when (and elems (null (car (last elems))))
+      (insert ",")))
   (insert "]"))
 
 (defstruct (js2-object-node
@@ -3632,8 +3631,9 @@ property `GETTER_SETTER' set to js2-GET or js2-SET. ")
             (:constructor nil)
             (:constructor make-js2-yield-node (&key (type js2-YIELD)
                                                     (pos js2-ts-cursor)
-                                                    len value)))
+                                                    len value star-p)))
   "AST node for yield statement or expression."
+  star-p ; whether it's yield*
   value) ; optional:  value to be yielded
 
 (put 'cl-struct-js2-yield-node 'js2-visitor 'js2-visit-yield-node)
@@ -3645,6 +3645,8 @@ property `GETTER_SETTER' set to js2-GET or js2-SET. ")
 (defun js2-print-yield-node (n i)
   (insert (js2-make-pad i))
   (insert "yield")
+  (when (js2-yield-node-star-p n)
+    (insert "*"))
   (when (js2-yield-node-value n)
     (insert " ")
     (js2-print-ast (js2-yield-node-value n) 0)))
@@ -5284,21 +5286,10 @@ into temp buffers."
   "Vector whose values are non-nil for tokens that are keywords.
 The values are default faces to use for highlighting the keywords.")
 
-(defconst js2-reserved-words
-  '(abstract
-    boolean byte
-    char class
-    double
-    enum export extends
-    final float
-    goto
-    implements import int interface
-    long
-    native
-    package private protected public
-    short static super synchronized
-    throws transient
-    volatile))
+;; FIXME: Support strict mode-only future reserved words, after we know
+;; which parts scopes are in strict mode, and which are not.
+(defconst js2-reserved-words '(class export extends import super)
+  "Future reserved keywords in ECMAScript 5.")
 
 (defconst js2-keyword-names
   (let ((table (make-hash-table :test 'equal)))
@@ -5521,9 +5512,9 @@ its relevant fields and puts it into `js2-ti-tokens'."
                        (memq result '(js2-LET js2-YIELD)))
                   ;; LET and YIELD are tokens only in 1.7 and later
                   (setq result 'js2-NAME))
-              (if (not (eq result 'js2-RESERVED))
-                  (throw 'return (js2-tt-code result)))
-              (js2-report-warning "msg.reserved.keyword" str)))
+              (when (eq result 'js2-RESERVED)
+                (setf (js2-token-string token) str))
+              (throw 'return (js2-tt-code result))))
           ;; If we want to intern these as Rhino does, just use (intern str)
           (setf (js2-token-string token) str)
           (throw 'return js2-NAME))     ; end identifier/kwd check
@@ -7024,11 +7015,11 @@ from `js2-ti-tokens'.  Otherwise, call `js2-get-token'."
 
 (defalias 'js2-next-token 'js2-get-token)
 
-(defun js2-match-token (match)
+(defun js2-match-token (match &optional dont-unget)
   "Get next token and return t if it matches MATCH, a bytecode.
 Returns nil and consumes nothing if MATCH is not the next token."
   (if (/= (js2-get-token) match)
-      (ignore (js2-unget-token))
+      (ignore (unless dont-unget (js2-unget-token)))
     t))
 
 (defun js2-match-contextual-kwd (name)
@@ -7046,7 +7037,8 @@ string is NAME.  Returns nil and keeps current token otherwise."
   (or (= tt js2-NAME)
       (and js2-allow-keywords-as-property-names
            (plusp tt)
-           (aref js2-kwd-tokens tt))))
+           (or (= tt js2-RESERVED)
+               (aref js2-kwd-tokens tt)))))
 
 (defun js2-match-prop-name ()
   "Consume token and return t if next token is a valid property name.
@@ -7080,9 +7072,19 @@ same line as its operand."
   "Match next token to token code TOKEN, or record a syntax error.
 MSG-ID is the error message to report if the match fails.
 Returns t on match, nil if no match."
-  (if (js2-match-token token)
+  (if (js2-match-token token t)
       t
     (js2-report-error msg-id nil pos len)
+    (js2-unget-token)
+    nil))
+
+(defun js2-must-match-name (msg-id)
+  (if (js2-match-token js2-NAME t)
+      t
+    (if (eq (js2-current-token-type) js2-RESERVED)
+        (js2-report-error "msg.reserved.id" (js2-current-token-string))
+      (js2-report-error msg-id)
+      (js2-unget-token))
     nil))
 
 (defsubst js2-inside-function ()
@@ -7244,10 +7246,6 @@ Scanner should be initialized."
       (js2-highlight-undeclared-vars))
     root))
 
-(defun js2-function-parser ()
-  (js2-get-token)
-  (js2-parse-function-stmt))
-
 (defun js2-parse-function-closure-body (fn-node)
   "Parse a JavaScript 1.8 function closure body."
   (let ((js2-nesting-of-function (1+ js2-nesting-of-function)))
@@ -7343,7 +7341,7 @@ NODE is either `js2-array-node', `js2-object-node', or `js2-name-node'."
                          (not rest-param-at))
                 ;; to report errors if there are more parameters
                 (setq rest-param-at (length params)))
-              (js2-must-match js2-NAME "msg.no.parm")
+              (js2-must-match-name "msg.no.parm")
               (js2-record-face 'js2-function-param)
               (setq param (js2-create-name-node))
               (js2-define-symbol js2-LP (js2-current-token-string) param)
@@ -7404,7 +7402,7 @@ Last token scanned is the close-curly for the function body."
 (defun js2-parse-function-stmt ()
   (let ((pos (js2-current-token-beg))
         (star-p (js2-match-token js2-MUL)))
-    (js2-must-match js2-NAME "msg.unnamed.function.stmt")
+    (js2-must-match-name "msg.unnamed.function.stmt")
     (let ((name (js2-create-name-node t))
           pn member-expr)
       (cond
@@ -7544,7 +7542,7 @@ node are given relative start positions and correct lengths."
     (aset parsers js2-DEFAULT   #'js2-parse-default-xml-namespace)
     (aset parsers js2-DO        #'js2-parse-do)
     (aset parsers js2-FOR       #'js2-parse-for)
-    (aset parsers js2-FUNCTION  #'js2-function-parser)
+    (aset parsers js2-FUNCTION  #'js2-parse-function-stmt)
     (aset parsers js2-IF        #'js2-parse-if)
     (aset parsers js2-LC        #'js2-parse-block)
     (aset parsers js2-LET       #'js2-parse-let-stmt)
@@ -7914,7 +7912,7 @@ Parses for, for-in, and for each-in statements."
             (js2-define-destruct-symbols param js2-LET nil))
            ;; simple name
            (t
-            (js2-must-match js2-NAME "msg.bad.catchcond")
+            (js2-must-match-name "msg.bad.catchcond")
             (setq param (js2-create-name-node))
             (js2-define-symbol js2-LET (js2-current-token-string) param))))
         ;; pattern guard
@@ -8125,11 +8123,16 @@ but not BEFORE."
         (end (js2-current-token-end))
         (before js2-end-flags)
         (inside-function (js2-inside-function))
-        e ret name)
+        e ret name yield-star-p)
     (unless inside-function
       (js2-report-error (if (eq tt js2-RETURN)
                             "msg.bad.return"
                           "msg.bad.yield")))
+    (when (and inside-function
+               (eq (js2-function-node-generator-type js2-current-script-or-fn)
+                   'STAR)
+               (js2-match-token js2-MUL))
+      (setq yield-star-p t))
     ;; This is ugly, but we don't want to require a semicolon.
     (unless (memq (js2-peek-token-or-eol) js2-parse-return-stmt-enders)
       (setq e (js2-parse-expr)
@@ -8156,11 +8159,10 @@ but not BEFORE."
                                 (logior js2-end-returns js2-end-returns-value)))
           (js2-add-strict-warning "msg.return.inconsistent" nil pos end)))
      (t
-      (unless (js2-inside-function)
-        (js2-report-error "msg.bad.yield"))
       (setq ret (make-js2-yield-node :pos pos
                                      :len (- end pos)
-                                     :value e))
+                                     :value e
+                                     :star-p yield-star-p))
       (js2-node-add-children ret e)
       (unless expr-context
         (setq e ret
@@ -8352,7 +8354,7 @@ Returns the parsed `js2-var-decl-node' expression node."
                 end (js2-node-end destructuring))
         ;; Simple variable name
         (js2-unget-token)
-        (when (js2-must-match js2-NAME "msg.bad.var")
+        (when (js2-must-match-name "msg.bad.var")
           (setq name (js2-create-name-node)
                 nbeg (js2-current-token-beg)
                 nend (js2-current-token-end)
@@ -9265,14 +9267,14 @@ array-literals, array comprehensions and regular expressions."
             (= tt js2-EOF))  ; prevent infinite loop
         (if (= tt js2-EOF)
             (js2-report-error "msg.no.bracket.arg" nil pos))
+        (when (and after-comma (< js2-language-version 170))
+          (js2-parse-warn-trailing-comma "msg.array.trailing.comma"
+                                         pos (remove nil elems) after-comma))
         (setq continue nil
               pn (make-js2-array-node :pos pos
                                       :len (- js2-ts-cursor pos)
                                       :elems (nreverse elems)))
-        (apply #'js2-node-add-children pn (js2-array-node-elems pn))
-        (when (and after-comma (not js2-is-in-destructuring))
-          (js2-parse-warn-trailing-comma "msg.array.trailing.comma"
-                                         pos elems after-comma)))
+        (apply #'js2-node-add-children pn (js2-array-node-elems pn)))
        ;; destructuring binding
        (js2-is-in-destructuring
         (push (if (or (= tt js2-LC)
@@ -10196,7 +10198,7 @@ If so, we don't ever want to use bounce-indent."
 (define-minor-mode js2-minor-mode
   "Minor mode for running js2 as a background linter.
 This allows you to use a different major mode for JavaScript editing,
-such as `espresso-mode', while retaining the asynchronous error/warning
+such as `js-mode', while retaining the asynchronous error/warning
 highlighting features of `js2-mode'."
   :group 'js2-mode
   :lighter " js-lint"
@@ -10371,8 +10373,7 @@ Selecting an error will jump it to the corresponding source-buffer error.
   (put 'js2-mode 'find-tag-default-function #'js2-mode-find-tag)
 
   (set (make-local-variable 'electric-indent-chars)
-       (append '("{" "}" "(" ")" "[" "]" ":" ";" "," "*")
-               electric-indent-chars))
+       (append "{}()[]:;,*" electric-indent-chars))
   (set (make-local-variable 'electric-layout-rules)
        '((?\; . after) (?\{ . after) (?\} . before)))
 

@@ -21,11 +21,11 @@
 (setq show-paren-delay 0.125)          
 
 ;; raliscasts, tomorrow-night
-(require 'color-theme)
-(color-theme-initialize)
-(add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
+;; (require 'color-theme)
+;; (color-theme-initialize)
+;; (add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
 ;; (color-theme-tomorrow-night)
-(color-theme-railscasts)
+;; (color-theme-railscasts)
 
 
 ;; monokai , zenburn , molokai
@@ -140,7 +140,7 @@
 (setq kill-ring-max 20)
 
 ;; wordwrap
-(setq-default word-wrap t)
+;; (setq-default word-wrap t)
 
 ;; 最後に改行を入れる
 (setq require-final-newline t)
@@ -242,6 +242,8 @@
       (append'(("\\.rb$" . ruby-mode)) auto-mode-alist))
 (setq auto-mode-alist
       (append '(("\\.rake$" . ruby-mode)) auto-mode-alist))
+(setq auto-mode-alist
+      (append '(("\\.rabl$" . ruby-mode)) auto-mode-alist))
 (add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Guardfile$" . ruby-mode))
@@ -364,6 +366,33 @@
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
 (add-hook 'rhtml-mode-hook
           (lambda () (rinari-launch)))
+
+;; ----------------------------------------------------------------
+;; @ js2-mode
+;; ----------------------------------------------------------------
+
+(autoload 'js2-mode "js2-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(setq js2-mode-hook
+      '(lambda()
+         (setq js2-indent-level 2)
+         (setq js2-basic-offset 2)
+         (setq tab-width 2)
+         ))
+
+;; ----------------------------------------------------------------
+;; @ coffee-mode
+;; ----------------------------------------------------------------
+
+(require 'coffee-mode)
+(defun coffee-custom ()
+  "coffee-mode-hook"
+  (and (set (make-local-variable 'tab-width) 2)
+       (set (make-local-variable 'coffee-tab-width) 2))
+  )
+
+(add-hook 'coffee-mode-hook
+          '(lambda() (coffee-custom)))
 
 ;; ----------------------------------------------------------------
 ;; @ elisp-mode
