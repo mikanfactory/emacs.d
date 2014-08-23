@@ -14,24 +14,23 @@
 ;; 画面の設定
 (setq inhibit-startup-message t)        ;; 起動画面を表示しない
 (global-linum-mode t)                   ;; 行番号を常に表示する
-(setq linum-delay t)
+;; (setq linum-delay t)
 (setq linum-format "%3d ")
 (defadvice linum-schedule (around my-linum-schedule () activate)
   (run-with-idle-timer 0.2 nil #'linum-update-current))
-(setq show-paren-delay 0.125)
-(set-frame-parameter nil 'alpha 100)
+(setq show-paren-delay 0.125)          
 
 ;; raliscasts, tomorrow-night
 (require 'color-theme)
 (color-theme-initialize)
-(add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
-(color-theme-railscasts)
+;; (add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
+;; (color-theme-railscasts)
 ;; (color-theme-tomorrow-night)
 
 ;; monokai , zenburn , molokai
-(setq custom-theme-load-path nil)
-(add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
-(load-theme 'monokai t)
+;; (setq custom-theme-load-path nil)
+;; (add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
+;; (load-theme 'monokai t)
 ;; (load-theme 'solarized-dark t)
 ;; (load-theme 'molokai t)
 ;; (load-theme 'zenburn t)
@@ -51,9 +50,9 @@
 (set-face-attribute 'default nil
                     :family "ricty"
                     :height 165)
-(set-fontset-font
- nil 'japanese-jisx0208
- (font-spec :family "ricty"))
+;; (set-fontset-font
+;;  nil 'japanese-jisx0208
+;;  (font-spec :family "ricty"))
 
 ;;; *.~ とかのバックアップファイルを作らない
 (setq make-backup-files nil)
@@ -89,18 +88,18 @@
      ()))
   "Face used by hl-line.")
 (setq hl-line-face 'hlline-face)
-(global-hl-line-mode)
+;; (global-hl-line-mode)
 
 ;; リージョンの色を設定
 (transient-mark-mode t)
 (set-face-background 'region "Blue")
 
 ;; スクロールバーを使わない
-(toggle-scroll-bar nil)
+;; (toggle-scroll-bar nil)
 ;; メニューバーを使わない
-(menu-bar-mode 0)
+;; (menu-bar-mode 0)
 ;; ツールバーを使わない
-(tool-bar-mode 0)
+;; (tool-bar-mode 0)
 
 ;; ウィンドウの切り替え
 (defun other-window-or-split (val)
@@ -162,7 +161,7 @@
 (global-set-key (kbd "C-c C-a") 'align-regexp)
 (global-set-key (kbd "M-:") 'dabbrev-expand)
 (global-set-key (kbd "M-i") 'imenu)
-(global-set-key (kbd "C-:") 'indent-rigidly)
+(global-set-key (kbd "C-:") 'indent-rigidly) 
 ;; (global-unset-key (kbd "C-i"))
 
 ;; key-chord
@@ -244,8 +243,6 @@
       (append '(("\\.rake$" . ruby-mode)) auto-mode-alist))
 (setq auto-mode-alist
       (append '(("\\.rabl$" . ruby-mode)) auto-mode-alist))
-(setq auto-mode-alist
-      (append '(("\\.jbuilder$" . ruby-mode)) auto-mode-alist))
 (add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Guardfile$" . ruby-mode))
@@ -281,12 +278,20 @@
             ;; (define-key ruby-mode-map (kbd "C-i") 'ac-complete-rsense)))
 
 ;; ----------------------------------------------------------------
+;; @ rdefs
+;; ----------------------------------------------------------------
+
+;; (require 'rdefs)
+;; (add-hook 'ruby-mode-hook
+;;           (lambda () (rdefs-mode)))            
+
+;; ----------------------------------------------------------------
 ;; @ inf-ruby
 ;; ----------------------------------------------------------------
 
 (require 'inf-ruby)
 (require 'smart-compile)
-;; (require 'ac-inf-ruby)
+;; (require 'ac-inf-ruby)                  
 
 (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
 (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
@@ -316,6 +321,25 @@
 (setq ruby-block-highlight-toggle t)
 
 ;; ----------------------------------------------------------------
+;; @ ruby-end
+;; ----------------------------------------------------------------
+
+;; (require 'ruby-end)
+;; (add-hook 'ruby-mode-hook
+;;           '(lambda ()
+;;              (abbrev-mode 1)
+;;              (electric-pair-mode t)
+;;              (electric-indent-mode t)
+;;              (electric-layout-mode t)))
+
+;; ----------------------------------------------------------------
+;; @ rbenv
+;; ----------------------------------------------------------------
+
+;; (require 'rbenv)
+;; (global-rbenv-mode)
+
+;; ----------------------------------------------------------------
 ;; @ rcodetools
 ;; ----------------------------------------------------------------
 
@@ -325,6 +349,13 @@
 ;; ----------------------------------------------------------------
 ;; @ Ruby on Rails
 ;; ----------------------------------------------------------------
+;; @ rinari
+;; ----------------------------------------------------------------
+
+(require 'rinari)
+(add-hook 'ruby-mode-hook
+          (lambda () (rinari-launch)))
+
 ;; ----------------------------------------------------------------
 ;; @ rhtml-mode
 ;; ----------------------------------------------------------------
@@ -347,16 +378,6 @@
          (setq js2-basic-offset 2)
          (setq tab-width 2)
          ))
-
-;; ----------------------------------------------------------------
-;; @ moz
-;; ----------------------------------------------------------------
-
-(autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
-
-(add-hook 'js2-mode-hook 'javascript-custom-setup)
-(defun javascript-custom-setup ()
-  (moz-minor-mode 1))
 
 ;; ----------------------------------------------------------------
 ;; @ coffee-mode
@@ -395,6 +416,15 @@
 (setq scheme-program-name "gosh -i")
 (autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t)
 (autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
+
+
+;; ----------------------------------------------------------------
+;; @ arduino-mode
+;; ----------------------------------------------------------------
+
+(require 'arduino-mode)
+(setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
+(autoload 'arduino-mode "arduino-mode" "Arduino editing mode.")
 
 ;; ----------------------------------------------------------------
 ;; @ yaml-mode
@@ -449,12 +479,42 @@
         ("ToDo" ?t "** TODO %?\n %i\n %a\n %t" nil "Inbox")))
 
 ;; ----------------------------------------------------------------
-;; @evil-mode
+;; @ view-mode
+;; ----------------------------------------------------------------
+
+;; ファイルを開くと同時にview-modeにする
+;; C-x C-r 
+(setq view-read-only t)
+
+;; bv同時押しでview-modeの切り替え
+(require 'key-chord)
+(setq key-chord-two-keys-delay 0.04)
+(key-chord-define-global "vb" 'view-mode)
+
+;; 書き込み不能なファイルでview-modeから抜けないようにする
+(require 'viewer)
+(viewer-stay-in-setup)
+
+;; view-modeのときにmode-lineに色をつける
+(setq viewer-modeline-color-unwritable "tomato")
+(setq viewer-modeline-color-view "orange")
+(viewer-change-modeline-color-setup)
+
+;; ----------------------------------------------------------------
+;; @ markdown-mode
+;; ----------------------------------------------------------------
+
+(require 'markdown-mode)
+(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+;; ----------------------------------------------------------------
+;; @evil
 ;; ----------------------------------------------------------------
 
 (add-to-list 'load-path "~/.emacs.d/elisp/evil")
 (require 'evil)
-(evil-mode 1)
+;; (evil-mode 1)
 
 ;; ----------------------------------------------------------------
 ;; @ elisp
@@ -501,10 +561,10 @@
 
 ;; MELPA、Marmaladeの設定
 ;; package.elはEmacs24に標準で入っている
-;; (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 ;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
+(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
 ;; (package-initialize)
 
 ;; パッケージ情報の更新
@@ -585,7 +645,7 @@
 (require 'helm-ag)
 (require 'helm-flycheck)
 (require 'helm-c-yasnippet)
-;; (helm-descbinds-mode)
+;; (helm-descbinds-mode)                   
 
 ;; (define-key global-map (kbd "C-x C-f") 'helm-find-files)
 (define-key global-map (kbd "M-x")     'helm-M-x)
@@ -721,16 +781,6 @@
                )))
 
 (add-hook 'rhtml-mode-hook
-          '(lambda ()
-             (progn
-               (local-set-key (kbd "H") (smartchr '("H" "=> ")))
-               (local-set-key (kbd "I") (smartchr '("I" "|`!!'|" "|")))
-               (local-set-key (kbd "E") (smartchr '("E" "== ")))
-               (local-set-key (kbd "S") (smartchr '("S" "<=> ")))
-               (local-set-key (kbd "L") (smartchr '("L" "->")))
-               )))
-
-(add-hook 'js2-mode-hook
           '(lambda ()
              (progn
                (local-set-key (kbd "H") (smartchr '("H" "=> ")))
@@ -901,12 +951,25 @@
 ;; @ flycheck, flycheck-color-mode-line
 ;; ----------------------------------------------------------------
 
-;; (add-hook 'ruby-mode-hook 'flycheck-mode)
+(add-hook 'ruby-mode-hook 'flycheck-mode)
 
-;; (require 'flycheck-color-mode-line)
-;; (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
+(require 'flycheck-color-mode-line)
+(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
 
 ;; flymake
 ;; (smartrep-define-key
 ;;     global-map "M-g" '(("M-n" . 'flymake-goto-next-error)
 ;;                        ("M-p" . 'flymake-goto-prev-error)))
+
+;; ----------------------------------------------------------------
+;; @ col-highlight
+;; ----------------------------------------------------------------
+
+(require 'col-highlight)
+(global-set-key (kbd "C-c C-l") 'column-highlight-mode)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

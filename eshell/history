@@ -1,0 +1,8 @@
+ls
+git st
+cd ..
+cd yingli/
+ls
+rails console
+pry
+exit
