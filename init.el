@@ -1,15 +1,25 @@
 ;; ----------------------------------------------------------------
+;; @ General
+;; ----------------------------------------------------------------
+;; ----------------------------------------------------------------
 ;; @evil-mode
 ;; ----------------------------------------------------------------
 
 (add-to-list 'load-path "~/.emacs.d/elisp/evil")
 (require 'evil)
-(\evi\l-mode 1)
+(evil-mode 1)
+;; ----------------------------------------------------------------
+;; @ redo+
+;; ----------------------------------------------------------------
+(require 'redo+)
 
 ;; ----------------------------------------------------------------
-;; @ General
+;; @ key bind
 ;; ----------------------------------------------------------------
+(keyboard-translate ?\C-h ?\C-?)
+(global-set-key (kbd "C-m") 'newline-and-indent)
 
+;; ----------------------------------------------------------------
 ;; パスの設定
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
@@ -149,16 +159,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; ----------------------------------------------------------------
-;; @ key bind
-;; ----------------------------------------------------------------
-
-(keyboard-translate ?\C-h ?\C-?)
-(global-set-key (kbd "C-m") 'newline-and-indent)
-
-;; ----------------------------------------------------------------
 ;; @ modeline
 ;; ----------------------------------------------------------------
-
 ;; モードラインに行番号表示
 (line-number-mode t)
 ;; モードラインに列番号表示
@@ -205,6 +207,15 @@
 (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
 
 ;; ----------------------------------------------------------------
+;; @ rainbow delimiters
+;; ----------------------------------------------------------------
+(require 'rainbow-delimiters)
+(add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
+;; (add-to-list 'rainbow-delimiters-ignore-modes 'fundamental-mode)                    ;helmとの干渉回避
+(custom-set-faces '(rainbow-delimiters-depth-1-face ((t (:foreground "#586e75"))))) ;文字列の色と被るため,変更
+;; (global-rainbow-delimiters-mode 1)
+
+;; ----------------------------------------------------------------
 ;; @ gosh-mode
 ;; ----------------------------------------------------------------
 (setq process-coding-system-alist
@@ -216,43 +227,6 @@
 ;; ----------------------------------------------------------------
 ;; @ ruby-mode
 ;; ----------------------------------------------------------------
-
-(add-to-list 'load-path "~/.emacs.d/elisp/ruby")
-(autoload 'ruby-mode "ruby-mode"
-  "Mode for editing ruby source files" t)
-(setq auto-mode-alist
-      (append'(("\\.rb$" . ruby-mode)) auto-mode-alist))
-(setq auto-mode-alist
-      (append '(("\\.rake$" . ruby-mode)) auto-mode-alist))
-(setq auto-mode-alist
-      (append '(("\\.rabl$" . ruby-mode)) auto-mode-alist))
-(setq auto-mode-alist
-      (append '(("\\.jbuilder$" . ruby-mode)) auto-mode-alist))
-(add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Guardfile$" . ruby-mode))
-(setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
-                                     interpreter-mode-alist))
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             (setq ruby-deep-indent-paren-style nil)
-             (electric-pair-mode t)
-             (electric-indent-mode t)
-             (electric-layout-mode t)
-             (setq electric-pair-pairs '(
-                                         (?\| . ?\|)
-                                         ))))
-;; (defun ruby-mode-set-encoding () ())
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (defadvice ruby-mode-set-encoding
-              (around ruby-mode-set-encoding-disable activate) nil)))
-
-
-;; ----------------------------------------------------------------
-;; @ Rsense
-;; ----------------------------------------------------------------
-
 (setq rsense-home "/usr/local/Cellar/rsense/0.3/libexec/")
 (add-to-list 'load-path (concat rsense-home "/etc"))
 (require 'rsense)
@@ -291,7 +265,6 @@
 ;; ----------------------------------------------------------------
 ;; @ ruby-block
 ;; ----------------------------------------------------------------
-
 (require 'ruby-block)
 (ruby-block-mode t)
 ;; ミニバッファに表示し, かつ, オーバレイする.
@@ -303,7 +276,6 @@
 ;; ----------------------------------------------------------------
 ;; @ rhtml-mode
 ;; ----------------------------------------------------------------
-
 (add-to-list 'load-path "~/.emacs.d/elisp/ruby/rhtml-mode")
 (require 'rhtml-mode)
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
@@ -314,7 +286,6 @@
 ;; ----------------------------------------------------------------
 ;; @ js2-mode
 ;; ----------------------------------------------------------------
-
 (autoload 'js2-mode "js2-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (setq js2-mode-hook
@@ -327,7 +298,6 @@
 ;; ----------------------------------------------------------------
 ;; @ moz
 ;; ----------------------------------------------------------------
-
 (autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
 
 (add-hook 'js2-mode-hook 'javascript-custom-setup)
@@ -337,7 +307,6 @@
 ;; ----------------------------------------------------------------
 ;; @ elisp-mode
 ;; ----------------------------------------------------------------
-
 (add-hook 'emacs-lisp-mode-hook
           '(lambda ()
              (electric-layout-mode t)
@@ -355,7 +324,6 @@
 ;; ----------------------------------------------------------------
 ;; @ yasnippet
 ;; ----------------------------------------------------------------
-
 (require 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"))
@@ -369,7 +337,6 @@
 ;; ----------------------------------------------------------------
 ;; @ auto-complete
 ;; ----------------------------------------------------------------
-
 ;; auto-complete
 (when (require 'auto-complete-config nil t)
   (add-to-list 'ac-dictionary-directories
@@ -385,7 +352,6 @@
 ;; ----------------------------------------------------------------
 ;; @ auto-install
 ;; ----------------------------------------------------------------
-
 ;; ;; auto-installの設定
 ;; (when (require 'auto-install nil t)
 ;;   ;; インストールディレクトリを設定する
@@ -404,7 +370,6 @@
 ;; ----------------------------------------------------------------
 ;; @ package
 ;; ----------------------------------------------------------------
-
 ;; MELPA、Marmaladeの設定
 ;; package.elはEmacs24に標準で入っている
 ;; (require 'package)
@@ -413,13 +378,12 @@
 ;; (add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
 ;; (package-initialize)
 
-;; ;; パッケージ情報の更新
+;; パッケージ情報の更新
 ;; (package-refresh-contents)
 
 ;; ----------------------------------------------------------------
 ;; @ uniquify
 ;; ----------------------------------------------------------------
-
 (require 'uniquify)
 ;; filename<dir> 形式のバッファ名にする
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -429,7 +393,6 @@
 ;; ----------------------------------------------------------------
 ;; @ tempbuf
 ;; ----------------------------------------------------------------
-
 (require 'tempbuf)
 ;; ファイルを開いたら自動的にtempbufを有効にする
 (add-hook 'find-file-hooks 'turn-on-tempbuf-mode)
@@ -441,31 +404,13 @@
 ;; ----------------------------------------------------------------
 ;; @ auto-save-buffers
 ;; ----------------------------------------------------------------
-
 (require 'auto-save-buffers)
 ;; アイドル2秒で保存
 (run-with-idle-timer 2 t 'auto-save-buffers)
 
 ;; ----------------------------------------------------------------
-;; @ bm
-;; ----------------------------------------------------------------
-
-(setq-default bm-buffer-persistence nil)
-(setq bm-restore-repository-on-load t)
-(require 'bm)
-(add-hook 'find-file-hooks 'bm-buffer-restore)
-(add-hook 'kill-buffer-hooks 'bm-buffer-save)
-(add-hook 'after-save-hook 'bm-buffer-save)
-(add-hook 'after-revert-hook 'bm-buffer-restore)
-(add-hook 'vc-before-checkin-hook 'bm-buffer-save)
-(global-set-key (kbd "M-SPC") 'bm-toggle)
-(global-set-key (kbd "M-[") 'bm-previous)
-(global-set-key (kbd "M-]") 'bm-next)
-
-;; ----------------------------------------------------------------
 ;; @ helm, helm-ag, helm-c-yasnippet, helm-flycheck
 ;; ----------------------------------------------------------------
-
 (add-to-list 'load-path "~/.emacs.d/elisp/helm")
 (add-to-list 'load-path "~/.emacs.d/elisp/helm/helm-ag")
 (add-to-list 'load-path "~/.emacs.d/elisp/helm/helm-flycheck")
@@ -507,7 +452,6 @@
 ;; ----------------------------------------------------------------
 ;; @ ido
 ;; ----------------------------------------------------------------
-
 ;; find-file,kill-buffer,dired用に使う
 (require 'ido)
 (ido-mode t)
@@ -516,7 +460,6 @@
 ;; ----------------------------------------------------------------
 ;; @ yasnippet
 ;; ----------------------------------------------------------------
-
 (require 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"
@@ -541,10 +484,10 @@
 ;; 既存スニペットを閲覧・編集する
 (define-key yas-minor-mode-map (kbd "C-c i v") 'yas-visit-snippet-file)
 
+
 ;; ----------------------------------------------------------------
 ;; @ recentf
 ;; ----------------------------------------------------------------
-
 (when (require 'recentf nil t)
   (setq recentf-max-saved-items 2000)
   (setq recentf-exclude '(".recentf"))
@@ -557,29 +500,24 @@
 ;; ----------------------------------------------------------------
 ;; @ undo-hist
 ;; ----------------------------------------------------------------
-
 (when (require 'undohist nil t)
     (undohist-initialize))
 
 ;; ----------------------------------------------------------------
 ;; @ pbcopy
 ;; ----------------------------------------------------------------
-
 ;; CUIでEMACSを起動させるときに使う
 ;; (require 'pbcopy)
 ;; (turn-on-pbcopy)
 
-
 ;; ----------------------------------------------------------------
 ;; @ wgrep
 ;; ----------------------------------------------------------------
-
 (require 'wgrep nil t)
 
 ;; ----------------------------------------------------------------
 ;; @ ag, wgrep_ag
 ;; ----------------------------------------------------------------
-
 (require 'ag)
 
 (define-key global-map (kbd "M-s") 'ag)
@@ -600,7 +538,6 @@
 ;; ----------------------------------------------------------------
 ;; @ wdired
 ;; ----------------------------------------------------------------
-
 (require 'wdired nil t)
 ;; diredバッファで r を押すとwdiredを起動する
 (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
@@ -609,7 +546,6 @@
 ;; ----------------------------------------------------------------
 ;; @ popwin.le
 ;; ----------------------------------------------------------------
-
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
@@ -630,7 +566,5 @@
 ;; ----------------------------------------------------------------
 ;; @ auto-heghlight-symbol
 ;; ----------------------------------------------------------------
-
 (require 'auto-highlight-symbol)
 (global-auto-highlight-symbol-mode t)
-
