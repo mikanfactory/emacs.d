@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: match tree
+# key: mtt
+# --
+match ${1:tree} with
+Empty -> ${2:Empty}
+| ${3:Leaf (n)} -> ${4:Empty}
+| ${5:Node (t1, n, t2)} -> ${6:Empty}

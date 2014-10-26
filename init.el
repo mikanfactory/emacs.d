@@ -1,4 +1,12 @@
 ;; ----------------------------------------------------------------
+;; @evil-mode
+;; ----------------------------------------------------------------
+
+(add-to-list 'load-path "~/.emacs.d/elisp/evil")
+(require 'evil)
+(\evi\l-mode 1)
+
+;; ----------------------------------------------------------------
 ;; @ General
 ;; ----------------------------------------------------------------
 
@@ -21,11 +29,12 @@
 (setq show-paren-delay 0.125)
 (set-frame-parameter nil 'alpha 100)
 
-;; raliscasts, tomorrow-night
+;; raliscasts
 (require 'color-theme)
 (color-theme-initialize)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
 (color-theme-railscasts)
+<<<<<<< Updated upstream
 ;; (color-theme-tomorrow-night)
 
 ;; monokai , zenburn , molokai
@@ -35,6 +44,8 @@
 ;; (load-theme 'solarized-dark t)
 ;; (load-theme 'molokai t)
 ;; (load-theme 'zenburn t)
+=======
+>>>>>>> Stashed changes
 
 (setq-default tab-width 2)              ;; インデントの深さを2にする
 (setq-default indent-tabs-mode nil)     ;; タブをスペースで扱う
@@ -53,7 +64,11 @@
                     :height 165)
 (set-fontset-font
  nil 'japanese-jisx0208
+<<<<<<< Updated upstream
  (font-spec :family "ricty"))
+=======
+ (font-spec :family "Ricty"))
+>>>>>>> Stashed changes
 
 ;;; *.~ とかのバックアップファイルを作らない
 (setq make-backup-files nil)
@@ -108,9 +123,10 @@
   (when (one-window-p)
     (split-window-horizontally))
   (other-window val))
-
+;; 画面遷移は C-w h,j,k,l
 (global-set-key (kbd "<C-tab>") (lambda () (interactive) (other-window-or-split 1)))
 (global-set-key (kbd "<C-S-tab>") (lambda () (interactive) (other-window-or-split -1)))
+
 
 ;; Re-open read-only files as root automagically
 (defun th-rename-tramp-buffer ()
@@ -153,22 +169,7 @@
 ;; ----------------------------------------------------------------
 
 (keyboard-translate ?\C-h ?\C-?)
-(global-set-key (kbd "M-h") 'backward-kill-word)
 (global-set-key (kbd "C-m") 'newline-and-indent)
-(global-set-key (kbd "C-c l") 'toggle-truncate-lines)
-(global-set-key (kbd "C-;") 'comment-dwim)
-(global-set-key (kbd "C-/") 'undo)
-(global-set-key (kbd "C-x C-/") 'redo)
-(global-set-key (kbd "C-c C-a") 'align-regexp)
-(global-set-key (kbd "M-:") 'dabbrev-expand)
-(global-set-key (kbd "M-i") 'imenu)
-(global-set-key (kbd "C-:") 'indent-rigidly)
-;; (global-unset-key (kbd "C-i"))
-
-;; key-chord
-(require 'key-chord)
-(setq key-chord-two-keys-delay 0.04)    ;許容範囲は0.04秒
-(key-chord-mode 1)
 
 ;; ----------------------------------------------------------------
 ;; @ modeline
@@ -201,36 +202,6 @@
 ;; ----------------------------------------------------------------
 ;; @ mode
 ;; ----------------------------------------------------------------
-;; ----------------------------------------------------------------
-;; @ emmte-mode
-;; ----------------------------------------------------------------
-
-(require 'emmet-mode)
-;; C-jで評価
-(add-hook 'sgml-mode-hook 'emmet-mode)
-(add-hook 'css-mode-hook  'emmet-mode)
-(add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2)))
-(add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
-(eval-after-load "emmet-mode"
-  '(progn
-     ;; Preview is disable as default
-     (setq emmet-preview-default nil)))
-
-;; ----------------------------------------------------------------
-;; @ scss-mode
-;; ----------------------------------------------------------------
-
-(require 'scss-mode)
-(add-to-list 'auto-mode-alist '("\\.scss$" . scss-mode))
-
-(defun scss-custom ()
-  "scss-mode-hook"
-  (and
-   (set (make-local-variable 'css-indent-offset) 2)
-   (set (make-local-variable 'scss-compile-at-save) nil)))
-(add-hook 'scss-mode-hook
-          '(lambda() (scss-custom)))
-
 ;; ----------------------------------------------------------------
 ;; @ ruby-mode
 ;; ----------------------------------------------------------------
@@ -316,13 +287,6 @@
 (setq ruby-block-highlight-toggle t)
 
 ;; ----------------------------------------------------------------
-;; @ rcodetools
-;; ----------------------------------------------------------------
-
-(require 'rcodetools)
-(define-key ruby-mode-map (kbd "C-c C-d") 'xmp)
-
-;; ----------------------------------------------------------------
 ;; @ Ruby on Rails
 ;; ----------------------------------------------------------------
 ;; ----------------------------------------------------------------
@@ -334,6 +298,7 @@
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
 (add-hook 'rhtml-mode-hook
           (lambda () (rinari-launch)))
+(local-unset-key (kbd "C-c C-o"))
 
 ;; ----------------------------------------------------------------
 ;; @ js2-mode
@@ -387,6 +352,17 @@
 (require 'lispxmp)
 
 ;; ----------------------------------------------------------------
+;; @ slime
+;; ----------------------------------------------------------------
+;; Clozure CLをデフォルトのCommon Lisp処理系に設定
+(setq inferior-lisp-program "ccl")
+;; ~/.emacs.d/slimeをload-pathに追加
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/slime"))
+;; SLIMEのロード
+(require 'slime)
+(slime-setup '(slime-repl slime-fancy slime-banner))
+
+;; ----------------------------------------------------------------
 ;; @ gosh-mode
 ;; ----------------------------------------------------------------
 
@@ -396,69 +372,24 @@
 (autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t)
 (autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
 
-;; ----------------------------------------------------------------
-;; @ yaml-mode
-;; ----------------------------------------------------------------
-
-(require 'yaml-mode)
-
-;; ----------------------------------------------------------------
-;; @ org-mode
-;; ----------------------------------------------------------------
-
-(require 'org)
-(add-hook 'org-mode-hook
-          '(lambda()
-             (org-src-fontify-buffer)
-             (electric-layout-mode t)
-             (electric-pair-mode t)
-             (electric-indent-mode t)
-             (setq electric-pair-pairs '(
-                                         (?\| . ?\|)
-                                         ))))
-
-(define-key org-mode-map (kbd "<C-tab>") (lambda () (interactive) (other-window-or-split 1)))
-(define-key org-mode-map (kbd "<C-S-tab>") (lambda () (interactive) (other-window-or-split -1)))
-(define-key org-mode-map (kbd "M-h") 'backward-kill-word)
-
-;; ソースコードから実行できる
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t) (ruby . t)))
-
-;; シンタックスハイライト
-(setq org-src-fontify-natively t)
-
-;; メール
-(add-hook 'mail-mode-hook 'turn-on-orgtbl)
-
-;; ToDo
-(setq org-use-fast-todo-selection t)
-(setq org-todo-keywords
-      '((sequence "TODO(t)" "STARTED(s)" "WAITING(w)" "|" "DONE(x)" "CANCEL(c)")
-        (sequence "APPT(a)" "|" "DONE(x)" "CANCEL(x)")))
-
-
-;; org-remember
-(key-chord-define-global "l;" 'org-remember)
-(org-remember-insinuate)
-(setq org-directory "~/memo/")
-(setq org-default-notes-file (expand-file-name "memo.org" org-directory))
-(setq org-remember-templates
-      '(("Note" ?n "** %?\n %i\n %a\n %t" nil "Inbox")
-        ("ToDo" ?t "** TODO %?\n %i\n %a\n %t" nil "Inbox")))
-
-;; ----------------------------------------------------------------
-;; @evil-mode
-;; ----------------------------------------------------------------
-
-(add-to-list 'load-path "~/.emacs.d/elisp/evil")
-(require 'evil)
-(evil-mode 1)
 
 ;; ----------------------------------------------------------------
 ;; @ elisp
 ;; ----------------------------------------------------------------
+;; ----------------------------------------------------------------
+;; @ yasnippet
+;; ----------------------------------------------------------------
+
+(require 'yasnippet)
+(setq yas-snippet-dirs
+      '("~/.emacs.d/snippets"))
+(yas-global-mode 1)
+
+;; 新規スニペットを作成するバッファを用意する
+(define-key yas-minor-mode-map (kbd "C-c i n") 'yas-new-snippet)
+;; 既存スニペットを閲覧・編集する
+(define-key yas-minor-mode-map (kbd "C-c i v") 'yas-visit-snippet-file)
+
 ;; ----------------------------------------------------------------
 ;; @ auto-complete
 ;; ----------------------------------------------------------------
@@ -480,7 +411,6 @@
 ;; ----------------------------------------------------------------
 
 ;; ;; auto-installの設定
-;; ;; ちょっと重いので、普段は外しておく
 ;; (when (require 'auto-install nil t)
 ;;   ;; インストールディレクトリを設定する
 ;;   ;; 初期値は ~/.emacs.d/auto-install/
@@ -499,23 +429,16 @@
 ;; @ package
 ;; ----------------------------------------------------------------
 
-;; MELPA、Marmaladeの設定
-;; package.elはEmacs24に標準で入っている
+;; ;; MELPA、Marmaladeの設定
+;; ;; package.elはEmacs24に標準で入っている
 ;; (require 'package)
 ;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 ;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
 ;; (add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
 ;; (package-initialize)
 
-;; パッケージ情報の更新
+;; ;; パッケージ情報の更新
 ;; (package-refresh-contents)
-
-;; ----------------------------------------------------------------
-;; @ sequential-command
-;; ----------------------------------------------------------------
-
-(require 'sequential-command-config)
-(sequential-command-setup-keys)
 
 ;; ----------------------------------------------------------------
 ;; @ uniquify
@@ -567,9 +490,15 @@
 ;; @ open-junk-file
 ;; ----------------------------------------------------------------
 
+<<<<<<< Updated upstream
 (require 'open-junk-file)
 (setq open-junk-file-format "~/memo/junk/%Y-%m-%d-%H%M%S.")
 (key-chord-define-global "jk" 'open-junk-file)
+=======
+;; (require 'open-junk-file)
+;; (setq open-junk-file-format "~/memo/junk/%Y-%m-%d-%H%M%S.")
+;; (key-chord-define-global "zx" 'open-junk-file)
+>>>>>>> Stashed changes
 
 ;; ----------------------------------------------------------------
 ;; @ helm, helm-ag, helm-c-yasnippet, helm-flycheck
@@ -589,13 +518,13 @@
 
 ;; (define-key global-map (kbd "C-x C-f") 'helm-find-files)
 (define-key global-map (kbd "M-x")     'helm-M-x)
-(define-key global-map (kbd "M-i")     'helm-imenu)
-(define-key global-map (kbd "C-x b")   'helm-for-files)
+;; (define-key global-map (kbd "M-i")     'helm-imenu)
+(define-key global-map (kbd "C-, u b")   'helm-for-files)
 (define-key global-map (kbd "M-y")     'helm-show-kill-ring)
-(define-key global-map (kbd "C-x C-b") 'helm-ls-git-ls)
-(define-key global-map (kbd "C-c i i") 'helm-c-yas-complete)
+(define-key global-map (kbd "C-, u f") 'helm-ls-git-ls)
+;; (define-key global-map (kbd "C-c i i") 'helm-c-yas-complete)
 ;; (define-key global-map (kbd "M-s")     'helm-ag)
-(define-key global-map (kbd "C-c f")   'helm-flycheck)
+;; (define-key global-map (kbd "C-c f")   'helm-flycheck)
 
 ;; Emulate `kill-line' in helm minibuffer
 (setq helm-delete-minibuffer-contents-from-point t)
@@ -633,6 +562,7 @@
 ;;   (setq confirm-nonexistent-file-or-buffer nil))
 
 ;; ----------------------------------------------------------------
+<<<<<<< Updated upstream
 ;; @ yasnippet
 ;; ----------------------------------------------------------------
 
@@ -661,6 +591,8 @@
 (define-key yas-minor-mode-map (kbd "C-c i v") 'yas-visit-snippet-file)
 
 ;; ----------------------------------------------------------------
+=======
+>>>>>>> Stashed changes
 ;; @ recentf
 ;; ----------------------------------------------------------------
 
@@ -704,6 +636,7 @@
 ;; CUIでEMACSを起動させるときに使う
 ;; (require 'pbcopy)
 ;; (turn-on-pbcopy)
+<<<<<<< Updated upstream
 
 ;; ----------------------------------------------------------------
 ;; @ smartchr
@@ -739,6 +672,8 @@
                (local-set-key (kbd "S") (smartchr '("S" "<=> ")))
                (local-set-key (kbd "L") (smartchr '("L" "->")))
                )))
+=======
+>>>>>>> Stashed changes
 
 ;; ----------------------------------------------------------------
 ;; @ wgrep
@@ -803,6 +738,7 @@
 
 (require 'auto-highlight-symbol)
 (global-auto-highlight-symbol-mode t)
+<<<<<<< Updated upstream
 
 ;; ----------------------------------------------------------------
 ;; @ highlight-symbol
@@ -910,3 +846,5 @@
 ;; (smartrep-define-key
 ;;     global-map "M-g" '(("M-n" . 'flymake-goto-next-error)
 ;;                        ("M-p" . 'flymake-goto-prev-error)))
+=======
+>>>>>>> Stashed changes

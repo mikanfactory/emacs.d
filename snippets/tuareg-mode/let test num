@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: let test num
+# key: lt
+# --
+let test${1:1} = ${2:func} ${3:args} = $0

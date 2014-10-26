@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: match lst
+# key: mtl
+# --
+match ${1:lst} with
+[] -> ${2:[]}
+| ${3:first} :: rest -> $0

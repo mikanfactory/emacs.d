@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: object
+# key: ob
+# --
+(* 目的:$0 *)
