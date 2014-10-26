@@ -146,7 +146,7 @@
 (setq require-final-newline t)
 
 ;; 行末の空白を削除
-;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; ----------------------------------------------------------------
 ;; @ key bind
@@ -186,6 +186,33 @@
 ;; ----------------------------------------------------------------
 ;; @ mode
 ;; ----------------------------------------------------------------
+;; ----------------------------------------------------------------
+;; @ slime
+;; ----------------------------------------------------------------
+;; Clozure CLをデフォルトのCommon Lisp処理系に設定
+(setq inferior-lisp-program "ccl")
+;; ~/.emacs.d/slimeをload-pathに追加
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/slime"))
+;; SLIMEのロード
+(require 'slime)
+(slime-setup '(slime-repl slime-fancy slime-banner))
+
+(setq auto-mode-alist
+      (cons (cons "\\.cl$" 'lisp-mode) auto-mode-alist))
+
+(require 'ac-slime)
+(add-hook 'slime-mode-hook 'set-up-slime-ac)
+(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+
+;; ----------------------------------------------------------------
+;; @ gosh-mode
+;; ----------------------------------------------------------------
+(setq process-coding-system-alist
+      (cons '("gosh" utf-8 . utf-8) process-coding-system-alist))
+(setq scheme-program-name "gosh -i")
+(autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t)
+(autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
+
 ;; ----------------------------------------------------------------
 ;; @ ruby-mode
 ;; ----------------------------------------------------------------
@@ -308,20 +335,6 @@
   (moz-minor-mode 1))
 
 ;; ----------------------------------------------------------------
-;; @ coffee-mode
-;; ----------------------------------------------------------------
-
-(require 'coffee-mode)
-(defun coffee-custom ()
-  "coffee-mode-hook"
-  (and (set (make-local-variable 'tab-width) 2)
-       (set (make-local-variable 'coffee-tab-width) 2))
-  )
-
-(add-hook 'coffee-mode-hook
-          '(lambda() (coffee-custom)))
-
-;; ----------------------------------------------------------------
 ;; @ elisp-mode
 ;; ----------------------------------------------------------------
 
@@ -334,27 +347,6 @@
                                          (?\| . ?\|)
                                          ))))
 (require 'lispxmp)
-
-;; ----------------------------------------------------------------
-;; @ slime
-;; ----------------------------------------------------------------
-;; Clozure CLをデフォルトのCommon Lisp処理系に設定
-(setq inferior-lisp-program "ccl")
-;; ~/.emacs.d/slimeをload-pathに追加
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/slime"))
-;; SLIMEのロード
-(require 'slime)
-(slime-setup '(slime-repl slime-fancy slime-banner))
-
-;; ----------------------------------------------------------------
-;; @ gosh-mode
-;; ----------------------------------------------------------------
-
-(setq process-coding-system-alist
-      (cons '("gosh" utf-8 . utf-8) process-coding-system-alist))
-(setq scheme-program-name "gosh -i")
-(autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t)
-(autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
 
 
 ;; ----------------------------------------------------------------
@@ -413,8 +405,8 @@
 ;; @ package
 ;; ----------------------------------------------------------------
 
-;; ;; MELPA、Marmaladeの設定
-;; ;; package.elはEmacs24に標準で入っている
+;; MELPA、Marmaladeの設定
+;; package.elはEmacs24に標準で入っている
 ;; (require 'package)
 ;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 ;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
@@ -486,15 +478,10 @@
 (require 'helm-c-yasnippet)
 ;; (helm-descbinds-mode)
 
-;; (define-key global-map (kbd "C-x C-f") 'helm-find-files)
 (define-key global-map (kbd "M-x")     'helm-M-x)
-;; (define-key global-map (kbd "M-i")     'helm-imenu)
 (define-key global-map (kbd "C-, u b")   'helm-for-files)
 (define-key global-map (kbd "M-y")     'helm-show-kill-ring)
 (define-key global-map (kbd "C-, u f") 'helm-ls-git-ls)
-;; (define-key global-map (kbd "C-c i i") 'helm-c-yas-complete)
-;; (define-key global-map (kbd "M-s")     'helm-ag)
-;; (define-key global-map (kbd "C-c f")   'helm-flycheck)
 
 ;; Emulate `kill-line' in helm minibuffer
 (setq helm-delete-minibuffer-contents-from-point t)
@@ -525,11 +512,6 @@
 (require 'ido)
 (ido-mode t)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
-;; (setq ido-everywhere t)
-;; (setq ido-enable-flex-matching t)
-;; (setq ido-create-new-buffer 'always)
-;; (when (boundp 'confirm-nonexistent-file-or-buffer)
-;;   (setq confirm-nonexistent-file-or-buffer nil))
 
 ;; ----------------------------------------------------------------
 ;; @ yasnippet
@@ -578,23 +560,6 @@
 
 (when (require 'undohist nil t)
     (undohist-initialize))
-
-;; ----------------------------------------------------------------
-;; @ undotree
-;; ----------------------------------------------------------------
-;; C-x u で起動
-
-(when (require 'undo-tree nil t)
-    (global-undo-tree-mode))
-
-;; ----------------------------------------------------------------
-;; @ redo+
-;; ----------------------------------------------------------------
-
-(require 'redo+)
-(setq undo-no-redo t)
-(setq undo-limit 60000)
-(setq undo-strong-limit 600000)
 
 ;; ----------------------------------------------------------------
 ;; @ pbcopy
