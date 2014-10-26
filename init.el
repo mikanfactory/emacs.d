@@ -34,18 +34,6 @@
 (color-theme-initialize)
 (add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
 (color-theme-railscasts)
-<<<<<<< Updated upstream
-;; (color-theme-tomorrow-night)
-
-;; monokai , zenburn , molokai
-(setq custom-theme-load-path nil)
-(add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/themes")
-(load-theme 'monokai t)
-;; (load-theme 'solarized-dark t)
-;; (load-theme 'molokai t)
-;; (load-theme 'zenburn t)
-=======
->>>>>>> Stashed changes
 
 (setq-default tab-width 2)              ;; インデントの深さを2にする
 (setq-default indent-tabs-mode nil)     ;; タブをスペースで扱う
@@ -64,11 +52,7 @@
                     :height 165)
 (set-fontset-font
  nil 'japanese-jisx0208
-<<<<<<< Updated upstream
  (font-spec :family "ricty"))
-=======
- (font-spec :family "Ricty"))
->>>>>>> Stashed changes
 
 ;;; *.~ とかのバックアップファイルを作らない
 (setq make-backup-files nil)
@@ -487,20 +471,6 @@
 (global-set-key (kbd "M-]") 'bm-next)
 
 ;; ----------------------------------------------------------------
-;; @ open-junk-file
-;; ----------------------------------------------------------------
-
-<<<<<<< Updated upstream
-(require 'open-junk-file)
-(setq open-junk-file-format "~/memo/junk/%Y-%m-%d-%H%M%S.")
-(key-chord-define-global "jk" 'open-junk-file)
-=======
-;; (require 'open-junk-file)
-;; (setq open-junk-file-format "~/memo/junk/%Y-%m-%d-%H%M%S.")
-;; (key-chord-define-global "zx" 'open-junk-file)
->>>>>>> Stashed changes
-
-;; ----------------------------------------------------------------
 ;; @ helm, helm-ag, helm-c-yasnippet, helm-flycheck
 ;; ----------------------------------------------------------------
 
@@ -562,7 +532,6 @@
 ;;   (setq confirm-nonexistent-file-or-buffer nil))
 
 ;; ----------------------------------------------------------------
-<<<<<<< Updated upstream
 ;; @ yasnippet
 ;; ----------------------------------------------------------------
 
@@ -591,8 +560,6 @@
 (define-key yas-minor-mode-map (kbd "C-c i v") 'yas-visit-snippet-file)
 
 ;; ----------------------------------------------------------------
-=======
->>>>>>> Stashed changes
 ;; @ recentf
 ;; ----------------------------------------------------------------
 
@@ -636,44 +603,7 @@
 ;; CUIでEMACSを起動させるときに使う
 ;; (require 'pbcopy)
 ;; (turn-on-pbcopy)
-<<<<<<< Updated upstream
 
-;; ----------------------------------------------------------------
-;; @ smartchr
-;; ----------------------------------------------------------------
-
-(require 'smartchr)
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             (progn
-               (local-set-key (kbd "H") (smartchr '("H" "=> ")))
-               (local-set-key (kbd "I") (smartchr '("I" "|`!!'|" "|")))
-               (local-set-key (kbd "E") (smartchr '("E" "== ")))
-               (local-set-key (kbd "S") (smartchr '("S" "<=> ")))
-               (local-set-key (kbd "L") (smartchr '("L" "->")))
-               )))
-
-(add-hook 'rhtml-mode-hook
-          '(lambda ()
-             (progn
-               (local-set-key (kbd "H") (smartchr '("H" "=> ")))
-               (local-set-key (kbd "I") (smartchr '("I" "|`!!'|" "|")))
-               (local-set-key (kbd "E") (smartchr '("E" "== ")))
-               (local-set-key (kbd "S") (smartchr '("S" "<=> ")))
-               (local-set-key (kbd "L") (smartchr '("L" "->")))
-               )))
-
-(add-hook 'js2-mode-hook
-          '(lambda ()
-             (progn
-               (local-set-key (kbd "H") (smartchr '("H" "=> ")))
-               (local-set-key (kbd "I") (smartchr '("I" "|`!!'|" "|")))
-               (local-set-key (kbd "E") (smartchr '("E" "== ")))
-               (local-set-key (kbd "S") (smartchr '("S" "<=> ")))
-               (local-set-key (kbd "L") (smartchr '("L" "->")))
-               )))
-=======
->>>>>>> Stashed changes
 
 ;; ----------------------------------------------------------------
 ;; @ wgrep
@@ -738,113 +668,4 @@
 
 (require 'auto-highlight-symbol)
 (global-auto-highlight-symbol-mode t)
-<<<<<<< Updated upstream
 
-;; ----------------------------------------------------------------
-;; @ highlight-symbol
-;; ----------------------------------------------------------------
-
-(require 'highlight-symbol)
-(setq highlight-symbol-colors '("DarkOrange" "DodgerBlue1" "DeepPink1")) ;; 使いたい色を設定、repeatしてくれる
-
-;; 適宜keybindの設定
-(global-unset-key "\C-o")
-(global-set-key (kbd "C-o" ) 'highlight-symbol-at-point)
-(global-set-key (kbd "M-o") 'highlight-symbol-remove-all)
-
-;; ----------------------------------------------------------------
-;; @ anzu
-;; ----------------------------------------------------------------
-
-(require 'anzu)
-
-(global-anzu-mode +1)
-(setq anzu-search-threshold 1000)
-(setq anzu-minimum-input-length 3)
-
-(global-set-key (kbd "M-r") 'anzu-query-replace)
-(global-set-key (kbd "M-R") 'anzu-query-replace-regexp)
-
-;; ----------------------------------------------------------------
-;; @ smartrep, expand-region, multiple-cursors
-;; ----------------------------------------------------------------
-
-(add-to-list 'load-path "~/.emacs.d/elisp/expand-region/")
-(add-to-list 'load-path "~/.emacs.d/elisp/multiple-cursors/")
-
-(require 'smartrep)
-(require 'expand-region)
-(require 'multiple-cursors)
-
-(global-unset-key "\C-]")
-(global-set-key (kbd "C-]") 'er/expand-region)
-(global-set-key (kbd "M-]") 'er/contract-region)
-
-(declare-function smartrep-define-key "smartrep")
-
-(global-set-key (kbd "C-M-c") 'mc/edit-lines)
-(global-set-key (kbd "C-M-r") 'mc/mark-all-in-region)
-
-(global-unset-key "\C-l")
-
-(smartrep-define-key global-map "C-l"
-  '(("C-l"      . 'mc/mark-next-like-this)
-    ("n"        . 'mc/mark-next-like-this)
-    ("p"        . 'mc/mark-previous-like-this)
-    ("m"        . 'mc/mark-more-like-this-extended)
-    ("u"        . 'mc/unmark-next-like-this)
-    ("U"        . 'mc/unmark-previous-like-this)
-    ("s"        . 'mc/skip-to-next-like-this)
-    ("S"        . 'mc/skip-to-previous-like-this)
-    ("*"        . 'mc/mark-all-like-this)
-    ("d"        . 'mc/mark-all-like-this-dwim)
-    ("i"        . 'mc/insert-numbers)
-    ("o"        . 'mc/sort-regions)
-    ("O"        . 'mc/reverse-regions)))
-
-;; ----------------------------------------------------------------
-;; @ magit
-;; ----------------------------------------------------------------
-
-(add-to-list 'load-path "~/.emacs.d/elisp/magit")
-(require 'magit)
-(set-variable 'magit-emacsclient-executable "/usr/local/Cellar/emacs/24.3/bin/emacsclient")
-(global-set-key (kbd "C-x C-s") 'magit-status)
-
-;; ----------------------------------------------------------------
-;; @ bufhistory
-;; ----------------------------------------------------------------
-
-;; (require 'bufhistory)
-;; (bufhistory-mode 1)
-
-;; ----------------------------------------------------------------
-;; @ git-gutter-fringe
-;; ----------------------------------------------------------------
-
-(require 'git-gutter-fringe)
-
-;; If you enable global minor mode
-(global-git-gutter-mode t)
-(global-set-key (kbd "C-c C-t") 'git-gutter:toggle)
-(global-set-key (kbd "C-c v h") 'git-gutter:popup-hunk)
-
-;; Jump to next/previous hunk
-(global-set-key (kbd "C-c p") 'git-gutter:previous-hunk)
-(global-set-key (kbd "C-c n") 'git-gutter:next-hunk)
-
-;; ----------------------------------------------------------------
-;; @ flycheck, flycheck-color-mode-line
-;; ----------------------------------------------------------------
-
-;; (add-hook 'ruby-mode-hook 'flycheck-mode)
-
-;; (require 'flycheck-color-mode-line)
-;; (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
-
-;; flymake
-;; (smartrep-define-key
-;;     global-map "M-g" '(("M-n" . 'flymake-goto-next-error)
-;;                        ("M-p" . 'flymake-goto-prev-error)))
-=======
->>>>>>> Stashed changes
