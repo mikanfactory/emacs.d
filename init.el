@@ -1,13 +1,16 @@
 ;; ----------------------------------------------------------------
 ;; @ General
 ;; ----------------------------------------------------------------
+;; パスの設定
+(add-to-list 'load-path "~/.emacs.d/elisp")
+
 ;; ----------------------------------------------------------------
 ;; @evil-mode
 ;; ----------------------------------------------------------------
-
 (add-to-list 'load-path "~/.emacs.d/elisp/evil")
 (require 'evil)
 (evil-mode 1)
+
 ;; ----------------------------------------------------------------
 ;; @ redo+
 ;; ----------------------------------------------------------------
@@ -20,9 +23,7 @@
 (global-set-key (kbd "C-m") 'newline-and-indent)
 
 ;; ----------------------------------------------------------------
-;; パスの設定
-(add-to-list 'load-path "~/.emacs.d/elisp")
-
+;; ----------------------------------------------------------------
 ;; rbenvで入れたrubyを使う
 (setenv "PATH" (concat (getenv "HOME") "/.rbenv/shims:"
                        (getenv "HOME") "/.rbenv/bin:" (getenv "PATH")))
@@ -158,6 +159,9 @@
 ;; 行末の空白を削除
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; 対応するカッコをハイライト
+(show-paren-mode t)
+
 ;; ----------------------------------------------------------------
 ;; @ modeline
 ;; ----------------------------------------------------------------
@@ -205,13 +209,16 @@
 (require 'ac-slime)
 (add-hook 'slime-mode-hook 'set-up-slime-ac)
 (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+(eval-after-load "auto-complete"
+  '(add-to-list 'ac-modes 'slime-repl-mode))
 
 ;; ----------------------------------------------------------------
 ;; @ rainbow delimiters
 ;; ----------------------------------------------------------------
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/rainbow-delimiters"))
 (require 'rainbow-delimiters)
 (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
-;; (add-to-list 'rainbow-delimiters-ignore-modes 'fundamental-mode)                    ;helmとの干渉回避
+;; (add-to-list 'rainbow-delimiters-ignore-modes 'fundamental-mode) ;helmとの干渉回避
 (custom-set-faces '(rainbow-delimiters-depth-1-face ((t (:foreground "#586e75"))))) ;文字列の色と被るため,変更
 ;; (global-rainbow-delimiters-mode 1)
 
@@ -223,100 +230,6 @@
 (setq scheme-program-name "gosh -i")
 (autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t)
 (autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
-
-;; ----------------------------------------------------------------
-;; @ ruby-mode
-;; ----------------------------------------------------------------
-(setq rsense-home "/usr/local/Cellar/rsense/0.3/libexec/")
-(add-to-list 'load-path (concat rsense-home "/etc"))
-(require 'rsense)
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (add-to-list 'ac-sources 'ac-source-rsense-method)
-            (add-to-list 'ac-sources 'ac-source-rsense-constant)))
-            ;; (define-key ruby-mode-map (kbd "C-i") 'ac-complete-rsense)))
-
-;; ----------------------------------------------------------------
-;; @ inf-ruby
-;; ----------------------------------------------------------------
-
-(require 'inf-ruby)
-(require 'smart-compile)
-;; (require 'ac-inf-ruby)
-
-(autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
-(add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
-
-(add-to-list 'inf-ruby-implementations '("pry" . "pry"))
-(setq inf-ruby-default-implementation "pry")
-
-(setq inf-ruby-first-prompt-pattern "^\\[[0-9]+\\] pry\\((.*)\\)> *")
-(setq inf-ruby-prompt-pattern "^\\[[0-9]+\\] pry\\((.*)\\)[>*\"'] *")
-
-;; ----------------------------------------------------------------
-;; @ smart-compile
-;; ----------------------------------------------------------------
-
-(require 'smart-compile)
-(define-key ruby-mode-map (kbd "C-c c") 'smart-compile)
-(define-key ruby-mode-map (kbd "C-c C-c") (kbd "C-c c C-m"))
-(setq compilation-window-height 15) ;; default window height is 15
-
-;; ----------------------------------------------------------------
-;; @ ruby-block
-;; ----------------------------------------------------------------
-(require 'ruby-block)
-(ruby-block-mode t)
-;; ミニバッファに表示し, かつ, オーバレイする.
-(setq ruby-block-highlight-toggle t)
-
-;; ----------------------------------------------------------------
-;; @ Ruby on Rails
-;; ----------------------------------------------------------------
-;; ----------------------------------------------------------------
-;; @ rhtml-mode
-;; ----------------------------------------------------------------
-(add-to-list 'load-path "~/.emacs.d/elisp/ruby/rhtml-mode")
-(require 'rhtml-mode)
-(add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
-(add-hook 'rhtml-mode-hook
-          (lambda () (rinari-launch)))
-(local-unset-key (kbd "C-c C-o"))
-
-;; ----------------------------------------------------------------
-;; @ js2-mode
-;; ----------------------------------------------------------------
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(setq js2-mode-hook
-      '(lambda()
-         (setq js2-indent-level 2)
-         (setq js2-basic-offset 2)
-         (setq tab-width 2)
-         ))
-
-;; ----------------------------------------------------------------
-;; @ moz
-;; ----------------------------------------------------------------
-(autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
-
-(add-hook 'js2-mode-hook 'javascript-custom-setup)
-(defun javascript-custom-setup ()
-  (moz-minor-mode 1))
-
-;; ----------------------------------------------------------------
-;; @ elisp-mode
-;; ----------------------------------------------------------------
-(add-hook 'emacs-lisp-mode-hook
-          '(lambda ()
-             (electric-layout-mode t)
-             (electric-pair-mode t)
-             (electric-indent-mode t)
-             (setq electric-pair-pairs '(
-                                         (?\| . ?\|)
-                                         ))))
-(require 'lispxmp)
-
 
 ;; ----------------------------------------------------------------
 ;; @ elisp
@@ -484,7 +397,6 @@
 ;; 既存スニペットを閲覧・編集する
 (define-key yas-minor-mode-map (kbd "C-c i v") 'yas-visit-snippet-file)
 
-
 ;; ----------------------------------------------------------------
 ;; @ recentf
 ;; ----------------------------------------------------------------
@@ -496,12 +408,6 @@
         (run-with-idle-timer 30 t 'recentf-save-list))
   (recentf-mode 1)
   (require 'recentf-ext))
-
-;; ----------------------------------------------------------------
-;; @ undo-hist
-;; ----------------------------------------------------------------
-(when (require 'undohist nil t)
-    (undohist-initialize))
 
 ;; ----------------------------------------------------------------
 ;; @ pbcopy
