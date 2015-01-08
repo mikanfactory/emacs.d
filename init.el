@@ -5,7 +5,7 @@
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
 ;; ----------------------------------------------------------------
-;; @evil-mode
+;; @ evil-mode
 ;; ----------------------------------------------------------------
 (add-to-list 'load-path "~/.emacs.d/elisp/evil")
 (require 'evil)
@@ -17,7 +17,7 @@
 (require 'redo+)
 
 ;; ----------------------------------------------------------------
-;; @ key bind
+;; @ other key-bind
 ;; ----------------------------------------------------------------
 (keyboard-translate ?\C-h ?\C-?)
 (global-set-key (kbd "C-m") 'newline-and-indent)
@@ -157,7 +157,7 @@
 (setq require-final-newline t)
 
 ;; 行末の空白を削除
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; 対応するカッコをハイライト
 (show-paren-mode t)
@@ -195,7 +195,9 @@
 ;; ----------------------------------------------------------------
 ;; @ slime
 ;; ----------------------------------------------------------------
-;; Clozure CLをデフォルトのCommon Lisp処理系に設定
+;; clispをデフォルトのCommon Lisp処理系に設定
+;; Clozure CLの場合はccl
+;; (setq inferior-lisp-program "clisp")
 (setq inferior-lisp-program "ccl")
 ;; ~/.emacs.d/slimeをload-pathに追加
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/slime"))
@@ -218,8 +220,9 @@
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/rainbow-delimiters"))
 (require 'rainbow-delimiters)
 (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 ;; (add-to-list 'rainbow-delimiters-ignore-modes 'fundamental-mode) ;helmとの干渉回避
-(custom-set-faces '(rainbow-delimiters-depth-1-face ((t (:foreground "#586e75"))))) ;文字列の色と被るため,変更
+;; (custom-set-faces '(rainbow-delimiters-depth-1-face ((t (:foreground "#586e75"))))) ;文字列の色と被るため,変更
 ;; (global-rainbow-delimiters-mode 1)
 
 ;; ----------------------------------------------------------------
@@ -230,6 +233,27 @@
 (setq scheme-program-name "gosh -i")
 (autoload 'scheme-mode "cmuscheme" "Major mode for Scheme." t)
 (autoload 'run-scheme "cmuscheme" "Run an inferior Scheme process." t)
+
+;; ----------------------------------------------------------------
+;; @ clojure-mode, cider-mode, ac-nrepl
+;; ----------------------------------------------------------------
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/clojure"))
+(require 'clojure-mode)
+
+(require 'cider)
+(add-hook 'clojure-mode-hook 'cider-mode)
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(setq nrepl-hide-special-buffers t)
+(setq nrepl-buffer-name-show-port t)
+
+(autoload 'ac-nrepl "ac-nrepl" nil t)
+(add-hook 'cideer-repl-mode-hook 'ac-nrepl-setup)
+(add-hook 'cider-mode-hook 'ac-nrepl-setup)
+(eval-after-load "auto-complete"
+  '(add-to-list 'ac-modes 'cider-repl-mode))
+
+;; (require '4clojure)
+
 
 ;; ----------------------------------------------------------------
 ;; @ elisp
@@ -295,7 +319,7 @@
 ;; (package-refresh-contents)
 
 ;; ----------------------------------------------------------------
-;; @ uniquify
+;; @ Uniquify
 ;; ----------------------------------------------------------------
 (require 'uniquify)
 ;; filename<dir> 形式のバッファ名にする
@@ -474,3 +498,17 @@
 ;; ----------------------------------------------------------------
 (require 'auto-highlight-symbol)
 (global-auto-highlight-symbol-mode t)
+
+;; ----------------------------------------------------------------
+;; @ YaTex 
+;; ----------------------------------------------------------------
+(add-to-list 'load-path "~/.emacs.d/elisp/yatex")
+;; YaTeX mode
+(setq auto-mode-alist
+    (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
+(autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
+(setq tex-command "platex")
+(setq dviprint-command-format "dvipdfmx %s")
+;; use Preview.app
+(setq dvi2-command "open -a Preview")
+(setq bibtex-command "pbibtex")
