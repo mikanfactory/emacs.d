@@ -1,0 +1,16 @@
+(require 'popwin)
+(setq display-buffer-function 'popwin:display-buffer)
+(setq popwin:popup-window-position 'bottom)
+(push '("*Kill Ring*"   :height 0.4) popwin:special-display-config)
+(push '("^\*helm .+\*$" :regexp t)   popwin:special-display-config)
+(push '("*helm-ag*"     :height 0.4) popwin:special-display-config)
+(push '("*Backtrace*"   :height 0.4) popwin:special-display-config)
+(push '("*Buffer List*" :height 0.4) popwin:special-display-config)
+(push '("*Warnigs*"     :height 0.4) popwin:special-display-config)
+(push '("*Completions*" :height 0.4) popwin:special-display-config)
+(push '("*Message*"     :height 0.4) popwin:special-display-config)
+(push '("*undo-tree*"   :height 0.4) popwin:special-display-config)
+
+(setq max-specpdl-size 6000)
+(setq max-lisp-eval-depth 1000)
+
