@@ -122,31 +122,6 @@
 (global-set-key (kbd "<C-tab>") (lambda () (interactive) (other-window-or-split 1)))
 (global-set-key (kbd "<C-S-tab>") (lambda () (interactive) (other-window-or-split -1)))
 
-
-;; Re-open read-only files as root automagically
-(defun th-rename-tramp-buffer ()
-  (when (file-remote-p (buffer-file-name))
-    (rename-buffer
-     (format "%s:%s"
-             (file-remote-p (buffer-file-name) 'method)
-             (buffer-name)))))
-
-(add-hook 'find-file-hook
-          'th-rename-tramp-buffer)
-
-(defadvice find-file (around th-find-file activate)
-  "Open FILENAME using tramp's sudo method if it's read-only."
-  (if (and (not (file-writable-p (ad-get-arg 0)))
-           (y-or-n-p (concat "File "
-                             (ad-get-arg 0)
-                             " is read-only.  Open it as root? ")))
-      (th-find-file-sudo (ad-get-arg 0))
-    ad-do-it))
-
-(defun th-find-file-sudo (file)
-  "Opens FILE with root privileges."
-  (set-buffer (find-file (concat "/sudo::" file))))
-
 ;;kill-ring
 (setq kill-ring-max 20)
 
@@ -222,7 +197,7 @@
 (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 ;; (add-to-list 'rainbow-delimiters-ignore-modes 'fundamental-mode) ;helmとの干渉回避
-;; (custom-set-faces '(rainbow-delimiters-depth-1-face ((t (:foreground "#586e75"))))) ;文字列の色と被るため,変更
+(custom-set-faces '(rainbow-delimiters-depth-1-face ((t (:foreground "#586e75"))))) ;文字列の色と被るため,変更
 ;; (global-rainbow-delimiters-mode 1)
 
 ;; ----------------------------------------------------------------
@@ -253,7 +228,6 @@
   '(add-to-list 'ac-modes 'cider-repl-mode))
 
 ;; (require '4clojure)
-
 
 ;; ----------------------------------------------------------------
 ;; @ elisp
@@ -343,46 +317,10 @@
 ;; ----------------------------------------------------------------
 (require 'auto-save-buffers)
 ;; アイドル2秒で保存
-(run-with-idle-timer 2 t 'auto-save-buffers)
+(run-with-idle-timer 0.2 t 'auto-save-buffers)
 
 ;; ----------------------------------------------------------------
-;; @ helm, helm-ag, helm-c-yasnippet, helm-flycheck
-;; ----------------------------------------------------------------
-(add-to-list 'load-path "~/.emacs.d/elisp/helm")
-(add-to-list 'load-path "~/.emacs.d/elisp/helm/helm-ag")
-(add-to-list 'load-path "~/.emacs.d/elisp/helm/helm-flycheck")
-(add-to-list 'load-path "~/.emacs.d/elisp/helm/helm-c-yasnippet")
-
-(require 'helm-config)
-(require 'helm-ls-git)
-(require 'helm-ag)
-(require 'helm-flycheck)
-(require 'helm-c-yasnippet)
-;; (helm-descbinds-mode)
-
-(define-key global-map (kbd "M-x")     'helm-M-x)
-(define-key global-map (kbd "C-, u b")   'helm-for-files)
-(define-key global-map (kbd "M-y")     'helm-show-kill-ring)
-(define-key global-map (kbd "C-, u f") 'helm-ls-git-ls)
-
-;; Emulate `kill-line' in helm minibuffer
-(setq helm-delete-minibuffer-contents-from-point t)
-(defadvice helm-delete-minibuffer-contents (before helm-emulate-kill-line activate)
-  "Emulate `kill-line' in helm minibuffer"
-  (kill-new (buffer-substring (point) (field-end))))
-
-(defadvice helm-ff-kill-or-find-buffer-fname (around execute-only-if-exist activate)
-  "Execute command only if CANDIDATE exists"
-  (when (file-exists-p candidate)
-    ad-do-it))
-;; For find-file etc.
-(define-key helm-read-file-map (kbd "TAB")
-  'helm-execute-persistent-action)
-;; For helm-find-files etc.
-(define-key helm-find-files-map (kbd "TAB")
-  'helm-execute-persistent-action)
-
-(setq helm-buffer-max-length 50)
+;; @ helm, helm-ag, helm-c-yasnippet, hel(setq helm-buffer-max-length 50)
 
 (global-set-key (kbd "C-M-z") 'helm-resume)
 
@@ -399,8 +337,7 @@
 ;; ----------------------------------------------------------------
 (require 'yasnippet)
 (setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"
-        ))
+      '("~/.emacs.d/snippets"))
 (yas-global-mode 1)
 
 ;; 単語展開キーバインド
@@ -432,13 +369,6 @@
         (run-with-idle-timer 30 t 'recentf-save-list))
   (recentf-mode 1)
   (require 'recentf-ext))
-
-;; ----------------------------------------------------------------
-;; @ pbcopy
-;; ----------------------------------------------------------------
-;; CUIでEMACSを起動させるときに使う
-;; (require 'pbcopy)
-;; (turn-on-pbcopy)
 
 ;; ----------------------------------------------------------------
 ;; @ wgrep
@@ -480,7 +410,6 @@
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
 (push '("*Kill Ring*"   :height 0.4) popwin:special-display-config)
-(push '("*anything*"    :height 0.4) popwin:special-display-config)
 (push '("^\*helm .+\*$" :regexp t)   popwin:special-display-config)
 (push '("*helm-ag*"     :height 0.4) popwin:special-display-config)
 (push '("*Backtrace*"   :height 0.4) popwin:special-display-config)
