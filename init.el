@@ -1,54 +1,45 @@
-;; ----------------------------------------------------------------
-;; @ General
-;; ----------------------------------------------------------------
-;; パスの設定 & init-loader
-(let ((default-directory (expand-file-name "~/.emacs.d/elisp")))
-  (add-to-list 'load-path default-directory)
-  (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-      (normal-top-level-add-subdirs-to-load-path)))
-
-(require 'init-loader)
-(setq init-loader-show-log-after-init nil)
-(init-loader-load "~/.emacs.d/inits")
+(defvar *emacs-config-directory* (file-name-directory load-file-name))
 
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
 
-;; ----------------------------------------------------------------
-;; @ mode
-;; ----------------------------------------------------------------
-;; ----------------------------------------------------------------
-;; @ elisp
-;; ----------------------------------------------------------------
-;; ----------------------------------------------------------------
-;; @ auto-install
-;; ----------------------------------------------------------------
-;; ;; auto-installの設定
-;; (when (require 'auto-install nil t)
-;;   ;; インストールディレクトリを設定する
-;;   ;; 初期値は ~/.emacs.d/auto-install/
-;;   (setq auto-install-directory "~/.emacs.d/elisp")
+(defun package-install-with-refresh (package)
+  (unless (assq package package-alist)
+    (package-refresh-contents))
+  (unless (package-installed-p package)
+    (package-install package)))
 
-;;   ;; EmacsWiki に登録されている elisp の名前を取得する
-;;   (auto-install-update-emacswiki-package-name t)
+(defun require-or-install (package)
+  (or (require package nil t)
+      (progn
+        (package-install-with-refresh package)
+        (require package))))
 
-;;   ;; 必要であればプロキシの設定を行う
-;;   ;; (setq url-proxy-services '(("http" . "localhost:8080")))
+;; init-loader
+(require-or-install 'init-loader)
 
-;;   ;; install-elisp の関数を利用可能にする
-;;   (auto-install-compatibility-setup))
+(setq init-loader-show-log-after-init nil)
 
-;; ----------------------------------------------------------------
-;; @ package
-;; ----------------------------------------------------------------
-;; MELPA、Marmaladeの設定
-;; package.elはEmacs24に標準で入っている
-;; (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-;; (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
-;; (package-initialize)
+(init-loader-load
+ (expand-file-name "inits/" *emacs-config-directory*))
 
-;; パッケージ情報の更新
-;; (package-refresh-contents)
+(package-refresh-contents)
+
+;; el-get
+(defvar *el-get-directory*
+  (expand-file-name "el-get/el-get" *emacs-config-directory*))
+
+(add-to-list 'load-path *el-get-directory*)
+
+;; Unless el-get doesn't exist, install it.
+(unless (require 'el-get nil t)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
 

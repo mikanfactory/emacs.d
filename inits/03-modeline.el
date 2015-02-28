@@ -1,9 +1,7 @@
-;; モードラインに行番号表示
 (line-number-mode t)
-;; モードラインに列番号表示
 (column-number-mode t)
 
-;; モードラインの割合表示を総行数表示
+;; Show total line number
 (defvar my-lines-page-mode t)
 (defvar my-mode-line-format)
 
@@ -21,10 +19,3 @@
         '(:eval (format my-mode-line-format
                         (count-lines (point-max) (point-min))))))
 (interactive "F")
-
-;; uniquify
-(require 'uniquify)
-;; filename<dir> 形式のバッファ名にする
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-;; *で囲まれたバッファ名は対象外にする
-(setq uniquify-ignore-buffers-re "*[^*]+*")

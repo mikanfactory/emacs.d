@@ -1,0 +1,26 @@
+(define-key global-map (kbd "RET") 'newline-and-indent)
+
+(defun define-keys (&optional mode)
+  (loop for (key . fn) in `(("\C-h" . delete-backward-char)
+			    ("\C-m" . newline-and-indent))
+	if mode do (define-key mode key fn)
+	else do (global-set-key key fn)))
+
+(define-keys)
+
+(define-prefix-command 'window 'windmove-map)
+(global-set-key (kbd "C-w") 'windmove-map)
+(define-key windmove-map "h" 'windmove-left)
+(define-key windmove-map "j" 'windmove-down)
+(define-key windmove-map "k" 'windmove-up)
+(define-key windmove-map "l" 'windmove-right)
+(define-key windmove-map "0" 'delete-window)
+(define-key windmove-map "v" 'split-window-vertically)
+(define-key windmove-map "n" 'split-window-horizontally)
+
+(defun split-window-conditional ()
+  (interactive)
+  (if (> (* (window-height) 2) (window-width))
+      (split-window-vertically)
+    (split-window-horizontally)))
+(define-key windmove-map "s" 'split-window-conditional)

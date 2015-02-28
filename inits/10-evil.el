@@ -1,5 +1,5 @@
-(require 'evil)
-(require 'redo+)
+(require-or-install 'evil)
+(require-or-install 'redo+)
 (evil-mode 1)
 
 (define-key evil-insert-state-map (kbd "C-e") 'move-end-of-line)
