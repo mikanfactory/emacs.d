@@ -1,7 +1,6 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: match lst
-# key: mtl
+# -*- mode: snippet -*-
+# name: match
+# key: match
 # --
-match ${1:lst} with
-[] -> ${2:[]}
-| ${3:first} :: rest -> $0
+match ${1:to_match} with
+      | ${2:matching} -> $0

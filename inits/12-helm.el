@@ -1,8 +1,5 @@
-;; helm, helm-ag, helm-flycheck, helm-c-yasnippet
-(add-to-list 'load-path "~/.emacs.d/elisp/helm")
-(add-to-list 'load-path "~/.emacs.d/elisp/helm/helm-ag")
-
-(require-or-install 'helm-config)
+;; helm, helm-ag
+(require-or-install 'helm)
 (require-or-install 'helm-ls-git)
 (require-or-install 'helm-ag)
 

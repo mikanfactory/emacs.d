@@ -1,5 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: link_to
-# key: link
-# --
-<%= link_to ${1:user.name}, current_user %>

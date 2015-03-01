@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: img_tag
-# key: image
-# --
-<%= image_tag ("${1:file_path}", size: "${3:128x128}", class: "${0:th radius}") %>

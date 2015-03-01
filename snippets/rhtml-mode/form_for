@@ -1,5 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: form_for
-# key: form
-# --
-<%= form_for($0) do |f| %>

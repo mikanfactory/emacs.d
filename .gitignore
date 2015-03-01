@@ -9,9 +9,10 @@ ac-comphist.dat
 undohist
 auto-save-list
 url
-el-get
+el-get/el-get
 elpa
 .mc-lists.el
 tags
 tramp
 bookmarks
+abbrev_defs

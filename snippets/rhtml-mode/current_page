@@ -1,5 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: current_page
-# key: current
-# --
-<%= current_page?(controller: '${1:pages}', action: '${2:index}') %>

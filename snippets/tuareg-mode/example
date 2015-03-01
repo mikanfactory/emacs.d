@@ -1,5 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: example
-# key: em
-# --
-(* ${1:name} : ${2:a} -> ${3:b} *)
