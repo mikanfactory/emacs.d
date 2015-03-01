@@ -40,7 +40,6 @@
 
 ;; Don't show start-up-messages.
 (setq inhibit-startup-message t)
-(setq initial-scratch-message "")
 (setq initial-major-mode 'emacs-lisp-mode)
 
 (setq-default tab-width 2

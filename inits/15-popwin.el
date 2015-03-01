@@ -1,4 +1,4 @@
-(require 'popwin)
+(require-or-install 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
 (push '("*Kill Ring*"   :height 0.4) popwin:special-display-config)

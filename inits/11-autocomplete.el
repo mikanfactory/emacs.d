@@ -1,24 +1,29 @@
-;; yasnippet
-(require 'yasnippet)
-(setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"))
-(yas-global-mode 1)
-
-;; 新規スニペットを作成するバッファを用意する
-(define-key yas-minor-mode-map (kbd "C-c i n") 'yas-new-snippet)
-;; 既存スニペットを閲覧・編集する
-(define-key yas-minor-mode-map (kbd "C-c i v") 'yas-visit-snippet-file)
-
-
 ;; auto-complete
-(when (require 'auto-complete-config nil t)
-  (add-to-list 'ac-dictionary-directories
-         "~/.emacs.d/elisp/ac-dict")
-  (ac-config-default))
-
-;; C-n/C-p で補完候補を選択
+(require-or-install 'auto-complete-config)
+(require-or-install 'fuzzy)
+(add-to-list 'ac-dictionary-directories
+             "~/.emacs.d/ac-dict")
+(ac-config-default)
+;; Select complement candidate by C-n/C-p
 (setq ac-use-menu-map t)
-;; デフォルトで設定済み
 (define-key ac-menu-map "\C-n" 'ac-next)
 (define-key ac-menu-map "\C-p" 'ac-previous)
+
+(setq ac-use-comphist t) 
+(setq ac-ignore-case nil) 
+
+(defadvice ac-word-candidates (after remove-word-contain-japanese activate)
+  (let ((contain-japanese (lambda (s) (string-match (rx (category japanese)) s))))
+    (setq ad-return-value
+          (remove-if contain-japanese ad-return-value))))
+
+;; eldoc
+(require-or-install 'eldoc)
+(require-or-install 'eldoc-extension)
+(setq eldoc-idle-delay 0)
+(setq eldoc-echo-area-use-multiline-p t)
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+
 

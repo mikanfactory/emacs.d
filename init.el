@@ -35,7 +35,7 @@
 
 (add-to-list 'load-path *el-get-directory*)
 
-;; Unless el-get doesn't exist, install it.
+;; If el-get doesn't exist, install it.
 (unless (require 'el-get nil t)
   (with-current-buffer
       (url-retrieve-synchronously
@@ -43,3 +43,7 @@
     (goto-char (point-max))
     (eval-print-last-sexp)))
 
+(setq el-get-recipe-path
+      (expand-file-name "el-get/user/recipes"))
+(setq el-get-user-package-directory
+      (expand-file-name "el-get/user/init-files"))

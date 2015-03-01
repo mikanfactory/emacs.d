@@ -1,5 +1,5 @@
 ;; ido
-;; find-file,kill-buffer,dired用に使う
-(require 'ido)
+;; Use for find-file, kill-buffer, dired
+(require-or-install 'ido)
 (ido-mode t)
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
