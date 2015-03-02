@@ -44,8 +44,7 @@
   "s"   'ag
   "yn"  'yas-new-snippet
   "yv"  'yas-visit-snippet-file
-  "mst" 'magit-status
-  )
+  "mst" 'magit-status)
 
 ;; (defun require-or-install-evil-plugins (plugins)
 ;;   (or (require (car plugins) nil t)
