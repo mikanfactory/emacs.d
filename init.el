@@ -46,3 +46,7 @@
       (expand-file-name "el-get/user/recipes"))
 (setq el-get-user-package-directory
       (expand-file-name "el-get/user/init-files"))
+
+;; I never use C-x C-c
+(defalias 'exit 'save-buffers-kill-emacs)
+

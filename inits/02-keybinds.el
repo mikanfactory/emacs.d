@@ -1,9 +1,10 @@
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
-;; Can't use C-h in helm search
-;; when (global-set-key "\C-h" 'delete-backward-char)
-(keyboard-translate ?\C-h ?\C-?)
+(global-set-key (kbd "C-h") 'delete-backward-char)
 (global-set-key (kbd "C-m") 'newline-and-indent)
+
+;; Never use C-x C-c
+(global-unset-key (kbd "C-x C-c"))
 
 (define-prefix-command 'window 'windmove-map)
 (global-set-key (kbd "C-w") 'windmove-map)

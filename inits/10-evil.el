@@ -2,6 +2,7 @@
 (require-or-install 'redo+)
 (evil-mode t)
 
+;; emacs keybinds
 (define-key evil-insert-state-map (kbd "C-a") 'move-beginning-of-line)
 (define-key evil-normal-state-map (kbd "C-a") 'move-beginning-of-line)
 (define-key evil-insert-state-map (kbd "C-e") 'move-end-of-line)
@@ -12,6 +13,12 @@
 (define-key evil-insert-state-map (kbd "C-d") 'delete-char)
 (define-key evil-insert-state-map (kbd "C-k") 'kill-line)
 
+;; window operation
+(define-key evil-normal-state-map (kbd "C-h") 'windmove-left)
+(define-key evil-normal-state-map (kbd "C-j") 'windmove-down)
+(define-key evil-normal-state-map (kbd "C-k") 'windmove-up)
+(define-key evil-normal-state-map (kbd "C-l") 'windmove-right)
+
 (require-or-install 'evil-surround)     
 (global-evil-surround-mode t)          
 
@@ -20,6 +27,12 @@
 
 (require-or-install 'evil-visualstar)
 (global-evil-visualstar-mode t)
+
+(require-or-install 'evil-jumper)
+(global-evil-jumper-mode t)
+
+(require-or-install 'evil-exchange)
+(evil-exchange-install)
 
 (require-or-install 'evil-leader)
 (global-evil-leader-mode t)
