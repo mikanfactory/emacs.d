@@ -38,12 +38,13 @@
 (global-evil-leader-mode t)
 (evil-leader/set-leader ",")
 (evil-leader/set-key
-  "r" 'helm-recentf
-  "f" 'helm-ls-git-ls
-  "b" 'helm-buffers-list
-  "s" 'ag
-  "yn" 'yas-new-snippet
-  "yv" 'yas-visit-snippet-file
+  "r"   'helm-recentf
+  "f"   'helm-ls-git-ls
+  "b"   'helm-buffers-list
+  "s"   'ag
+  "yn"  'yas-new-snippet
+  "yv"  'yas-visit-snippet-file
+  "mst" 'magit-status
   )
 
 ;; (defun require-or-install-evil-plugins (plugins)
