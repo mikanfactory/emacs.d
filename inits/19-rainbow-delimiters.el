@@ -7,8 +7,8 @@
 
 ;; Customized by "M-x customize-group rainbow-delimiters"
 (custom-set-variables
+ '(rainbow-delimiters-max-face-count 12))
 (custom-set-faces
- '(rainbow-delimiters-max-face-count 12)
  '(rainbow-delimiters-depth-1-face  ((t (:foreground "#E0604E"))))
  '(rainbow-delimiters-depth-2-face  ((t (:foreground "#E0604E"))))
  '(rainbow-delimiters-depth-3-face  ((t (:foreground "#E48A767"))))
