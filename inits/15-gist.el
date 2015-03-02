@@ -1,1 +1,0 @@
-(require-or-install 'gist)

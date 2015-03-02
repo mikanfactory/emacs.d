@@ -1,3 +1,14 @@
+;; gist
+(require-or-install 'gist)
+
+;; wdired
+(require-or-install 'wdired)
+(define-key dired-mode-map "w" 'wdired-change-to-wdired-mode)
+
+;; quickrun
+(require-or-install 'quickrun)
+
+;; recentf
 (require-or-install 'recentf)
 (require-or-install 'recentf-ext)
 
@@ -7,4 +18,3 @@
 (setq recentf-auto-save-timer
       (run-with-idle-timer 30 t 'recentf-save-list))
 (recentf-mode t)
-

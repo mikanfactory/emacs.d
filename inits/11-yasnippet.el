@@ -1,6 +1,8 @@
-;; yasnippet
 (require-or-install 'yasnippet)
-
-;; Find file be fail, so avoid it later.
-(setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+(setq yas-snippet-dirs
+      (expand-file-name "snippets/"
+                        (car (directory-files
+                              (expand-file-name "elpa" *emacs-config-directory*)
+                              t
+                              "yasnippet"))))
 (yas-global-mode t)

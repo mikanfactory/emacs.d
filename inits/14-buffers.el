@@ -18,6 +18,7 @@
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
 (push '("*Kill Ring*"   :height 0.4) popwin:special-display-config)
+(push '("*quickrun*"    :height 0.3) popwin:special-display-config)
 (push '("^\*helm .+\*$" :regexp t)   popwin:special-display-config)
 (push '("*helm-ag*"     :height 0.4) popwin:special-display-config)
 (push '("*Backtrace*"   :height 0.4) popwin:special-display-config)

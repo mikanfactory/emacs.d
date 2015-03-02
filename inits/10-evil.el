@@ -44,6 +44,7 @@
   "s"   'ag
   "yn"  'yas-new-snippet
   "yv"  'yas-visit-snippet-file
+  "qr"  'quickrun
   "mst" 'magit-status)
 
 ;; (defun require-or-install-evil-plugins (plugins)
