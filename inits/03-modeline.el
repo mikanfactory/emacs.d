@@ -33,7 +33,8 @@
     (flymake-mode . " Fm")
     (auto-highlight-symbol-mode . "")
     ;; Major modes
-    (lisp-interaction-mode . "Li")
+    (lisp-interaction-mode . "Lisp")
+    (clojure-mode . "Clj")
     (python-mode . "Py")
     (ruby-mode   . "Rb")
     (javascript-mode . "JS")

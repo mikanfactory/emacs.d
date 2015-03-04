@@ -18,3 +18,8 @@
 (setq recentf-auto-save-timer
       (run-with-idle-timer 30 t 'recentf-save-list))
 (recentf-mode t)
+
+;; smartparens
+(require-or-install-by-package-name 'smartparens 'smartparens-config)
+(require-or-install-by-package-name 'smartparens 'smartparens-ruby)
+(smartparens-global-mode t)

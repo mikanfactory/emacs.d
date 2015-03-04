@@ -1,5 +1,5 @@
 ;; auto-complete
-(require-or-install 'auto-complete-config)
+(require-or-install-by-package-name 'auto-complete 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
 

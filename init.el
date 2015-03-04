@@ -10,12 +10,15 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-(defun require-or-install (package)
-  (or (require package nil t)
+(defun require-or-install-by-package-name (pack-name req-name)
+  (or (require req-name nil t)
       (progn
-        (package-install-with-refresh package)
-        (require package))))
+        (package-install-with-refresh pack-name)
+        (require req-name))))
 
+(defun require-or-install (package)
+  (require-or-install-by-package-name package package))
+                                       
 ;; init-loader
 (require-or-install 'init-loader)
 
