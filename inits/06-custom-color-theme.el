@@ -1,3 +1,3 @@
 ;; raliscasts
-(require-or-install 'railscasts-theme)
+(require 'railscasts-theme)
 (load-theme 'railscasts t nil)

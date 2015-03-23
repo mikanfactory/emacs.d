@@ -7,6 +7,6 @@
                                           t
                                           "yasnippet"))))
 
-(require-or-install 'yasnippet)
+(require 'yasnippet)
 (setq yas-snippet-dirs *snippets-directory*)
 (yas-global-mode t)

@@ -1,1 +1,1 @@
-(require-or-install 'scss-mode)
+(require 'scss-mode)

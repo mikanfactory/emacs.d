@@ -1,5 +1,5 @@
-(require-or-install 'evil)
-(require-or-install 'redo+)
+(require 'evil)
+(require 'redo+)
 (evil-mode t)
 
 ;; emacs keybinds
@@ -21,22 +21,22 @@
 (define-key evil-normal-state-map (kbd "C-k") 'windmove-up)
 (define-key evil-normal-state-map (kbd "C-l") 'windmove-right)
 
-(require-or-install 'evil-surround)     
+(require 'evil-surround)     
 (global-evil-surround-mode t)          
 
-(require-or-install 'evil-matchit)
+(require 'evil-matchit)
 (global-evil-matchit-mode t)
 
-(require-or-install 'evil-visualstar)
+(require 'evil-visualstar)
 (global-evil-visualstar-mode t)
 
-(require-or-install 'evil-jumper)
+(require 'evil-jumper)
 (global-evil-jumper-mode t)
 
-(require-or-install 'evil-exchange)
+(require 'evil-exchange)
 (evil-exchange-install)
 
-(require-or-install 'evil-leader)
+(require 'evil-leader)
 (global-evil-leader-mode t)
 (evil-leader/set-leader ",")
 (evil-leader/set-key
@@ -50,14 +50,5 @@
   "qr"  'quickrun
   "mst" 'magit-status)
 
-;; (defun require-or-install-evil-plugins (plugins)
-;;   (or (require (car plugins) nil t)
-;;       (progn
-;;         (package-install-with-refresh 'evil-plugins)
-;;         (loop for plugin in plugins
-;;               do (require plugin)))))
-
-;; (require-or-install-evil-plugins '(evil-little-word
-;;                                    evil-mode-line
-;;                                    evil-operator-moccur))
-                                   
+(require 'evil-little-word)
+(require 'evil-textobj-between)

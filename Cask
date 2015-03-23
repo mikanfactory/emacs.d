@@ -1,0 +1,86 @@
+(source gnu)
+(source melpa)
+(source marmalade)
+
+;; init-loader
+(depends-on "init-loader")
+
+;; 01-init
+(depends-on "dash")
+(depends-on "s")
+(depends-on "f")
+(depends-on "ht")
+
+;; 05-visual
+(depends-on "auto-highlight-symbol")
+
+;; 06-custom-color-theme
+(depends-on "railscasts-theme" :git "https://github.com/mikanfactory/railscasts-theme.git")
+
+;; 10-evil
+(depends-on "evil")
+(depends-on "redo+")
+(depends-on "evil-surround")
+(depends-on "evil-matchit")
+(depends-on "evil-visualstar")
+(depends-on "evil-jumper")
+(depends-on "evil-exchange")
+(depends-on "evil-leader")
+(depends-on "evil-plugins" :git "https://github.com/tarao/evil-plugins.git")
+
+;; 11-auto-complete
+(depends-on "auto-complete")
+(depends-on "eldoc-extension")
+
+;; 12-yasnippet
+(depends-on "yasnippet")
+
+;; 12-helm
+(depends-on "helm")
+(depends-on "helm-ls-git")
+(depends-on "helm-ag")
+
+;; 12-ido
+(depends-on "ido")
+
+;; 13-magit
+(depends-on "magit")
+
+;; 14-buffers
+(depends-on "tempbuf")
+(depends-on "auto-save-buffers-enhanced")
+(depends-on "popwin")
+
+;; 15-search
+(depends-on "ag")
+(depends-on "wgrep")
+(depends-on "wgrep-ag")
+
+;; 16-rainbow-delimiters
+(depends-on "rainbow-delimiters")
+
+;; 17-others
+(depends-on "gist")
+(depends-on "wdired")
+(depends-on "quickrun")
+(depends-on "recentf")
+(depends-on "recentf-ext")
+(depends-on "smartparens")
+
+;; 20-common-lisp
+(depends-on "slime")
+(depends-on "ac-slime")
+
+;; 20-clojure
+(depends-on "clojure-mode")
+(depends-on "cider")
+(depends-on "ac-cider")
+
+;; 20-markdown
+(depends-on "markdown-mode")
+
+;; 20-yatex
+(depends-on "yatex")
+
+;; 21-scss
+(depends-on "scss-mode")

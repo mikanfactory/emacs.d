@@ -1,4 +1,4 @@
-(require-or-install 'yatex)
+(require 'yatex)
 (setq tex-command "platex")
 (setq dviprint-command-format "dvipdfmx %s")
 

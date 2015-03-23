@@ -1,16 +1,16 @@
 ;; gist
-(require-or-install 'gist)
+(require 'gist)
 
 ;; wdired
-(require-or-install 'wdired)
+(require 'wdired)
 (define-key dired-mode-map "w" 'wdired-change-to-wdired-mode)
 
 ;; quickrun
-(require-or-install 'quickrun)
+(require 'quickrun)
 
 ;; recentf
-(require-or-install 'recentf)
-(require-or-install 'recentf-ext)
+(require 'recentf)
+(require 'recentf-ext)
 
 (setq recentf-max-saved-items 2000)
 (setq recentf-exclude '(".recentf"))
@@ -20,6 +20,6 @@
 (recentf-mode t)
 
 ;; smartparens
-(require-or-install-by-package-name 'smartparens 'smartparens-config)
-(require-or-install-by-package-name 'smartparens 'smartparens-ruby)
+(require 'smartparens-config)
+(require 'smartparens-ruby)
 (smartparens-global-mode t)

@@ -6,18 +6,6 @@
 (defun linuxp ()
   (eq window-system 'x))
 
-(defadvice kill-sexp (around kill-sexp-and-fixup activate)
-  (if (and (not (bolp)) (eolp))
-      (progn
-        (forward-char)
-        (fixup-whitespace)
-        (backward-char)
-        (kill-line))
-    ad-do-it))
-
-(defmacro appendf (list &rest lists)
-  `(setq ,list (append ,list ,@lists)))
-
 ;; Prevent omitting a long nested list.
 (setq eval-expression-print-level nil)
 
@@ -82,6 +70,6 @@
 (global-auto-revert-mode 1)
 
 ;; If there are same name in buffer, identify them by each brackets.
-(require-or-install 'uniquify)
+(require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 

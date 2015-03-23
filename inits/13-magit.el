@@ -1,4 +1,4 @@
-(require-or-install 'magit)
+(require 'magit)
 
 ;; evil keybinds
 ;; (evil-set-initial-state 'magit-log-edit-mode 'insert)

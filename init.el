@@ -1,53 +1,15 @@
 (defvar *emacs-config-directory* (file-name-directory load-file-name))
 
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(package-initialize)
+;; cask
+(require 'cask)
+(cask-initialize)
 
-(defun package-install-with-refresh (package)
-  (unless (assq package package-alist)
-    (package-refresh-contents))
-  (unless (package-installed-p package)
-    (package-install package)))
-
-(defun require-or-install-by-package-name (pack-name req-name)
-  (or (require req-name nil t)
-      (progn
-        (package-install-with-refresh pack-name)
-        (require req-name))))
-
-(defun require-or-install (package)
-  (require-or-install-by-package-name package package))
-                                       
 ;; init-loader
-(require-or-install 'init-loader)
-
+(require 'init-loader)
 (setq init-loader-show-log-after-init nil)
-
 (init-loader-load
  (expand-file-name "inits/" *emacs-config-directory*))
-
 (package-refresh-contents)
-
-;; el-get
-(defvar *el-get-directory*
-  (expand-file-name "el-get/el-get" *emacs-config-directory*))
-
-(add-to-list 'load-path *el-get-directory*)
-
-;; If el-get doesn't exist, install it.
-(unless (require 'el-get nil t)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
-
-(setq el-get-recipe-path
-      (expand-file-name "el-get/user/recipes"))
-(setq el-get-user-package-directory
-      (expand-file-name "el-get/user/init-files"))
 
 ;; I never use C-x C-c
 (defalias 'exit 'save-buffers-kill-emacs)
-

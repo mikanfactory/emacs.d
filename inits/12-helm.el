@@ -1,7 +1,7 @@
 ;; helm, helm-ag
-(require-or-install 'helm)
-(require-or-install 'helm-ls-git)
-(require-or-install 'helm-ag)
+(require 'helm)
+(require 'helm-ls-git)
+(require 'helm-ag)
 
 (define-key global-map (kbd "M-x") 'helm-M-x)
 (define-key global-map (kbd "M-y") 'helm-show-kill-ring)

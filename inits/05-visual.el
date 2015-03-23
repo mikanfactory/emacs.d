@@ -39,6 +39,6 @@
 
 
 ;; Highlight all symbol which cursor on.
-(require-or-install 'auto-highlight-symbol)
+(require 'auto-highlight-symbol)
 (global-auto-highlight-symbol-mode t)
 
