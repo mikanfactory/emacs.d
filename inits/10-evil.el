@@ -44,6 +44,7 @@
   "f"   'helm-ls-git-ls
   "b"   'helm-buffers-list
   "s"   'ag
+  "d"   'dired
   "yn"  'yas-new-snippet
   "yv"  'yas-visit-snippet-file
   "qr"  'quickrun
