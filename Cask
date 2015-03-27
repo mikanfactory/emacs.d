@@ -66,6 +66,7 @@
 (depends-on "recentf")
 (depends-on "recentf-ext")
 (depends-on "smartparens")
+(depends-on "memolist" :git "https://github.com/mikanfactory/emacs-memolist")
 
 ;; 20-common-lisp
 (depends-on "slime")

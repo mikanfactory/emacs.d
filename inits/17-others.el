@@ -23,3 +23,6 @@
 (require 'smartparens-config)
 (require 'smartparens-ruby)
 (smartparens-global-mode t)
+
+;; memolist
+(require 'memolist)

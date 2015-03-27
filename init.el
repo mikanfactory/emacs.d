@@ -11,5 +11,3 @@
  (expand-file-name "inits/" *emacs-config-directory*))
 (package-refresh-contents)
 
-;; I never use C-x C-c
-(defalias 'exit 'save-buffers-kill-emacs)

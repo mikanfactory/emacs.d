@@ -13,6 +13,7 @@
 
 ;; Never use C-x C-c
 (global-unset-key (kbd "C-x C-c"))
+(defalias 'exit 'save-buffers-kill-emacs)
 
 (define-prefix-command 'window 'windmove-map)
 (global-set-key (kbd "C-w") 'windmove-map)
