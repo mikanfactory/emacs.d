@@ -1,6 +1,5 @@
 (source gnu)
 (source melpa)
-(source marmalade)
 
 ;; init-loader
 (depends-on "init-loader")

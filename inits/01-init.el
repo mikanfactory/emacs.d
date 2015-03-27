@@ -1,6 +1,3 @@
-(eval-when-compile
-  (require 'cl))
-
 (defun mac-os-p ()
   (member window-system '(mac ns)))
 (defun linuxp ()
@@ -10,9 +7,10 @@
 (setq eval-expression-print-level nil)
 
 ;; exec-path
-(loop for x in (reverse
-                (split-string (substring (shell-command-to-string "echo $PATH") 0 -1) ":"))
-      do (add-to-list 'exec-path x))
+(-each (reverse
+        (split-string
+         (substring (shell-command-to-string "echo $PATH") 0 -1) ":"))
+  (lambda (val) (add-to-list 'exec-path val)))
 
 ;; Don't kill *scratch*
 (defun unkillable-scratch-buffer ()
@@ -30,8 +28,8 @@
 (setq inhibit-startup-message t)
 (setq initial-major-mode 'emacs-lisp-mode)
 
-(setq-default tab-width 2
-              indent-tabs-mode nil)     ;; Use tab as spaces
+;; Use tab as spaces
+(setq-default tab-width 2 indent-tabs-mode nil)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
