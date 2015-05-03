@@ -66,6 +66,7 @@
 (depends-on "recentf-ext")
 (depends-on "smartparens")
 (depends-on "memolist" :git "https://github.com/mikanfactory/emacs-memolist")
+(depends-on "howdoi")
 
 ;; 20-common-lisp
 (depends-on "slime")
@@ -81,6 +82,9 @@
 
 ;; 20-yatex
 (depends-on "yatex")
+
+;; 20-javascript-mode
+(depends-on "web-mode")
 
 ;; 21-scss
 (depends-on "scss-mode")

@@ -26,3 +26,6 @@
 
 ;; memolist
 (require 'memolist)
+
+;; howdoi
+(require 'howdoi)

@@ -17,6 +17,14 @@
 (define-key evil-insert-state-map (kbd "C-d") 'delete-char)
 (define-key evil-insert-state-map (kbd "C-k") 'kill-line)
 
+;; enable C-h while evil-search, evil-ex
+(defmacro add-hook-fn (name &rest body)
+  `(add-hook ,name #'(lambda () ,@body)))
+(add-hook-fn 'isearch-mode-hook
+             (define-key key-translation-map (kbd "C-h") (kbd "<DEL>")))
+(add-hook-fn 'isearch-mode-end-hook
+             (define-key key-translation-map (kbd "C-h") (kbd "C-h")))
+
 ;; window operation
 (define-key evil-normal-state-map (kbd "C-h") 'windmove-left)
 (define-key evil-normal-state-map (kbd "C-j") 'windmove-down)
@@ -48,7 +56,7 @@
   "s"   'ag
   "d"   'dired
   "yn"  'yas-new-snippet
-  "yv"  'yas-visit-snippet-file
+  "ye"  'yas-visit-snippet-file
   "qr"  'quickrun
   "mst" 'magit-status)
 

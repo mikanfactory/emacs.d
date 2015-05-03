@@ -10,6 +10,9 @@
 (setq ac-use-comphist t) 
 (setq ac-ignore-case nil) 
 
+(setq ac-delay 0.2)
+(setq ac-auto-show-menu 0)
+
 (defvar my-ac-sources
   '(ac-source-yasnippet
     ac-source-abbrev
@@ -41,3 +44,4 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+

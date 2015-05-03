@@ -10,4 +10,3 @@
 (init-loader-load
  (expand-file-name "inits/" *emacs-config-directory*))
 (package-refresh-contents)
-

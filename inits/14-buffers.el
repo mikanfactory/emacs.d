@@ -8,10 +8,12 @@
 
 ;; auto-save-buffers
 (require 'auto-save-buffers-enhanced)
+(setq max-specpdl-size 6000) ;; Avoid 'Variable binding depth exceeds' error.
 (setq auto-save-buffers-enhanced-include-regexps '(".+"))
 (setq auto-save-buffers-enhanced-exclude-regexps '("^not-save-file" "\\.ignore$"))
 (setq auto-save-buffers-enhanced-quiet-save-p t)
 (auto-save-buffers-enhanced t)
+(auto-save-buffers-enhanced-include-only-checkout-path t)
 
 ;; popwin
 (require 'popwin)

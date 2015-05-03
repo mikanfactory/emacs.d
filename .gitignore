@@ -21,3 +21,4 @@ snippets/
 var/
 .cask/
 eshell/
+*.elc
