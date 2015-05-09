@@ -7,6 +7,12 @@
 
 ;; quickrun
 (require 'quickrun)
+(quickrun-add-command "node"
+                      '((:command . "node")
+                        (:exec    . ("%c %s")))
+                      :default "javascript")
+
+(quickrun-set-default "javascript" "node")
 
 ;; recentf
 (require 'recentf)

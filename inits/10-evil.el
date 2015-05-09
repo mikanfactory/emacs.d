@@ -2,6 +2,8 @@
 (require 'redo+)
 (evil-mode t)
 
+(custom-set-variables '(evil-shift-width 2))
+
 ;; emacs keybinds
 (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
@@ -50,6 +52,7 @@
 (global-evil-leader-mode t)
 (evil-leader/set-leader ",")
 (evil-leader/set-key
+  "e"   'helm-etags-select
   "r"   'helm-recentf
   "f"   'helm-ls-git-ls
   "b"   'helm-buffers-list
@@ -58,7 +61,13 @@
   "yn"  'yas-new-snippet
   "ye"  'yas-visit-snippet-file
   "qr"  'quickrun
+  "me"  'make-etags
   "mst" 'magit-status)
+
+(defun make-etags ()
+  "Create etags."
+  (interactive)
+  (shell-command "etags *.js"))
 
 (require 'evil-little-word)
 (require 'evil-textobj-between)

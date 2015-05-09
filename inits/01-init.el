@@ -7,10 +7,7 @@
 (setq eval-expression-print-level nil)
 
 ;; exec-path
-(-each (reverse
-        (split-string
-         (substring (shell-command-to-string "echo $PATH") 0 -1) ":"))
-  (lambda (val) (add-to-list 'exec-path val)))
+(exec-path-from-shell-initialize)
 
 ;; Don't kill *scratch*
 (defun unkillable-scratch-buffer ()

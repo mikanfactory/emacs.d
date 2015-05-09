@@ -38,6 +38,7 @@
     (python-mode . "Py")
     (ruby-mode   . "Rb")
     (javascript-mode . "JS")
+    (js2-mode . "JS2")
     (emacs-lisp-mode . "El")
     (markdown-mode . "Md")))
 

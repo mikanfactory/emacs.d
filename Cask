@@ -9,6 +9,7 @@
 (depends-on "s")
 (depends-on "f")
 (depends-on "ht")
+(depends-on "exec-path-from-shell")
 
 ;; 05-visual
 (depends-on "auto-highlight-symbol")
@@ -83,8 +84,19 @@
 ;; 20-yatex
 (depends-on "yatex")
 
-;; 20-javascript-mode
+;; 20-ruby
+(depends-on "rhtml-mode")
+
+
+;; 20-python
+(depends-on "python-mode")
+
+;; 20-javascript
 (depends-on "web-mode")
+(depends-on "js2-mode")
 
 ;; 21-scss
 (depends-on "scss-mode")
+
+;; 21-matlab-mode
+(depends-on "matlab-mode")
