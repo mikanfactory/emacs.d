@@ -22,3 +22,4 @@ var/
 .cask/
 eshell/
 *.elc
+npm-debug.log

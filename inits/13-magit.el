@@ -1,5 +1,7 @@
 (require 'magit)
 
+(setq magit-last-seen-setup-instructions "1.4.0")
+
 ;; evil keybinds
 ;; (evil-set-initial-state 'magit-log-edit-mode 'insert)
 ;; (evil-set-initial-state 'git-commit-mode 'insert)

@@ -1,1 +1,1 @@
-(require 'matlab-mode)
+(require 'matlab)
