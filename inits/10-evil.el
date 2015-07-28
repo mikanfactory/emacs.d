@@ -58,16 +58,12 @@
   "b"   'helm-buffers-list
   "s"   'ag
   "d"   'dired
+  "v"   'dash-at-point
   "yn"  'yas-new-snippet
   "ye"  'yas-visit-snippet-file
   "qr"  'quickrun
   "me"  'make-etags
   "mst" 'magit-status)
-
-(defun make-etags ()
-  "Create etags."
-  (interactive)
-  (shell-command "etags *.js"))
 
 (require 'evil-little-word)
 (require 'evil-textobj-between)

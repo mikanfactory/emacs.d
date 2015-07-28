@@ -68,6 +68,8 @@
 (depends-on "smartparens")
 (depends-on "memolist" :git "https://github.com/mikanfactory/emacs-memolist")
 (depends-on "howdoi")
+(depends-on "dash-at-point")
+(depends-on "ctags-update")
 
 ;; 20-common-lisp
 (depends-on "slime")
@@ -86,6 +88,7 @@
 
 ;; 20-ruby
 (depends-on "rhtml-mode")
+(depends-on "inf-ruby")
 
 
 ;; 20-python
