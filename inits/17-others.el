@@ -35,3 +35,7 @@
 
 ;; howdoi
 (require 'howdoi)
+
+;; dash-at-point
+(require 'dash-at-point)
+
