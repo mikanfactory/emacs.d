@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;; ctags-update
 (require 'ctags-update)
 (setq ctags-update-command "/usr/local/bin/ctags")
@@ -10,17 +11,17 @@
 
 ;; Make new tags in project root directory.
 (defvar *command-alist* '(("rb" . "ripper-tags -e -R -V -f TAGS")
-                          ("el" . "etags -R *.el")
-                          ("js" . "etags -R *.js")
-                          ("py" . "etags -R *.py")))
+                          ("el" . "etags")
+                          ("js" . "etags")
+                          ("py" . "etags")))
 
 (defun project-root-path? (path)
   (f-exists? (f-expand ".git" path)))
 
 (defun find-project-root ()
   (let ((path (f--up (or (f-root? it)
-                         (project-root-path? it)
-                     (f-this-file)))))
+                         (project-root-path? it))
+                     (f-this-file))))
     (if (f-root? path)
         (error "Project root was not found. Please make and retry.")
         path)))
@@ -32,11 +33,24 @@
 
 (defun make-new-tags ()
   (interactive)
-  (let ((ext (f-ext (f-this-file)))
-        (current-dir (f-dirname (f-this-file))))
-    (-when-let (command (find-tags-command ext))
+  (lexical-let* ((ext (f-ext (f-this-file)))
+                 (regexp (format "\\.%s$" ext))
+                 (current-dir (f-dirname (f-this-file)))
+                 (command (find-tags-command ext)))
+    (when command
       (-when-let (project-root (find-project-root))
-        (shell-cd project-root)
-        (async-shell-command command "*Messages*" "*Warnings*")
-        (shell-cd current-dir)))))
+        (if (string= command "etags")
+            (run-etags-command regexp project-root current-dir)
+            (run-original-command command project-root current-dir))))))
 
+(defun run-etags-command (regexp project-root current-dir)
+  (shell-cd project-root)
+  (shell-command
+   (format "find %s -type f 2>/dev/null | grep \"%s\" | xargs etags"
+           "." regexp))          
+  (shell-cd current-dir))
+
+(defun run-original-command (command project-root current-dir)
+  (shell-cd project-root)
+  (shell-command command)
+  (shell-cd current-dir))

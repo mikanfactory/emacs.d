@@ -69,6 +69,8 @@
 (depends-on "memolist" :git "https://github.com/mikanfactory/emacs-memolist")
 (depends-on "howdoi")
 (depends-on "dash-at-point")
+
+;; 18-tags
 (depends-on "ctags-update")
 
 ;; 20-common-lisp
