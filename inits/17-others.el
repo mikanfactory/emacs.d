@@ -39,3 +39,10 @@
 ;; dash-at-point
 (require 'dash-at-point)
 
+;; flycheck
+(require 'flycheck)
+(require 'flycheck-package)
+
+;; tramp
+(require 'tramp)
+
