@@ -30,6 +30,7 @@
 
 ;; 11-auto-complete
 (depends-on "auto-complete")
+(depends-on "fuzzy")
 (depends-on "eldoc-extension")
 
 ;; 12-yasnippet
@@ -93,17 +94,19 @@
 ;; 20-ruby
 (depends-on "rhtml-mode")
 (depends-on "inf-ruby")
-
+(depends-on "rspec-mode")
 
 ;; 20-python
-(depends-on "python-mode")
+(depends-on "epc")
+(depends-on "jedi")
 
 ;; 20-javascript
 (depends-on "web-mode")
 (depends-on "js2-mode")
 
+;; 20-php
+(depends-on "php-mode")
+(depends-on "php+-mode")
+
 ;; 21-scss
 (depends-on "scss-mode")
-
-;; 21-matlab-mode
-(depends-on "matlab-mode")

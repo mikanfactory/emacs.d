@@ -32,6 +32,7 @@
     (tempbuf-mode . "")
     (flymake-mode . " Fm")
     (auto-highlight-symbol-mode . "")
+    (ctags-auto-update-mode . "")
     ;; Major modes
     (lisp-interaction-mode . "Lisp")
     (clojure-mode . "Clj")

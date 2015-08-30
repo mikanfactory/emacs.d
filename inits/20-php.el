@@ -1,0 +1,6 @@
+(require 'php-mode)
+;; (add-hook 'php-mode-hook '(lambda()
+;;                             (setq tab-width 2)
+;;                             (setq indent-tabs-mode t)
+;;                             (setq c-basic-offset 4)))   
+(add-hook 'python-mode-hook 'flycheck-mode)

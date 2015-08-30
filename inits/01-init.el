@@ -15,7 +15,7 @@
       (progn
         (delete-region (point-min) (point-max))
         nil)
-    t))
+      t))
 (add-hook 'kill-buffer-query-functions 'unkillable-scratch-buffer)
 
 ;; Use UTF-8

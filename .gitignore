@@ -23,3 +23,7 @@ var/
 eshell/
 *.elc
 npm-debug.log
+recentf
+ido.last
+.python-environments
+slime
