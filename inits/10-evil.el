@@ -62,8 +62,13 @@
   "yn"  'yas-new-snippet
   "ye"  'yas-visit-snippet-file
   "qr"  'quickrun
-  "me"  'make-etags
   "mst" 'magit-status)
+
+(evil-leader/set-key-for-mode 'js2-mode
+  "mr" 'mocha-run-this-file 
+  "ma" 'mocha-run-all-test
+  "mp" 'mocha-run-previous-process
+  "mt" 'mocha-run-at-point)
 
 (require 'evil-little-word)
 (require 'evil-textobj-between)
