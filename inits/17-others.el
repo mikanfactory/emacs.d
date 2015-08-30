@@ -7,18 +7,23 @@
 
 ;; quickrun
 (require 'quickrun)
-(quickrun-add-command "node"
-                      '((:command . "node")
-                        (:exec    . ("%c %s")))
-                      :default "javascript")
-
-(quickrun-set-default "javascript" "node")
+(setq quickrun-timeout-seconds nil)
+(-each '(("python"     "python")
+         ("javascript" "node")
+         ("ruby"       "ruby"))
+  (-lambda ((lang cmd))
+    (lexical-let ((name (concat "timer-" cmd)))
+      (quickrun-add-command name
+                            `((:command . ,cmd)
+                              (:exec    . ("time %c %s")))
+                            :default lang)
+      (quickrun-set-default lang name))))
 
 ;; recentf
 (require 'recentf)
 (require 'recentf-ext)
 
-(setq recentf-max-saved-items 2000)
+(setq recentf-max-saved-items 200)
 (setq recentf-exclude '(".recentf"))
 (setq recentf-auto-cleanup 10)
 (setq recentf-auto-save-timer
