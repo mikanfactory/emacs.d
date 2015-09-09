@@ -1,5 +1,6 @@
 ;; Use Clozure CL
-(setq inferior-lisp-program "ccl")
+(load (expand-file-name "~/.roswell/impls/ALL/ALL/quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "ros -L ccl -Q run")
 (require 'slime)
 (slime-setup '(slime-repl slime-fancy slime-banner))
 
