@@ -33,6 +33,8 @@
 (define-key evil-normal-state-map (kbd "C-k") 'windmove-up)
 (define-key evil-normal-state-map (kbd "C-l") 'windmove-right)
 
+(require 'evil-anzu)
+
 (require 'evil-surround)     
 (global-evil-surround-mode t)          
 

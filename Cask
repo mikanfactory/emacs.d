@@ -20,6 +20,7 @@
 ;; 10-evil
 (depends-on "evil")
 (depends-on "redo+")
+(depends-on "evil-anzu")
 (depends-on "evil-surround")
 (depends-on "evil-matchit")
 (depends-on "evil-visualstar")
