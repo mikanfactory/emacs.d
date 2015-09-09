@@ -106,7 +106,6 @@
 
 ;; 20-php
 (depends-on "php-mode")
-(depends-on "php+-mode")
 
 ;; 21-scss
 (depends-on "scss-mode")
