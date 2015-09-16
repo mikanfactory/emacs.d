@@ -31,23 +31,13 @@
 
 ;; font
 (set-face-attribute 'default nil
-                    :family "ricty"
-                    :height 165)
+                    :family "Monaco"
+                    :height 140)
 (set-fontset-font
  nil 'japanese-jisx0208
- (font-spec :family "ricty"))
+ (font-spec :family "Monaco"))
 
 
 ;; Highlight all symbol which cursor on.
 (require 'auto-highlight-symbol)
 (global-auto-highlight-symbol-mode t)
-
-;; Highlight string if number of charactors in line over the 80.
-(defmacro add-hook-fn (name &rest body)
-  `(add-hook ,name #'(lambda () ,@body)))
-
-(-each '(js-mode-hook python-mode-hook)
-  (lambda (hooks)
-    (add-hook-fn hooks
-        (font-lock-add-keywords nil
-            '(("^[^\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face t))))))
