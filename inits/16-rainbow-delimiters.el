@@ -1,10 +1,12 @@
 (require 'rainbow-delimiters)
-(add-hook 'js-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'js2-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'ruby-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+(-each '(js2-mode-hook
+         ruby-mode-hook
+         python-mode-hook
+         lisp-mode-hook
+         scheme-mode-hook
+         clojure-mode-hook
+         emacs-lisp-mode-hook)
+  (-lambda (hook) (add-hook hook 'rainbow-delimiters-mode)))
 
 ;; Customized by "M-x customize-group rainbow-delimiters"
 (custom-set-variables

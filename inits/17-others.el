@@ -43,6 +43,7 @@
 
 ;; dash-at-point
 (require 'dash-at-point)
+(add-to-list 'dash-at-point-mode-alist '(python-mode . "python"))
 
 ;; flycheck
 (require 'flycheck)
