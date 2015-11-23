@@ -10,6 +10,7 @@
          (web-mode "\\html$")
          (css-mode "\\.css$")
          (web-mode "\\.twig$")
+         (web-mode "\\.ect$")
          (scss-mode "\\.scss$")
          (yatex-mode "\\.tex$")
          (markdown-mode "\\.\\(md\\|markdown\\)$"))
