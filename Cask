@@ -85,6 +85,7 @@
 (depends-on "clojure-mode")
 (depends-on "cider")
 (depends-on "ac-cider")
+(depends-on "clojure-cheatsheet")
 
 ;; 20-markdown
 (depends-on "markdown-mode")

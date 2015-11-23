@@ -64,6 +64,7 @@
   "yn"  'yas-new-snippet
   "ye"  'yas-visit-snippet-file
   "qr"  'quickrun
+  "clj" 'clojure-cheatsheet
   "mst" 'magit-status)
 
 (evil-leader/set-key-for-mode 'js2-mode
