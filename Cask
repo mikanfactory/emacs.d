@@ -108,5 +108,15 @@
 ;; 20-php
 (depends-on "php-mode")
 
+;; 20-stan
+(depends-on "stan-mode")
+
 ;; 21-scss
 (depends-on "scss-mode")
+
+;; 22-haskell
+(depends-on "haskell-mode")
+
+;; 22-rust
+(depends-on "rust-mode")
+(depends-on "racer")
