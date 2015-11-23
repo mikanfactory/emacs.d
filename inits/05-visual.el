@@ -35,7 +35,7 @@
                     :height 140)
 (set-fontset-font
  nil 'japanese-jisx0208
- (font-spec :family "Monaco"))
+ (font-spec :family "Ricty"))
 
 
 ;; Highlight all symbol which cursor on.
