@@ -50,7 +50,6 @@
 
 ;; 14-buffers
 (depends-on "tempbuf")
-(depends-on "auto-save-buffers-enhanced")
 (depends-on "popwin")
 
 ;; 15-search
