@@ -6,6 +6,7 @@
 
 (require 'js2-mode)
 (custom-set-variables '(js2-basic-offset 2))
+(add-hook 'javascript-mode-hook 'flycheck-mode)
 
 (defgroup mocha nil
   "Run mocha quickly"
