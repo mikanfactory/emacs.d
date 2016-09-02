@@ -1,6 +1,3 @@
-;; gist
-(require 'gist)
-
 ;; wdired
 (require 'wdired)
 (define-key dired-mode-map "w" 'wdired-change-to-wdired-mode)
@@ -12,7 +9,7 @@
          ("javascript" "node")
          ("ruby"       "ruby"))
   (-lambda ((lang cmd))
-    (lexical-let ((name (concat "timer-" cmd)))
+    (let ((name (concat "timer-" cmd)))
       (quickrun-add-command name
                             `((:command . ,cmd)
                               (:exec    . ("time %c %s")))
@@ -32,23 +29,11 @@
 
 ;; smartparens
 (require 'smartparens-config)
-(require 'smartparens-ruby)
 (smartparens-global-mode t)
 
 ;; memolist
 (require 'memolist)
 
-;; howdoi
-(require 'howdoi)
-
-;; dash-at-point
-(require 'dash-at-point)
-(add-to-list 'dash-at-point-mode-alist '(python-mode . "python"))
-
 ;; flycheck
 (require 'flycheck)
 (require 'flycheck-package)
-
-;; tramp
-(require 'tramp)
-

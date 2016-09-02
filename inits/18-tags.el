@@ -12,7 +12,6 @@
 
 ;; Make new tags in project root directory.
 (defvar command-alist '(("rb" . "ripper-tags -e -R -V -f TAGS")
-                          ("lisp" . "etags")
                           ("el" . "etags")
                           ("js" . "etags")
                           ("py" . "etags")))

@@ -34,12 +34,11 @@
     (ctags-auto-update-mode . "")
     ;; Major modes
     (lisp-interaction-mode . "Lisp")
-    (clojure-mode . "Clj")
     (python-mode . "Py")
     (ruby-mode   . "Rb")
-    (javascript-mode . "JS")
     (js2-mode . "JS2")
     (emacs-lisp-mode . "El")
+    (web-mode . "Web")
     (markdown-mode . "Md")))
 
 (defun clean-mode-line ()

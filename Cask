@@ -59,15 +59,12 @@
 (depends-on "rainbow-delimiters")
 
 ;; 17-others
-(depends-on "gist")
 (depends-on "wdired")
 (depends-on "quickrun")
 (depends-on "recentf")
 (depends-on "recentf-ext")
 (depends-on "smartparens")
 (depends-on "memolist" :git "https://github.com/mikanfactory/emacs-memolist")
-(depends-on "howdoi")
-(depends-on "dash-at-point")
 (depends-on "flycheck")
 (depends-on "flycheck-package")
 
@@ -76,45 +73,25 @@
 
 ;; 20-common-lisp
 (depends-on "slime")
-(depends-on "ac-slime")
 
-;; 20-clojure
-(depends-on "clojure-mode")
-(depends-on "cider")
-(depends-on "ac-cider")
-(depends-on "clojure-cheatsheet")
-
-;; 20-markdown
-(depends-on "markdown-mode")
-
-;; 20-yatex
-(depends-on "yatex")
-
-;; 20-ruby
-(depends-on "rhtml-mode")
-(depends-on "inf-ruby")
-(depends-on "rspec-mode")
-
-;; 20-python
-(depends-on "epc")
-(depends-on "jedi")
+;; 20-go
+(depends-on "go-mode")
+(depends-on "go-autocomplete")
 
 ;; 20-javascript
 (depends-on "web-mode")
 (depends-on "js2-mode")
 
-;; 20-php
-(depends-on "php-mode")
+;; 20-python
+(depends-on "jedi")
 
-;; 20-stan
+;; 20-scala
+;; (depends-on "scala-mode")
+;; (depends-on "sbt-mode")
+(depends-on "ensime")
+
+;; 21-other-lang
+(depends-on "markdown-mode")
 (depends-on "stan-mode")
-
-;; 21-scss
+(depends-on "yatex")
 (depends-on "scss-mode")
-
-;; 22-haskell
-(depends-on "haskell-mode")
-
-;; 22-rust
-(depends-on "rust-mode")
-(depends-on "racer")
