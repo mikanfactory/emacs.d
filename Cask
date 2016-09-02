@@ -24,7 +24,6 @@
 (depends-on "evil-surround")
 (depends-on "evil-matchit")
 (depends-on "evil-visualstar")
-(depends-on "evil-jumper")
 (depends-on "evil-exchange")
 (depends-on "evil-leader")
 (depends-on "evil-plugins" :git "https://github.com/tarao/evil-plugins.git")
@@ -49,7 +48,6 @@
 (depends-on "magit")
 
 ;; 14-buffers
-(depends-on "tempbuf")
 (depends-on "popwin")
 
 ;; 15-search

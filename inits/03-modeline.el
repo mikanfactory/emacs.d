@@ -29,7 +29,6 @@
     (undo-tree-mode . "")
     (elisp-slime-nav-mode . " EN")
     (helm-gtags-mode . " HG")
-    (tempbuf-mode . "")
     (flymake-mode . " Fm")
     (auto-highlight-symbol-mode . "")
     (ctags-auto-update-mode . "")

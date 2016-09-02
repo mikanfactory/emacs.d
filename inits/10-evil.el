@@ -44,9 +44,6 @@
 (require 'evil-visualstar)
 (global-evil-visualstar-mode t)
 
-(require 'evil-jumper)
-(global-evil-jumper-mode t)
-
 (require 'evil-exchange)
 (evil-exchange-install)
 

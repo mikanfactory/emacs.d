@@ -1,11 +1,3 @@
-;; tempbuf
-(require 'tempbuf)
-(add-hook 'find-file-hooks 'turn-on-tempbuf-mode)
-(add-hook 'dired-mode-hook 'turn-on-tempbuf-mode)
-(add-hook 'ag-mode-hook    'turn-on-tempbuf-mode)
-(add-hook 'magit-mode-hook 'turn-on-tempbuf-mode)
-(add-hook 'gist-mode-hook  'turn-on-tempbuf-mode)
-
 ;; popwin
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
