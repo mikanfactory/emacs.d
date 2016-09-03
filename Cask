@@ -29,9 +29,8 @@
 (depends-on "evil-plugins" :git "https://github.com/tarao/evil-plugins.git")
 
 ;; 11-auto-complete
-(depends-on "auto-complete")
-(depends-on "fuzzy")
-(depends-on "eldoc-extension")
+(depends-on "company")
+(depends-on "company-quickhelp")
 
 ;; 12-yasnippet
 (depends-on "yasnippet")
