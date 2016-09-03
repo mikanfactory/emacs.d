@@ -80,13 +80,12 @@
 ;; 20-javascript
 (depends-on "web-mode")
 (depends-on "js2-mode")
+(depends-on "company-tern")
 
 ;; 20-python
-(depends-on "jedi")
+(depends-on "company-jedi")
 
 ;; 20-scala
-;; (depends-on "scala-mode")
-;; (depends-on "sbt-mode")
 (depends-on "ensime")
 
 ;; 21-other-lang

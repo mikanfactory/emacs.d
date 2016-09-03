@@ -51,24 +51,18 @@
 (global-evil-leader-mode t)
 (evil-leader/set-leader ",")
 (evil-leader/set-key
-  "e"   'helm-etags-select
   "r"   'helm-recentf
   "f"   'helm-ls-git-ls
   "b"   'helm-buffers-list
   "s"   'ag
   "d"   'dired
   "v"   'dash-at-point
+  "ee"  'ensime-show-all-errors-and-warnings
+  "ew"  'ensime-print-errors-at-point
   "yn"  'yas-new-snippet
   "ye"  'yas-visit-snippet-file
   "qr"  'quickrun
-  "clj" 'clojure-cheatsheet
   "mst" 'magit-status)
-
-(evil-leader/set-key-for-mode 'js2-mode
-  "mr" 'mocha-run-this-file 
-  "ma" 'mocha-run-all-test
-  "mp" 'mocha-run-previous-process
-  "mt" 'mocha-run-at-point)
 
 (require 'evil-little-word)
 (require 'evil-textobj-between)
