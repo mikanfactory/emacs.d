@@ -30,11 +30,11 @@
 ;; Use project eslint-file or default it
 (defvar eslint-file-name ".eslintrc.json")
 
-(defun exist-project-eslint-file? (path)
+(defun exist-eslint-file? (path)
   (f-exists? (f-expand eslint-file-name path)))
 
 (defun executable-eslint-file ()
-  (f--traverse-upwards (exist-project-eslint-file? it) (f-dirname (f-this-file))))
+  (f--traverse-upwards (exist-eslint-file? it) (f-dirname (f-this-file))))
 
 (defun javascript-flycheck-setting ()
   (setq flycheck-eslintrc (executable-eslint-file (f-this-file)))
