@@ -68,3 +68,5 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
+;; Delete tailing whitespace
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
