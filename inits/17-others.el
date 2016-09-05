@@ -33,6 +33,7 @@
 
 ;; memolist
 (require 'memolist)
+(custom-set-variables '(memolist-memo-directory "~/Dropbox/1writer"))
 
 ;; flycheck
 (require 'flycheck)
