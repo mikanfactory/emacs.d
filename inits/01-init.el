@@ -7,9 +7,38 @@
 (setq eval-expression-print-level nil)
 
 ;; exec-path
-(exec-path-from-shell-initialize)
+(defvar shell-path-cache "~/.emacs.d/.shell")
 
-;; Don't kill *scratch*
+(defun save-shell-path (shell-path)
+  (with-temp-buffer
+    (delete-region (point-min) (point-max))
+    (insert (format "%s" shell-path))
+    (write-file shell-path-cache)))
+
+(defun read-shell-path ()
+  (with-temp-buffer
+    (insert-file-contents shell-path-cache)
+    (format "%s" (read (buffer-string)))))
+
+(defun set-exec-shell-path (shell-path)
+  (setenv "PATH" shell-path)
+  (setq exec-path (split-string shell-path path-separator)))
+
+(defun set-exec-shell-path-from-command ()
+  (interactive)
+  (let* ((shell-raw-str (shell-command-to-string
+                         "$SHELL --login -i -c 'echo $PATH'"))
+         (shell-path (replace-regexp-in-string
+                      "[ \t\n]*$" "" shell-row-str)))
+    (save-shell-path shell-path)
+    (set-exec-shell-path shell-path)))
+
+;; Set exec-path from cache if it existed.
+(if (f-exists? shell-path-cache)
+    (set-exec-shell-path (read-shell-path))
+  (set-exec-shell-path-from-command))
+
+;; Don't kill *scratch*.
 (defun unkillable-scratch-buffer ()
   (if (string= (buffer-name (current-buffer)) "*scratch*")
       (progn
@@ -25,7 +54,7 @@
 (setq inhibit-startup-message t)
 (setq initial-major-mode 'emacs-lisp-mode)
 
-;; Use tab as spaces
+;; Use tab as spaces.
 (setq-default tab-width 2 indent-tabs-mode nil)
 
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -68,5 +97,5 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
-;; Delete tailing whitespace
+;; Delete tailing whitespace.
 (add-hook 'before-save-hook 'delete-trailing-whitespace)

@@ -35,8 +35,8 @@
 
 (require 'evil-anzu)
 
-(require 'evil-surround)     
-(global-evil-surround-mode t)          
+(require 'evil-surround)
+(global-evil-surround-mode t)
 
 (require 'evil-matchit)
 (global-evil-matchit-mode t)
@@ -63,6 +63,3 @@
   "ye"  'yas-visit-snippet-file
   "qr"  'quickrun
   "mst" 'magit-status)
-
-(require 'evil-little-word)
-(require 'evil-textobj-between)

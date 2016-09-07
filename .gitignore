@@ -28,3 +28,5 @@ ido.last
 .python-environments
 slime/
 ensime
+/.shell
+/inits/.tern-port

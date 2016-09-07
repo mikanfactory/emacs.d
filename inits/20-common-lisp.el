@@ -1,5 +1,5 @@
 ;; Use clozure common lisp
 (setq inferior-lisp-program "ccl")
 
-(require 'slime)
-(slime-setup '(slime-repl slime-fancy slime-banner))
+(with-eval-after-load 'slime
+  (slime-setup '(slime-repl slime-fancy slime-banner)))

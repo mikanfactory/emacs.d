@@ -1,8 +1,4 @@
-(setq python-indent-offset 4)
-(setq jedi:complete-on-dot t)
+(with-eval-after-load 'python-mode
+  (setq python-indent-offset 4))
 
-(require 'company-jedi)
-(add-to-list 'company-backends 'company-jedi)
-
-(setq flycheck-checkers '(python-flake8))
 (add-hook 'python-mode-hook 'flycheck-mode)
