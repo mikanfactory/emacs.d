@@ -75,7 +75,7 @@
 
 ;; 20-go
 (depends-on "go-mode")
-(depends-on "go-autocomplete")
+(depends-on "company-go")
 
 ;; 20-javascript
 (depends-on "web-mode")
