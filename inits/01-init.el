@@ -29,7 +29,7 @@
   (let* ((shell-raw-str (shell-command-to-string
                          "$SHELL --login -i -c 'echo $PATH'"))
          (shell-path (replace-regexp-in-string
-                      "[ \t\n]*$" "" shell-row-str)))
+                      "[ \t\n]*$" "" shell-raw-str)))
     (save-shell-path shell-path)
     (set-exec-shell-path shell-path)))
 

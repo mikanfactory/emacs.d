@@ -35,3 +35,6 @@
 
 ;; tern
 (add-to-list 'company-backends 'company-tern)
+
+;; company
+(add-to-list 'company-backend 'company-go)
