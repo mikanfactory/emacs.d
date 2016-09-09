@@ -29,6 +29,7 @@
 (setq company-idle-delay 0)
 (setq company-minimum-prefix-length 2)
 (setq company-selection-wrap-around t)
+(setq company-dabbrev-downcase nil)     ; case sensitive
 
 ;; jedi
 (add-to-list 'company-backends 'company-jedi)

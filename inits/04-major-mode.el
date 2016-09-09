@@ -7,10 +7,9 @@
          (web-mode        "\\.jsx$")
          (javascript-mode "\\.tern-config$")
          (ruby-mode       "\\.rb$")
-         (web-mode        "\\html$")
+         (web-mode        "\\.\\(html\\|tmpl\\)$")
          (css-mode        "\\.css$")
          (scss-mode       "\\.scss$")
          (yatex-mode      "\\.tex$")
          (markdown-mode   "\\.\\(md\\|markdown\\)$"))
   (-lambda ((mode ext)) (add-to-list 'auto-mode-alist (cons ext mode))))
-
