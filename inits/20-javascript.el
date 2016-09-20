@@ -16,19 +16,35 @@
   (setq js2-highlight-external-variables nil)
   (setq js2-include-jslint-globals nil))
 
+(add-hook 'js2-mode-hook 'tern-mode)
+(add-hook 'js2-mode-hook 'flycheck-mode)
+(add-hook 'js2-mode-hook 'eslint-hook)
+
+(with-eval-after-load 'typescript-mode
+  (setq typescript-indent-level 2))
+
+(add-hook 'typescript-mode-hook 'tern-mode)
+(add-hook 'typescript-mode-hook 'flycheck-mode)
+(add-hook 'typescript-mode-hook 'eslint-hook)
+
 ;; flycheck setting
 ;; Use project eslint-file or default it
-(defvar eslint-file-name ".eslintrc.js")
+(defvar eslint-file-names '(".eslintrc.js" ".eslintrc" ".eslintrc.json"))
 
 (defun exist-eslint-file? (path)
-  (f-exists? (f-expand eslint-file-name path)))
+  (-any? (lambda (name)
+           (f-exists? (f-expand name path)))
+         eslint-file-names))
+
+(defun project-eslint-file-name (path)
+  (-reduce-from (lambda (acc name)
+                  (if (f-exists? (f-expand name path))
+                      name
+                    acc)) nil eslint-file-names))
 
 (defun executable-eslint-dir ()
   (f--traverse-upwards (exist-eslint-file? it) (f-dirname (f-this-file))))
 
 (defun eslint-hook ()
-  (setq flycheck-eslintrc (f-join (executable-eslint-dir) eslint-file-name)))
-
-(add-hook 'js2-mode-hook 'tern-mode)
-(add-hook 'js2-mode-hook 'flycheck-mode)
-(add-hook 'js2-mode-hook 'eslint-hook)
+  (-if-let (exe-dir (executable-eslint-dir))
+      (setq flycheck-eslintrc (f-join exe-dir (project-eslint-file-name exe-dir)))))

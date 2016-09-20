@@ -5,6 +5,7 @@
          (clojure-mode    "\\.clj$")
          (js2-mode        "\\.js$")
          (web-mode        "\\.jsx$")
+         (typescript-mode "\\.tsx$")
          (javascript-mode "\\.tern-config$")
          (ruby-mode       "\\.rb$")
          (web-mode        "\\.\\(html\\|tmpl\\)$")

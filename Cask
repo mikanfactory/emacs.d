@@ -75,11 +75,11 @@
 
 ;; 20-go
 (depends-on "go-mode")
-(depends-on "company-go")
 
 ;; 20-javascript
 (depends-on "web-mode")
 (depends-on "js2-mode")
+(depends-on "typescript-mode" :git "https://github.com/ananthakumaran/typescript.el")
 (depends-on "company-tern")
 
 ;; 20-python

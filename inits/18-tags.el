@@ -14,6 +14,7 @@
 (defvar command-alist '(("rb" . "ripper-tags -e -R -V -f TAGS")
                           ("el" . "etags")
                           ("js" . "etags")
+                          ("jsx" . "etags")
                           ("py" . "etags")))
 
 (defvar project-root-name ".git")

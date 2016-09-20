@@ -32,7 +32,7 @@
 ;; font
 (set-face-attribute 'default nil
                     :family "Monaco"
-                    :height 140)
+                    :height 150)
 (set-fontset-font
  nil 'japanese-jisx0208
  (font-spec :family "Ricty"))

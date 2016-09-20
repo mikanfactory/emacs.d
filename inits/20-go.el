@@ -20,8 +20,8 @@
 (defun my/go-mode-hook ()
   (add-hook 'before-save-hook 'gofmt-before-save)
   (setq indent-tabs-mode nil)
-  (setq c-basic-offset 4)
-  (setq tab-width 4))
+  (setq c-basic-offset 2)
+  (setq tab-width 2))
 
 (add-hook 'go-mode-hook 'my/go-mode-hook)
 (add-hook 'go-mode-hook 'flycheck-mode)
