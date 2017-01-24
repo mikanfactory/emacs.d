@@ -2,8 +2,7 @@
   (set-go-path)
   (add-company-go-to-laod-path)
   (require 'company-go)
-  (setq gofmt-command "goimports")
-  (define-key evil-normal-state-map (kbd "M-.") 'godef-jump))
+  (setq gofmt-command "goimports"))
 
 (defun set-go-path ()
   (let* ((shell-raw-str (shell-command-to-string
@@ -19,6 +18,7 @@
 
 (defun my/go-mode-hook ()
   (add-hook 'before-save-hook 'gofmt-before-save)
+  (define-key evil-normal-state-map (kbd "M-.") 'godef-jump)
   (setq indent-tabs-mode nil)
   (setq c-basic-offset 2)
   (setq tab-width 2))

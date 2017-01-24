@@ -19,13 +19,17 @@
 (add-hook 'js2-mode-hook 'tern-mode)
 (add-hook 'js2-mode-hook 'flycheck-mode)
 (add-hook 'js2-mode-hook 'eslint-hook)
+(add-hook 'js2-mode-hook 'my/js2-hook)
 
 (with-eval-after-load 'typescript-mode
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode t)
   (setq typescript-indent-level 2))
 
 (add-hook 'typescript-mode-hook 'tern-mode)
 (add-hook 'typescript-mode-hook 'flycheck-mode)
 (add-hook 'typescript-mode-hook 'eslint-hook)
+(add-hook 'typescript-mode-hook 'my/typescript-hook)
 
 ;; flycheck setting
 ;; Use project eslint-file or default it
@@ -48,3 +52,10 @@
 (defun eslint-hook ()
   (-if-let (exe-dir (executable-eslint-dir))
       (setq flycheck-eslintrc (f-join exe-dir (project-eslint-file-name exe-dir)))))
+
+(defun my/js2-hook ()
+  (define-key evil-normal-state-map (kbd "M-.") 'js2-jump-to-definition))
+
+(defun my/typescript-hook ()
+  (tide-setup)
+  (define-key evil-normal-state-map (kbd "M-.") 'tide-jump-to-definition))
