@@ -1,4 +1,5 @@
 ;; yatex-mode
+(require 'yatex)
 (with-eval-after-load 'yatex
   (setq tex-command "platex")
   (setq dviprint-command-format "dvipdfmx %s")

@@ -80,10 +80,12 @@
 (depends-on "web-mode")
 (depends-on "js2-mode")
 (depends-on "typescript-mode" :git "https://github.com/ananthakumaran/typescript.el")
+(depends-on "tide")
 (depends-on "company-tern")
 
 ;; 20-python
 (depends-on "company-jedi")
+(depends-on "cython-mode")
 
 ;; 20-scala
 (depends-on "ensime")
