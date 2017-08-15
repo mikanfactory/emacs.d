@@ -17,6 +17,13 @@
                               :default lang)
         (quickrun-set-default lang name)))))
 
+;; sql/bigquery
+(quickrun-add-command "sql/bq" '((:command . "bq query --dry_run --use_legacy_sql=false")
+                                 (:exec    . ("cat %s | %c")))
+                      :default "sql"
+                      :mode 'sql-mode)
+(quickrun-set-default "sql" "sql/bq")
+
 ;; recentf
 (require 'recentf)
 (require 'recentf-ext)
@@ -42,3 +49,8 @@
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (setq flycheck-disabled-checkers
         (append flycheck-disabled-checkers '(javascript-jshint javascript-jscs))))
+
+;; company-dict
+(require 'company-dict)
+(setq company-dict-dir (concat *emacs-config-directory* "dict/"))
+(add-to-list 'company-backends 'company-dict)

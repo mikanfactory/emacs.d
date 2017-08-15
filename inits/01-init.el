@@ -7,7 +7,7 @@
 (setq eval-expression-print-level nil)
 
 ;; exec-path
-(defvar shell-path-cache "~/.emacs.d/.shell")
+(defvar shell-path-cache (concat *emacs-config-directory* ".shell"))
 
 (defun save-shell-path (shell-path)
   (with-temp-buffer

@@ -13,6 +13,7 @@
 (push '("*Messages*"                  :height 0.2) popwin:special-display-config)
 (push '("*undo-tree*"                 :height 0.4) popwin:special-display-config)
 (push '("*ENSIME-Compilation-Result*" :height 0.4) popwin:special-display-config)
+(push '("*Async Shell Command*"       :height 0.4) popwin:special-display-config)
 
 (setq max-specpdl-size 6000)
 (setq max-lisp-eval-depth 1000)

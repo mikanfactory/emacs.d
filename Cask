@@ -2,6 +2,7 @@
 ;; (source melpa)
 
 ;; init-loader
+(depends-on "cask")
 (depends-on "init-loader")
 
 ;; 01-init
@@ -66,6 +67,8 @@
 (depends-on "memolist" :git "https://github.com/mikanfactory/emacs-memolist")
 (depends-on "flycheck")
 (depends-on "flycheck-package")
+(depends-on "company-dict" :git "https://github.com/hlissner/emacs-company-dict")
+(depends-on "parent-mode" :git "https://github.com/Fanael/parent-mode")
 
 ;; 18-tags
 (depends-on "ctags-update")
@@ -95,3 +98,4 @@
 (depends-on "stan-mode")
 (depends-on "yatex")
 (depends-on "scss-mode")
+(depends-on "dockerfile-mode")
